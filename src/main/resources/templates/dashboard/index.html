@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Dashboard </title>
+</head>
+
+<body onload="time()" class="app sidebar-mini rtl" layout:fragment="content">
+<main class="app-content" >
+    <div class="db-title">Dashboard</div>
+    <div class="">
+        <!--Left-->
+        <div class="">
+            <div class="row">
+                <!-- col-6 -->
+                <div class="row-item">
+                    <div class="widget-small primary coloured-icon"><i class='icon bx bxs-user-account fa-3x'></i>
+                        <div class="info">
+                            <h4>Tổng số nhân viên</h4>
+                            <p><b>56 nhân viên</b></p>
+                            <p class="info-tong">Tổng số nhân viên được quản lý.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- col-6 -->
+                <div class="row-item">
+                    <div class="widget-small info coloured-icon"><i class='icon bx bxs-data fa-3x'></i>
+                        <div class="info">
+                            <h4>Tổng số phòng ban</h4>
+                            <p><b>10 phòng ban</b></p>
+                            <p class="info-tong">Tổng số phòng ban trong công ty.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- col-6 -->
+                <div class="row-item">
+                    <div class="widget-small warning coloured-icon"><i class='icon bx bxs-shopping-bags fa-3x'></i>
+                        <div class="info">
+                            <h4>Dự án</h4>
+                            <p><b>10 dự án</b></p>
+                            <p class="info-tong">Tổng số dự đã và đang thực hiện.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- col-6 -->
+                <div class="row-item">
+                    <div class="widget-small danger coloured-icon"><i class='icon bx bxs-error-alt fa-3x'></i>
+                        <div class="info">
+                            <h4>Quản lý</h4>
+                            <p><b>4 quản lý</b></p>
+                            <p class="info-tong">Số cán bộ quản lý trong công ty.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--END left-->
+        <!--Right-->
+
+    </div>
+    <div class="db-title">Chart</div>
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb side">
+            <li class="breadcrumb-item active"><a href="#"><b>Biểu đồ tỷ lệ các ngôn ngữ được sử dụng trong công ty</b></a></li>
+        </ul>
+        <div id="clock"></div>
+    </div>
+    <!--    <h6>Biểu đồ tỷ lệ các ngôn ngữ được sử dụng trong công ty</h6>-->
+
+    <!--END right-->
+    <div class="chart">
+        <canvas style="height: 395px;" id="languageChart"></canvas>
+    </div>
+    </div>
+</main>
+
+</body>
+
+</html>

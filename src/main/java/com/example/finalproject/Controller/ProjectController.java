@@ -31,25 +31,25 @@ public class ProjectController {
 
     @GetMapping("/detail")
     public String showDetail(Model model, @RequestParam(required = false) String textSearch, Pageable pageable) {
-//        Page<ProjectDTO> projectDTOS = projectServiceImpl.findAll(pageable);
-//        model.addAttribute("projectDTOS",projectDTOS);
-        return "doc/project_index";
+        Page<ProjectDTO> projectDTOS = projectServiceImpl.findAll(pageable);
+        model.addAttribute("projects",projectDTOS);
+        return "project/project_index";
     }
 
     @GetMapping("/create")
     public String showAdd(Model model, Pageable pageable) {
         model.addAttribute("project", new ProjectDTO());
-        return "doc/project_create";
+        return "project/project_create";
     }
 
     @PostMapping("/add")
     public ModelAndView doAdd(@ModelAttribute("project") @Valid ProjectDTO projectDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
-            ModelAndView modelAndView = new ModelAndView("doc/project_create");
+            ModelAndView modelAndView = new ModelAndView("project/project_create");
             return modelAndView;
         }
         projectServiceImpl.save(projectDTO);
-        ModelAndView modelAndView = new ModelAndView("doc/project_index");
+        ModelAndView modelAndView = new ModelAndView("project/project_index");
         modelAndView.addObject("experience", projectDTO);
         return modelAndView;
     }
@@ -59,7 +59,7 @@ public class ProjectController {
         Optional<ProjectDTO> projects = projectServiceImpl.findOne(id);
         if (projects!=null) {
             model.addAttribute("projects", projects);
-            return "doc/project_edit";
+            return "project/project_edit";
         } else {
             return "redirect:/projects/detail";
         }
@@ -68,7 +68,7 @@ public class ProjectController {
     @PostMapping("/edit/{id}")
     public String doEdit(@PathVariable Long id, @ModelAttribute("projects") @Valid ProjectDTO projectDTO,BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "doc/project_edit";
+            return "project/project_edit";
         }
         projectDTO.setId(id);
         projectServiceImpl.save(projectDTO);
