@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/layout}">
+<head>
+    <title>Sửa nhân viên</title>
+</head>
+<body class="app sidebar-mini rtl" layout:fragment="content">
+<main class="app-content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/templates/employees}">Danh sách nhân viên</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/templates/employees}">Xem chi tiết</a></li>
+            <li class="breadcrumb-item">Chỉnh sửa nhân viên</li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <h3 class="tile-title">Chỉnh sửa nhân viên</h3>
+                <div class="tile-body">
+                    <form th:action="@{/employees/edit}" th:object="${employee}" method="post">
+                        <input type="hidden" th:field="*{id}"/>
+                        <div class="form-group">
+                            <label class="control-label">First Name:</label>
+                            <input class="form-control" type="text" th:field="*{firstname}" required/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Last Name:</label>
+                            <input class="form-control" type="text" th:field="*{lastname}" required/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Password:</label>
+                            <input class="form-control" type="password" th:field="*{password}" required/>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Sex:</label>
+                            <select class="form-control" th:field="*{sex}">
+                                <option value="1">Male</option>
+                                <option value="2">Female</option>
+                                <option value="3">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Date of Birth:</label>
+                            <input class="form-control" type="date" th:field="*{dateOfBirth}" required/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Marital Status:</label>
+                            <input class="form-control" type="text" th:field="*{maritalStatus}"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Citizen Code:</label>
+                            <input class="form-control" type="text" th:field="*{citizenCode}"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Issue Date:</label>
+                            <input class="form-control" type="date" th:field="*{issueDate}"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Place of Issue:</label>
+                            <input class="form-control" type="text" th:field="*{placeOfIssue}"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Employee Code:</label>
+                            <input class="form-control" type="text" th:field="*{employeeCode}"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Email:</label>
+                            <input class="form-control" type="email" th:field="*{email}" required/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Address:</label>
+                            <input class="form-control" type="text" th:field="*{address}"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Phone:</label>
+                            <input class="form-control" type="tel" th:field="*{phone}"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Start Date:</label>
+                            <input class="form-control" type="date" th:field="*{startDate}"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Salary Coefficient:</label>
+                            <input class="form-control" type="number" step="0.01" th:field="*{salaryCoefficient}"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Salary:</label>
+                            <input class="form-control" type="number" step="0.01" th:field="*{salary}"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Position:</label>
+                            <input class="form-control" type="text" th:field="*{position}"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Education Level:</label>
+                            <input class="form-control" type="text" th:field="*{educationLevel}"/>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Manager:</label>
+                            <select class="form-control" th:field="*{manager}">
+                                <option value="">None</option>
+                               <option th:each="manager : ${allManagers}" th:value="${manager}" th:text="${manager.fullName}"></option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Department:</label>
+                            <select class="form-control" th:field="*{department}">
+                                <option value="">None</option>
+                               <option th:each="department : ${allDepartments}" th:value="${department}" th:text="${department.name}"></option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Roles:</label>
+                            <select class="form-control" th:field="*{roles}" multiple="multiple">
+                                <option th:each="role : ${allRoles}" th:value="${role}" th:text="${role.name}"></option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Projects:</label>
+                            <select class="form-control" th:field="*{projects}" multiple="multiple">
+                                <option th:each="project : ${allProjects}" th:value="${project}" th:text="${project.name}"></option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <button type="submit">Save</button>
+                            <a th:href="@{/templates/employees/index}">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+</main>
+</body>
+</html>

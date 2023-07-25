@@ -1,0 +1,80 @@
+body{
+    background-color: aquamarine;
+}
+.profile{
+    width: 800px;
+    display: flex;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.profile_left{
+    float: left;
+    width: 40%;
+    background-color: rgb(253, 239, 230);
+    padding-right: 25px;
+    padding-left: 25px;
+}
+.profile_right{
+    background-color: white;
+    float: right;
+    width: 60%;
+    padding-left: 25px;
+    padding-top: 30px;
+    padding-right: 25px;
+}
+.profile_wraper{
+    margin-top: 30px ;
+    text-align: center;
+}
+/*.profile_body{*/
+/*    margin-left: 25px;*/
+/*    margin-top: 15px;*/
+/*}*/
+.contact-item{
+    margin-left: 5px;
+}
+span{
+    margin-left: 5px;
+}
+.profile_body-skill{
+    margin-top: 15px;
+}
+.profile_body-item{
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    font-weight: 3;
+}
+p{
+    display: flex;
+    flex-direction: column;
+
+}
+.avatar_img{
+    border: 2px solid #ff9f0a;
+    border-radius:50%;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 15px;
+}
+h1{
+    font-size: 30px;
+    font-weight: 400;
+}
+h2{
+    font-size: 18px;
+}
+h3{
+    font-size: 14px;
+}
+h1,h2{
+    color:#ff9f0a;
+}
+.profile_right-education, .profile_right-exp,
+.profile_right-work,.profile_right-title,
+.profile_body-interests, .profile_body-skill,
+.profile_body{
+    border-top: 2px solid orange;
+    padding: 15px 15px 0 0;
+}

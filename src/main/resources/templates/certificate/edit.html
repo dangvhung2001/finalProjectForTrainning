@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/layout}">
+<head>
+    <title>Sửa chứng chỉ</title>
+</head>
+<body class="app sidebar-mini rtl" layout:fragment="content">
+<main class="app-content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/certificates}">Danh sách chứng chỉ</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/certificates}">Xem chi tiết</a></li>
+            <li class="breadcrumb-item">Chỉnh sửa chứng chỉ</li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <h3 class="tile-title">Chỉnh sửa chứng chỉ</h3>
+                <div class="tile-body">
+                    <form th:action="@{/certificates/edit}" th:object="${certificateDTO}" method="post">
+                        <input type="hidden" th:field="*{id}" />
+                        <div class="form-group">
+                            <label class="control-label">Tên chứng chỉ</label>
+                            <input class="form-control" type="text" th:field="*{nameCertificate}" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Ngày cấp</label>
+                            <input class="form-control" type="date" th:field="*{issueDate}" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Ngày hết hạn</label>
+                            <input class="form-control" type="date" th:field="*{expirationDate}" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Mô tả</label>
+                            <textarea class="form-control" rows="4" th:field="*{description}"></textarea>
+                        </div>
+                        <!-- Thêm các trường thông tin khác tùy theo yêu cầu -->
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit">Lưu</button>
+                            <a class="btn btn-secondary" th:href="@{/certificates}">Hủy bỏ</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
