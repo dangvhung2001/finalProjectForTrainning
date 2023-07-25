@@ -14,6 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class DashBoardController {
     @GetMapping("")
     public String DashBoardController(Model model) {
-        return "employees/index";
+        return "dashboard/index";
     }
 }
