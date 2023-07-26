@@ -9,6 +9,7 @@ import com.example.finalproject.service.dto.EmployeeDTO;
 import com.example.finalproject.service.mapper.EmployeeMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,18 +22,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final RoleRepository roleRepository;
     private final EmployeeMapper employeeMapper;
+    private PasswordEncoder passwordEncoder;
 
     public EmployeeServiceImpl(EmployeeRepository employeeRepository,
                                RoleRepository roleRepository,
-                               EmployeeMapper employeeMapper) {
+                               EmployeeMapper employeeMapper,
+                               PasswordEncoder passwordEncoder) {
         this.employeeRepository = employeeRepository;
         this.roleRepository = roleRepository;
         this.employeeMapper = employeeMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public EmployeeDTO save(EmployeeDTO employeeDTO) {
         Employee employee = employeeMapper.toEntity(employeeDTO);
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         if (employeeDTO.getRoles() != null) {
             Set<Role> roles = employeeDTO
                     .getRoles()
