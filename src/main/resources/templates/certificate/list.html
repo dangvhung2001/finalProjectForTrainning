@@ -41,7 +41,6 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <!-- Sử dụng Thymeleaf để lặp qua danh sách chứng chỉ và hiển thị thông tin -->
                         <tr th:each="certificate : ${certificates}">
                             <td th:text="${certificate.id}"></td>
                             <td> <a th:href="@{/certificates/{id}(id=${certificate.id})}" th:text="${certificate.nameCertificate}"></a></td>

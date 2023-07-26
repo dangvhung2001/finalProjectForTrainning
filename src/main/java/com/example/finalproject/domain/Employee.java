@@ -39,7 +39,6 @@ public class Employee {
 
     private Date issueDate;
 
-
     private String placeOfIssue;
 
 

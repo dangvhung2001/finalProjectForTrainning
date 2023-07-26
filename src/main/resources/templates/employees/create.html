@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" layout:decorate="~{layout/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html lang="en" layout:decorate="~{layout/layout}" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <title>Thêm nhân viên | Quản trị Admin</title>
@@ -84,10 +84,10 @@
               </div>
               <div class="form-group col-md-3">
                 <label class="control-label">Giới tính</label>
-                <select class="form-control"  required >
-                  <option>-- Chọn giới tính --</option>
-                  <option>Nam</option>
-                  <option>Nữ</option>
+                <select class="form-control"  required th:field="*{sex}">
+                  <option value="">-- Chọn giới tính --</option>
+                  <option value="0">Nam</option>
+                  <option value="1">Nữ</option>
                 </select>
               </div>
               <div class="form-group col-md-3">
@@ -108,14 +108,16 @@
                   </th:block>
                 </select>
               </div>
-              <div class="form-group col-md-3">
-                <label class="control-label">Người quản lý</label>
-                <select class="form-control" required>
-                  <option>-- Chọn người quản lý --</option>
-                  <option>ADMIN</option>
-                  <option>USER</option>
+              <div class="form-group col-md-6">
+                <label class="control-label">Quản lý</label>
+                <select class="form-control" th:field="*{manager.id}">
+                  <option value="">-- Chọn quản lý --</option>
+                  <th:block th:each="employee : ${listOfEmployees}" th:value="${employee.id}">
+                    <option th:value="${employee.id}" th:text="${employee.firstname + ' ' + employee.lastname}"></option>
+                  </th:block>
                 </select>
               </div>
+
               <div class="form-group  col-md-3">
                 <label for="exampleSelect1" class="control-label">Chức vụ</label>
                 <select class="form-control" id="exampleSelect1">
@@ -133,23 +135,23 @@
               </div>
               <div class="form-group col-md-3">
                 <label class="control-label">Bằng cấp</label>
-                <select class="form-control" id="exampleSelect3">
-                  <option>-- Chọn bằng cấp --</option>
-                  <option>Tốt nghiệp Đại Học</option>
-                  <option>Tốt nghiệp Cao Đẳng</option>
-                  <option>Tốt nghiệp Phổ Thông</option>
-                  <option>Chưa tốt nghiệp</option>
-                  <option>Không bằng cấp</option>
+                <select class="form-control" id="exampleSelect3" th:field="*{educationLevel}">
+                  <option value="">-- Chọn bằng cấp --</option>
+                  <option value="Tốt nghiệp Đại Học">Tốt nghiệp Đại Học</option>
+                  <option value="Tốt nghiệp Cao Đẳng">Tốt nghiệp Cao Đẳng</option>
+                  <option value="Tốt nghiệp Phổ Thông">Tốt nghiệp Phổ Thông</option>
+                  <option value="Chưa tốt nghiệp">Chưa tốt nghiệp</option>
+                  <option value="Không bằng cấp">Không bằng cấp</option>
                 </select>
               </div>
               <div class="form-group col-md-3">
                 <label class="control-label">Tình trạng hôn nhân</label>
-                <select class="form-control" >
-                  <option>-- Chọn tình trạng hôn nhân --</option>
-                  <option>Độc thân</option>
-                  <option>Đã kết hôn</option>
-                  <option>Góa</option>
-                  <option>Khác</option>
+                <select class="form-control" th:field="*{maritalStatus}">
+                  <option value="">-- Chọn tình trạng hôn nhân --</option>
+                  <option value="Độc thân">Độc thân</option>
+                  <option value="Đã kết hôn">Đã kết hôn</option>
+                  <option value="Góa">Góa</option>
+                  <option value="Khác">Khác</option>
                 </select>
               </div>
               <div class="form-group col-md-4">
