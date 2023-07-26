@@ -4,6 +4,7 @@ import com.example.finalproject.domain.Role;
 import com.example.finalproject.repository.RoleRepository;
 import com.example.finalproject.service.DepartmentService;
 import com.example.finalproject.service.EmployeeService;
+import com.example.finalproject.service.dto.CertificateDTO;
 import com.example.finalproject.service.dto.DepartmentDTO;
 import com.example.finalproject.service.dto.EmployeeDTO;
 import org.springframework.data.domain.Page;
@@ -36,18 +37,23 @@ public class EmployController {
     }
 
     @GetMapping("/index")
-    public String index(@RequestParam(required = false) String textSearch, Pageable pageable, Model model) {
-        Page<EmployeeDTO> employees = employeeService.findAll(textSearch, pageable);
-        model.addAttribute("employees", employees);
+    public String index(@RequestParam(required = false,defaultValue = "") String textSearch, Pageable pageable, Model model) {
+        Page<EmployeeDTO> listOfEmployees = employeeService.findAll(textSearch,pageable);
+        model.addAttribute("listOfEmployees", listOfEmployees);
         return "employees/index";
     }
     @GetMapping("/search")
-    public String listSearch(@RequestParam(required = false) String textSearch, @PageableDefault(size = 10) Pageable pageable, Model model) {
+    public String listSearch(@RequestParam(required = false, defaultValue = "") String textSearch, @PageableDefault(size = 10) Pageable pageable, Model model) {
         Page<EmployeeDTO> employees = employeeService.findAll(textSearch, pageable);
         model.addAttribute("employees", employees);
         return "employees/employee_search";
     }
-
+    @GetMapping("/{id}")
+    public String detailEmployee(@PathVariable Long id, Model model) {
+        Optional<EmployeeDTO> employees = employeeService.findOne(id);
+        model.addAttribute("employees", employees.orElse(null));
+        return "employees/detail";
+    }
     @GetMapping("/add")
     public String showAdd(Model model) {
         model.addAttribute("employee", new EmployeeDTO());
@@ -100,6 +106,6 @@ public class EmployController {
     @GetMapping("/delete/{id}")
     public String doDelete(@PathVariable Long id) {
         employeeService.delete(id);
-        return "redirect:/employees/";
+        return "redirect:/employees/index";
     }
 }

@@ -27,8 +27,8 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public Page<SkillDTO> findAll(Pageable pageable) {
-        return skillRepository.findAll(pageable).map(skillMapper::toDto);
+    public Page<SkillDTO> findAll(String textSearch ,Pageable pageable) {
+        return skillRepository.findAllByNameContainingIgnoreCase(textSearch,pageable).map(skillMapper::toDto);
     }
 
     @Override
@@ -45,5 +45,10 @@ public class SkillServiceImpl implements SkillService {
     public List<SkillDTO> getAll() {
         List<Skill> skills = skillRepository.findAll();
         return skillMapper.toDto(skills);
+    }
+
+    @Override
+    public SkillDTO getListByEmployee(String employee) {
+        return null;
     }
 }

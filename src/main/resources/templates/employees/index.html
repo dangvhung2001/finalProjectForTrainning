@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <div class="input-group">
-                            <form class="search-bar" method="get" th:action="@{/employees/index}">
+                            <form class="search-bar" method="get" th:action="@{/employees/index}" style="display: flex">
                                 <input type="text" class="form-control" placeholder="Tìm kiếm nhân viên" id="searchInput" name="textSearch">
                                 <button class="btn btn-primary" type="submit" id="searchButton">Tìm</button>
                             </form>
@@ -54,7 +54,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="employee : ${employees}">
+                            <tr th:each="employee : ${listOfEmployees}">
                                 <td><input type="checkbox" name="check1" value="1"></td>
                                 <td th:text="${employee.employeeCode}"></td>
                                 <td th:text="${employee.firstname + ' ' + employee.lastname}"></td>
@@ -66,9 +66,9 @@
                                     <span th:if="${employee.sex == 1}">Nữ</span>
                                 </td>
                                 <td th:text="${employee.phone}"></td>
-                                <td th:text="${employee.position}">Bán hàng</td>
+                                <td th:text="${employee.position}"></td>
                                 <td class="table-td-center">
-                                    <a class="btn btn-primary btn-sm trash" type="button" title="Xóa" onclick="myFunction()" th:href="@{/employees/delete/{id}(id=${employee.id})}">
+                                    <a class="btn btn-primary btn-sm trash" type="button" title="Xóa" th:href="@{/employees/delete/{id}(id=${employee.id})}">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                     <a class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
@@ -79,10 +79,10 @@
                             </tr>
                             </tbody>
                         </table>
-                        <a th:if="${employees.hasPrevious()}" th:href="@{/employees/index(page=${employees.previousPageable().pageNumber})}">
+                        <a th:if="${listOfEmployees.hasPrevious()}" th:href="@{/employees/index(page=${listOfEmployees.previousPageable().pageNumber})}">
                             Previous
                         </a>
-                        <a th:if="${employees.hasNext()}" th:href="@{/employees/index(page=${employees.nextPageable().pageNumber})}">
+                        <a th:if="${listOfEmployees.hasNext()}" th:href="@{/employees/index(page=${listOfEmployees.nextPageable().pageNumber})}">
                             Next
                         </a>
                     </div>
