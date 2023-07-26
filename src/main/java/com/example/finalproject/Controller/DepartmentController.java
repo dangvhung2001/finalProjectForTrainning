@@ -32,7 +32,7 @@ public class DepartmentController {
     public String showDetail(Model model, @RequestParam(required = false) String textSearch,Pageable pageable) {
         Page<DepartmentDTO> departments = departmentServiceImpl.findAll(pageable);
         model.addAttribute("departments", departments);
-        return "doc/department_index";
+        return "department/department_index";
     }
 
     @GetMapping("/create")
@@ -40,13 +40,13 @@ public class DepartmentController {
         model.addAttribute("department", new DepartmentDTO());
         List<Department> department = departmentRepository.findByParentIsNotNull();
         model.addAttribute("department_parent", department);
-        return "doc/department_create";
+        return "department/department_create";
     }
 
     @PostMapping("/add")
     public ModelAndView doAdd(@ModelAttribute("department") @Valid DepartmentDTO departmentDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
-            ModelAndView modelAndView = new ModelAndView("doc/department_create");
+            ModelAndView modelAndView = new ModelAndView("department/department_create");
             return modelAndView;
         }
         departmentServiceImpl.save(departmentDTO);
@@ -61,7 +61,7 @@ public class DepartmentController {
         if (departmentOptional.isPresent()) {
             DepartmentDTO department = departmentOptional.get();
             model.addAttribute("department", department);
-            return "doc/department_edit";
+            return "department/department_edit";
         } else {
             return "redirect:/department/detail";
         }
@@ -70,7 +70,7 @@ public class DepartmentController {
     @PostMapping("/edit/{id}")
     public String doEdit(@PathVariable Long id, @ModelAttribute("department") @Valid DepartmentDTO departmentDTO,BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "doc/department_edit";
+            return "department/department_edit";
         }
         departmentDTO.setId(id);
         departmentServiceImpl.save(departmentDTO);

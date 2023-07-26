@@ -15681,3 +15681,33 @@ td, th {
   font-weight: 700;
   color: #362d2d;
 }
+#ccc{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+#cccc{
+  min-width: max-content;
+  display: flex;
+  align-items: center;
+}
+#cccc div{
+  margin: 0 5px;
+  min-width: max-content;
+
+}
+#ccccc div{
+  margin: 0 5px;
+  min-width: max-content;
+
+}
+#ccccc{
+  display: flex;
+  max-width: max-content;
+  align-items: center;
+}
+
+
+#ccccc input{
+  width: 500px;
+}
