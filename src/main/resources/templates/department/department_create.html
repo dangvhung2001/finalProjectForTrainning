@@ -16,7 +16,7 @@
   <div class="row" >
     <div class="col-md-12">
       <div class="tile">
-        <h3 class="tile-title">Thêm mới phòng ban</h3>
+        <h3 class="tile-title">Tạo mới đơn hàng</h3>
         <div class="tile-body">
           <form class="row" method="post" th:object="${department}" th:action="@{/department/add}">
             <div class="form-group  col-md-4">
@@ -32,20 +32,20 @@
               <input class="form-control" type="date" th:field="*{issueDate}" >
             </div>
 
-<!--            <div class="form-group col-md-4">-->
-<!--              <label for="exampleSelect1" class="control-label" >Thuộc phòng ban</label>-->
-<!--              <select class="form-control" id="exampleSelect1" th:field="*{parentDepartment.id}">-->
-<!--                <option value="">&#45;&#45; Chọn phòng ban &#45;&#45;</option>-->
-<!--                <option th:each="department : ${department_parent}" th:value="${department.id}" th:text="${department.name}"></option>-->
-<!--              </select>-->
-<!--            </div>-->
+            <div class="form-group col-md-4">
+              <label for="exampleSelect1" class="control-label" >Thuộc phòng ban</label>
+              <select class="form-control" id="exampleSelect1">
+                <option>-- Chọn tình trạng --</option>
+                <option></option>
+              </select>
+            </div>
             <div class="form-group  col-md-4">
               <label class="control-label">Giơi thiệu thông tin phoòng ban</label>
               <textarea class="form-control" rows="4" th:field="*{description}"></textarea>
             </div>
             <button class="btn btn-save" type="submit" >Lưu lại</button>
             <a class="btn btn-cancel" th:href="@{/department/detail}">Hủy bỏ</a>
-            </form>
+          </form>
 
         </div>
 
