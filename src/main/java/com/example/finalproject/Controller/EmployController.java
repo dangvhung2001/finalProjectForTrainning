@@ -33,7 +33,7 @@ public class EmployController {
 
     @GetMapping("homePage")
     public String homePage() {
-        return "doc/index";
+        return "dashboard/index";
     }
 
     @GetMapping("/index")
