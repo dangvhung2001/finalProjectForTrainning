@@ -15696,8 +15696,8 @@ td, th {
   min-width: max-content;
 
 }
-#ccccc div{
-  margin: 0 5px;
+#ccccc button{
+  margin: 0 10px;
   min-width: max-content;
 
 }
@@ -15711,3 +15711,5 @@ td, th {
 #ccccc input{
   width: 500px;
 }
+
+

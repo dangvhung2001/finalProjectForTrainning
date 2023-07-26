@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface    DepartmentRepository extends JpaRepository<Department, Long>, JpaSpecificationExecutor<Department> {
-    List<Department> findByParentIsNotNull();
+    List<Department> findByParentIsNull();
 }

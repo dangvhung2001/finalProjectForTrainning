@@ -72,5 +72,7 @@ public class DepartmentMapper implements EntityMapper<DepartmentDTO, Department>
         }
         return dtoList;
     }
-    }
+
+
+}
 
