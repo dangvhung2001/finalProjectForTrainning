@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/layout}">
 <head>
-
-    <title>Nhân viên</title>
+    <title>Tìm Nnhân viên</title>
 </head>
 
 <body class="app sidebar-mini rtl" layout:fragment="content">
@@ -13,84 +12,30 @@
         <div class="row mt-3">
             <div class="col-md-6 offset-md-3">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Tìm kiếm nhân viên" id="searchInput">
-                    <button class="btn btn-primary" type="button" id="searchButton">Tìm</button>
+                    <form class="search-bar" method="get" th:action="@{/employees/search}">
+                    <input type="text" class="form-control" placeholder="Tìm kiếm nhân viên" id="searchInput" name="textSearch">
+                    <button class="btn btn-primary" type="submit" id="searchButton">Tìm</button>
+                    </form>
                 </div>
             </div>
         </div>
 
-        <!-- List of Employees -->
-        <div class="row mt-4" id="employeeList">
-            <!-- Employee 1 -->
-            <div class="col-md-3 mb-4">
-                <div class="card">
-                    <img src="/images/avatar1.jpg" class="card-img-top" alt="Avatar">
-                    <div class="card-body">
-                        <h5 class="card-title">Nguyễn Văn A</h5>
-                        <p class="card-text">Age: 28</p>
+            <div class="row mt-4" id="employeeList" th:each="employee : ${employees}">
+                <div class="col-md-3 mb-4">
+                    <div class="card">
+                        <img th:src="@{'/images/' + ${employee.imgUrl}}" class="card-img-top" alt="Avatar">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${employee.firstname + ' ' + employee.lastname}"></h5>
+                            <p class="card-text">Giới tính: <span th:text="${employee.sex}"></span></p>
+                            <p class="card-text">Mã nhân viên: <span th:text="${employee.employeeCode}"></span></p>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Employee 2 -->
-            <div class="col-md-3 mb-4">
-                <div class="card">
-                    <img src="/images/avatar2.jpg" class="card-img-top" alt="Avatar">
-                    <div class="card-body">
-                        <h5 class="card-title">Trần Thị B</h5>
-                        <p class="card-text">Age: 25</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 mb-4">
-                <div class="card">
-                    <img src="/images/avatar2.jpg" class="card-img-top" alt="Avatar">
-                    <div class="card-body">
-                        <h5 class="card-title">Trần Thị B</h5>
-                        <p class="card-text">Age: 25</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 mb-4">
-                <div class="card">
-                    <img src="/images/avatar2.jpg" class="card-img-top" alt="Avatar">
-                    <div class="card-body">
-                        <h5 class="card-title">Trần Thị B</h5>
-                        <p class="card-text">Age: 25</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 mb-4">
-                <div class="card">
-                    <img src="/images/avatar2.jpg" class="card-img-top" alt="Avatar">
-                    <div class="card-body">
-                        <h5 class="card-title">Trần Thị B</h5>
-                        <p class="card-text">Age: 25</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Add more employees here -->
-        </div>
-        <!-- Pagination -->
         <div class="row mt-4">
             <div class="col-md-12 d-flex justify-content-center">
                 <nav aria-label="Page navigation">
                     <ul class="pagination" id="pagination">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                        </li>
-                        <li class="page-item active" aria-current="page">
-                            <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
                     </ul>
                 </nav>
             </div>

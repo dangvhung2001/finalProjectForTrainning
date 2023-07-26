@@ -8,6 +8,7 @@ import com.example.finalproject.service.dto.DepartmentDTO;
 import com.example.finalproject.service.dto.EmployeeDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,20 +41,27 @@ public class EmployController {
         model.addAttribute("employees", employees);
         return "employees/index";
     }
-
+    @GetMapping("/search")
+    public String listSearch(@RequestParam(required = false) String textSearch, @PageableDefault(size = 10) Pageable pageable, Model model) {
+        Page<EmployeeDTO> employees = employeeService.findAll(textSearch, pageable);
+        model.addAttribute("employees", employees);
+        return "employees/employee_search";
+    }
 
     @GetMapping("/add")
     public String showAdd(Model model) {
         model.addAttribute("employee", new EmployeeDTO());
         List<Role> roles = roleRepository.findAll();
         List<DepartmentDTO> departments = departmentService.getAll();
+        List<EmployeeDTO> listOfEmployees = employeeService.getAll();
         model.addAttribute("roles", roles);
         model.addAttribute("departments", departments);
+        model.addAttribute("listOfEmployees", listOfEmployees);
         return "employees/create";
     }
 
     @PostMapping("/add")
-    public String doAdd(@ModelAttribute("employee") @Valid EmployeeDTO employeeDTO, BindingResult bindingResult) throws Exception {
+    public String doAdd(@ModelAttribute("employee") @Valid EmployeeDTO employeeDTO, BindingResult bindingResult,Model model) throws Exception {
         if (bindingResult.hasErrors()) {
             return "employees/create";
         }

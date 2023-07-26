@@ -5,7 +5,6 @@
     <title>Title</title>
 </head>
 <body onload="time()" class="app sidebar-mini rtl" layout:fragment="content">
-<div>
     <main class="app-content" >
         <div class="app-title">
             <ul class="app-breadcrumb breadcrumb side">
@@ -20,11 +19,11 @@
                     <div class="tile-body">
                         <div class="row element-button">
                             <div class="col-sm-2">
-                                <a class="btn btn-add btn-sm" th:href="@{/templates/employees/create.html}" title="Thêm"><i class="fas fa-plus"></i>
+                                <a class="btn btn-add btn-sm" th:href="@{/employees/add}" title="Thêm"><i class="fas fa-plus"></i>
                                     Tạo mới nhân viên</a>
                             </div>
                             <div class="col-sm-2">
-                                <a class="btn btn-delete btn-sm print-file" type="button" title="In" ><i
+                                <a class="btn btn-delete btn-sm print-file" type="button" title="In" onclick=""><i
                                         class="fas fa-print"></i> In dữ liệu</a>
                             </div>
                             <div class="col-sm-2">
@@ -32,16 +31,20 @@
                                         class="fas fa-file-pdf"></i> Xuất PDF</a>
                             </div>
                         </div>
-
+                        <div class="input-group">
+                            <form class="search-bar" method="get" th:action="@{/employees/index}">
+                                <input type="text" class="form-control" placeholder="Tìm kiếm nhân viên" id="searchInput" name="textSearch">
+                                <button class="btn btn-primary" type="submit" id="searchButton">Tìm</button>
+                            </form>
+                        </div>
                         <!-- Employee table -->
-                        <table class="table table-hover table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0"
-                               id="sampleTable">
+                        <table class="table table-hover table-bordered js-copytextarea" id="sampleTable">
                             <thead>
                             <tr>
-                                <th style="width: 10px" ><input type="checkbox" id="all"></th>
+                                <th style="width: 10px"><input type="checkbox" id="all"></th>
                                 <th>ID nhân viên</th>
-                                <th style="width: 150px" >Họ và tên</th>
-                                <th >Ảnh thẻ</th>
+                                <th style="width: 150px">Họ và tên</th>
+                                <th>Ảnh thẻ</th>
                                 <th style="width: 300px">Địa chỉ</th>
                                 <th>Ngày sinh</th>
                                 <th>Giới tính</th>
@@ -51,20 +54,21 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <!-- Replace this with Thymeleaf loop -->
                             <tr th:each="employee : ${employees}">
-                                <td width="10"><input type="checkbox" name="check1" value="1"></td>
+                                <td><input type="checkbox" name="check1" value="1"></td>
                                 <td th:text="${employee.employeeCode}"></td>
-                                <td th:text="${employee.firstname} + ${employee.lastname}" ></td>
+                                <td th:text="${employee.firstname + ' ' + employee.lastname}"></td>
                                 <td><img class="img-card-person" th:src="@{'../image' + ${employee.imgUrl}}" alt=""></td>
                                 <td th:text="${employee.address}"></td>
-                                <td th:date="${employee.dateOfBirth}"></td>
-                                <td th:text="${employee.sex}"></td>
+                                <td th:text="${#dates.format(employee.dateOfBirth, 'dd/MM/yyyy')}"></td>
+                                <td>
+                                    <span th:if="${employee.sex == 0}">Nam</span>
+                                    <span th:if="${employee.sex == 1}">Nữ</span>
+                                </td>
                                 <td th:text="${employee.phone}"></td>
                                 <td th:text="${employee.position}">Bán hàng</td>
                                 <td class="table-td-center">
-                                    <!-- Edit and delete buttons -->
-                                    <a class="btn btn-primary btn-sm trash" type="button" title="Xóa" th:href="@{/employees/delete/{id}(id=${employee.id})}">
+                                    <a class="btn btn-primary btn-sm trash" type="button" title="Xóa" onclick="myFunction()" th:href="@{/employees/delete/{id}(id=${employee.id})}">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                     <a class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
@@ -75,13 +79,17 @@
                             </tr>
                             </tbody>
                         </table>
+                        <a th:if="${employees.hasPrevious()}" th:href="@{/employees/index(page=${employees.previousPageable().pageNumber})}">
+                            Previous
+                        </a>
+                        <a th:if="${employees.hasNext()}" th:href="@{/employees/index(page=${employees.nextPageable().pageNumber})}">
+                            Next
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-</div>
-<!-- Essential javascripts for application to work-->
 
 <script>
     function time() {
@@ -133,6 +141,32 @@
             win.print();
         }
     }
+    function deleteRow(r) {
+        var i = r.parentNode.parentNode.rowIndex;
+        document.getElementById("myTable").deleteRow(i);
+    }
+    jQuery(function () {
+        jQuery(".trash").click(function () {
+            swal({
+                title: "Cảnh báo",
+
+                text: "Bạn có chắc chắn là muốn xóa nhân viên này?",
+                buttons: ["Hủy bỏ", "Đồng ý"],
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("Đã xóa thành công.!", {
+
+                        });
+                    }
+                });
+        });
+    });
+    oTable = $('#sampleTable').dataTable();
+    $('#all').click(function (e) {
+        $('#sampleTable tbody :checkbox').prop('checked', $(this).is(':checked'));
+        e.stopImmediatePropagation();
+    });
 </script>
 </body>
 </html>
