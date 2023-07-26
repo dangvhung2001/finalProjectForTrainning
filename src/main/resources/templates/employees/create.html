@@ -52,7 +52,7 @@
               </div>
               <div class="form-group col-md-4">
                 <label class="control-label">Ngày bắt đầu làm việc</label>
-                <input class="form-control" type="date" >
+                <input class="form-control" type="date" th:field="*{startDate}">
               </div>
               <div class="form-group  col-md-4">
                 <label class="control-label">Số điện thoại</label>
@@ -60,7 +60,7 @@
               </div>
               <div class="form-group col-md-4">
                 <label class="control-label">Ngày sinh</label>
-                <input class="form-control" type="date" >
+                <input class="form-control" type="date" th:field="*{dateOfBirth}">
               </div>
               <div class="form-group  col-md-3">
                 <label class="control-label">Hệ số lương</label>
@@ -102,7 +102,7 @@
               <div class="form-group col-md-3">
                 <label class="control-label">Phòng ban</label>
                 <select class="form-control"  required >
-                  <option>-- Chọn quyền hạn --</option>
+                  <option>-- Chọn phòng ban --</option>
                   <th:block th:each="department : ${departments}" th:value="${department.id}">
                     <option th:value="${department.id}" th:text="${department.name}"></option>
                   </th:block>
@@ -156,12 +156,12 @@
               </div>
               <div class="form-group col-md-4">
                 <label class="control-label">Ngày tạo nhân viên</label>
-                <input class="form-control" type="date">
+                <input class="form-control" type="date" th:field="*{createdAt}">
               </div>
               <div class="form-group col-md-12">
                 <label class="control-label">Ảnh 3x4 nhân viên</label>
                 <div id="myfileupload">
-                  <input type="file" id="uploadfile" name="ImageUpload" onchange="readURL(this);" />
+                  <input type="file" id="uploadfile" name="ImageUpload" th:field="*{imgUrl}"/>
                 </div>
                 <div id="thumbbox">
                   <img height="300" width="300" alt="Thumb image" id="thumbimage" style="display: none" />

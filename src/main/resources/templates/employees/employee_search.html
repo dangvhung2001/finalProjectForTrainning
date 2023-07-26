@@ -12,7 +12,8 @@
         <div class="row mt-3">
             <div class="col-md-6 offset-md-3">
                 <div class="input-group">
-                    <form class="search-bar" method="get" th:action="@{/employees/search}">
+                    <form class="search-bar" method="get" th:action="@{/employees/search}"
+                    style="display: flex">
                     <input type="text" class="form-control" placeholder="Tìm kiếm nhân viên" id="searchInput" name="textSearch">
                     <button class="btn btn-primary" type="submit" id="searchButton">Tìm</button>
                     </form>
@@ -25,7 +26,7 @@
                     <div class="card">
                         <img th:src="@{'/images/' + ${employee.imgUrl}}" class="card-img-top" alt="Avatar">
                         <div class="card-body">
-                            <h5 class="card-title" th:text="${employee.firstname + ' ' + employee.lastname}"></h5>
+                            <h5 class="card-title" th:text="${employee.firstname + ' ' + employee.lastname}" th:href="@{/employees/{id}(id=${employee.id})}"></h5>
                             <p class="card-text">Giới tính: <span th:text="${employee.sex}"></span></p>
                             <p class="card-text">Mã nhân viên: <span th:text="${employee.employeeCode}"></span></p>
                         </div>

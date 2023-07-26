@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/layout}">
+<head>
+    <title>Chi tiêt</title>
+</head>
+<body onload="time()" class="app sidebar-mini rtl" layout:fragment="content">
+<main class="app-content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item">Danh sách kỹ năng</li>
+            <li class="breadcrumb-item">Xem chi tiết</li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <h3 class="tile-title">Thông tin kĩ năng</h3>
+                <div class="tile-body">
+                    <div>
+                        <h4>ID: <span th:text="${skills.id}"></span></h4>
+                        <h4>Lever: <span th:text="${skills.level}"></span></h4>
+                        <h4>Tên kĩ năng: <span th:text="${skills.name}"></span></h4>
+                        <h4>Năm kinh nghiệm: <span th:text="${skills.yearExperience}"></span></h4>
+                        <h4>Tháng kinh nghiệm: <span th:text="${skills.monthExperience}"></span></h4>
+                        <h4>Mô tả: <span th:text="${skills.description}"></span></h4>
+                    </div>
+                    <a class="btn btn-primary" th:href="@{/skills/edit/{id}(id=${skills.id})}">Chỉnh sửa</a>
+                    <form th:action="@{/skills/delete/{id}(id=${skills.id})}" method="post" style="display:inline">
+                        <input type="hidden" name="_method" value="POST" />
+                        <input type="submit" class="btn btn-danger" value="Xóa" onclick="return confirm('Bạn có chắc chắn muốn xóa kĩ năng này không?')" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

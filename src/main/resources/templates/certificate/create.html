@@ -17,7 +17,7 @@
                 <h3 class="tile-title">Tạo mới chứng chỉ</h3>
                 <div class="tile-body">
                     <!-- Form để tạo mới chứng chỉ -->
-                    <form th:action="@{/certificates/create}" th:object="${certificateDTO}" method="post">
+                    <form th:action="@{/certificates/add}" th:object="${certificateDTO}" method="post">
                         <div class="form-group">
                             <label for="nameCertificate">Tên chứng chỉ:</label>
                             <input type="text" class="form-control" id="nameCertificate" name="nameCertificate"

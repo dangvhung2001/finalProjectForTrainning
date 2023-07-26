@@ -50,7 +50,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Page<EmployeeDTO> findAll(String textSearch, Pageable pageable) {
         return employeeRepository.findAllByLastnameOrEmailContainingIgnoreCase(textSearch, textSearch, pageable).map(employeeMapper::toDto);
-
     }
 
     @Override

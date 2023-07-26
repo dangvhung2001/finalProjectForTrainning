@@ -7,29 +7,34 @@
 <main class="app-content">
     <div class="app-title">
         <ul class="app-breadcrumb breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/certificates/index}">Danh sách chứng chỉ</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/skills/index}">Danh sách kĩ năng</a></li>
             <li class="breadcrumb-item"><a >Xem chi tiết</a></li>
-            <li class="breadcrumb-item">Chỉnh sửa chứng chỉ</li>
+            <li class="breadcrumb-item">Chỉnh sửa kĩ năng</li>
         </ul>
     </div>
     <div class="row">
         <div class="col-md-12">
             <div class="tile">
-                <h3 class="tile-title">Chỉnh sửa chứng chỉ</h3>
+                <h3 class="tile-title">Chỉnh sửa kĩ năng</h3>
                 <div class="tile-body">
-                    <form th:action="@{/certificates/edit/{id}(id = ${certificateDTO.id})}" th:object="${certificateDTO}" method="post">
+                    <form th:action="@{/skills/edit/{id}(id = ${skill.id})}" th:object="${skill}" method="post">
                         <input type="hidden" th:field="*{id}" />
                         <div class="form-group">
-                            <label class="control-label">Tên chứng chỉ</label>
-                            <input class="form-control" type="text" th:field="*{nameCertificate}" required />
+                            <label class="control-label">Tên skill</label>
+                            <input class="form-control" type="text" th:field="*{name}" required />
                         </div>
                         <div class="form-group">
-                            <label class="control-label">Ngày cấp</label>
-                            <input class="form-control" type="date" th:field="*{issueDate}" required />
+                            <label for="lever">Cấp độ:</label>
+                            <input type="number" class="form-control" id="lever" name="lever"
+                                   required th:field="*{level}"/>
                         </div>
                         <div class="form-group">
-                            <label class="control-label">Ngày hết hạn</label>
-                            <input class="form-control" type="date" th:field="*{expirationDate}" required />
+                            <label class="control-label">Số năm kinh nghiệm</label>
+                            <input class="form-control" type="date" th:field="*{yearExperience}" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Số tháng kinh nghiệm</label>
+                            <input class="form-control" type="date" th:field="*{monthExperience}" required />
                         </div>
                         <div class="form-group">
                             <label class="control-label">Mô tả</label>
@@ -38,7 +43,7 @@
                         <!-- Thêm các trường thông tin khác tùy theo yêu cầu -->
                         <div class="form-group">
                             <button class="btn btn-primary" type="submit">Lưu</button>
-                            <a class="btn btn-secondary" th:href="@{/certificates}">Hủy bỏ</a>
+                            <a class="btn btn-secondary" th:href="@{/skills/index}">Hủy bỏ</a>
                         </div>
                     </form>
                 </div>
