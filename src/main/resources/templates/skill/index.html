@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/layout}">
+<head>
+    <title>Title</title>
+
+</head>
+<body onload="time()" class="app sidebar-mini rtl" layout:fragment="content">
+<main class="app-content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb side">
+            <li class="breadcrumb-item active"><a href="#"><b>Danh sách kĩ năng</b></a></li>
+        </ul>
+        <div id="clock"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <div class="tile-body">
+                    <div class="row element-button">
+                        <div class="col-sm-2">
+                            <a class="btn btn-add btn-sm" th:href="@{/skills/add}" title="Thêm"><i class="fas fa-plus"></i>
+                                Tạo mới kĩ năng</a>
+                        </div>
+                        <div class="col-sm-2">
+                            <a class="btn btn-delete btn-sm print-file" type="button" title="In" ><i
+                                    class="fas fa-print"></i> In dữ liệu</a>
+                        </div>
+                        <div class="col-sm-2">
+                            <a class="btn btn-delete btn-sm pdf-file" type="button" title="In" ><i
+                                    class="fas fa-file-pdf"></i> Xuất PDF</a>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <form class="search-bar" method="get" th:action="@{/skills/index}" style="display: flex">
+                            <input type="text" class="form-control" placeholder="Tìm kiếm kỹ năng" id="searchInput" name="textSearch">
+                            <button class="btn btn-primary" type="submit" id="searchButton">Tìm</button>
+                        </form>
+                    </div>
+                    <table class="table table-hover table-bordered" id="sampleTable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên kĩ năng</th>
+                            <th>Lever</th>
+                            <th>Số năm kinh nghiệm </th>
+                            <th>Số tháng kinh nghiệm</th>
+                            <th>Mô tả</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="skill : ${skills}">
+                            <td th:text="${skill.id}"></td>
+                            <td> <a th:href="@{/skills/{id}(id=${skill.id})}" th:text="${skill.name}"></a></td>
+                            <td th:text="${skill.level}"></td>
+                            <td th:text="${skill.yearExperience}"></td>
+                            <td th:text="${skill.monthExperience}"></td>
+                            <td th:text="${skill.description}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    function time() {
+        var today = new Date();
+        var weekday = new Array(7);
+        weekday[0] = "Chủ Nhật";
+        weekday[1] = "Thứ Hai";
+        weekday[2] = "Thứ Ba";
+        weekday[3] = "Thứ Tư";
+        weekday[4] = "Thứ Năm";
+        weekday[5] = "Thứ Sáu";
+        weekday[6] = "Thứ Bảy";
+        var day = weekday[today.getDay()];
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+        nowTime = h + " giờ " + m + " phút " + s + " giây";
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+        today = day + ', ' + dd + '/' + mm + '/' + yyyy;
+        tmp = '<span class="date"> ' + today + ' - ' + nowTime +
+            '</span>';
+        document.getElementById("clock").innerHTML = tmp;
+        clocktime = setTimeout("time()", "1000", "Javascript");
+
+        function checkTime(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+    }
+</script>
+</body>
+</html>

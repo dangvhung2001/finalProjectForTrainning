@@ -17,7 +17,7 @@
             <div class="tile">
                 <h3 class="tile-title">Chỉnh sửa nhân viên</h3>
                 <div class="tile-body">
-                    <form th:action="@{/employees/edit}" th:object="${employee}" method="post">
+                    <form th:action="@{/employees/edit/{id}(id = ${employee.id})}" th:object="${employee}" method="post">
                         <input type="hidden" th:field="*{id}"/>
                         <div class="form-group">
                             <label class="control-label">First Name:</label>
@@ -98,37 +98,36 @@
 
                         <div class="form-group col-md-3">
                             <label class="control-label">Manager:</label>
-                            <select class="form-control" th:field="*{manager}">
-                                <option value="">None</option>
-                               <option th:each="manager : ${allManagers}" th:value="${manager}" th:text="${manager.fullName}"></option>
+                            <select class="form-control" th:field="*{manager.id}">
+                                <option value="">Chọn quản lý</option>
+                                <th:block th:each="employee : ${employee}" th:value="${employee.id}">
+                                    <option th:value="${employee.id}" th:text="${employee.firstname + ' ' + employee.lastname}"></option>
+                                </th:block>
                             </select>
                         </div>
 
                         <div class="form-group col-md-3">
-                            <label class="control-label">Department:</label>
-                            <select class="form-control" th:field="*{department}">
-                                <option value="">None</option>
-                               <option th:each="department : ${allDepartments}" th:value="${department}" th:text="${department.name}"></option>
+                            <label class="control-label">Chọn phòng ban:</label>
+                            <select class="form-control"  required >
+                                <option>-- Chọn phòng ban --</option>
+                                <th:block th:each="department : ${departments}" th:value="${department.id}">
+                                    <option th:value="${department.id}" th:text="${department.name}"></option>
+                                </th:block>
                             </select>
                         </div>
 
                         <div class="form-group col-md-3">
-                            <label class="control-label">Roles:</label>
-                            <select class="form-control" th:field="*{roles}" multiple="multiple">
-                                <option th:each="role : ${allRoles}" th:value="${role}" th:text="${role.name}"></option>
+                            <label class="control-label">Chọn quyền hạn:</label>
+                            <select class="form-control" >
+                                <option>-- Chọn quyền hạn --</option>
+                                <th:block th:each="role : ${roles}" th:value="${role.roleName}">
+                                    <option th:value="${role.roleName}" th:text="${role.roleName}"></option>
+                                </th:block>
                             </select>
                         </div>
-
-                        <div class="form-group col-md-3">
-                            <label class="control-label">Projects:</label>
-                            <select class="form-control" th:field="*{projects}" multiple="multiple">
-                                <option th:each="project : ${allProjects}" th:value="${project}" th:text="${project.name}"></option>
-                            </select>
-                        </div>
-
                         <div>
                             <button type="submit">Save</button>
-                            <a th:href="@{/templates/employees/index}">Cancel</a>
+                            <a th:href="@{/employees/index}">Cancel</a>
                         </div>
                     </form>
                 </div>

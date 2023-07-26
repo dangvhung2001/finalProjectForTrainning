@@ -21,60 +21,70 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/skill")
+@RequestMapping("/skills")
 public class SkillController {
-    private final SkillServiceImpl skillServiceImpl;
+    private final SkillService skillService;
 
     private final SkillRepository skillRepository;
 
-    public SkillController(SkillServiceImpl skillServiceImpl, SkillRepository skillRepository) {
+    public SkillController(SkillService skillService, SkillRepository skillRepository) {
         this.skillRepository = skillRepository;
-        this.skillServiceImpl = skillServiceImpl;
+        this.skillService = skillService;
     }
 
-    @GetMapping("/detail")
-    public String showDetail(Model model, @RequestParam(required = false) String textSearch, Pageable pageable) {
-        Page<SkillDTO> skills = skillServiceImpl.findAll(pageable);
-        model.addAttribute("department", skills);
+    @GetMapping("/index")
+    public String index(Model model, @RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable) {
+        Page<SkillDTO> skills = skillService.findAll(textSearch,pageable);
+        model.addAttribute("skills", skills);
         return "skill/index";
     }
 
-    @GetMapping("/create")
+    @GetMapping("/{id}")
+    public String showDetail(Model model, @PathVariable Long id) {
+        Optional<SkillDTO> skills = skillService.findOne(id);
+        model.addAttribute("skills", skills.orElse(null));
+        return "skill/detail";
+    }
+
+    @GetMapping("/add")
     public String showAdd(Model model, Pageable pageable) {
-        model.addAttribute("skill", new Skill());
+        model.addAttribute("skill", new SkillDTO());
         return "skill/create";
     }
 
     @PostMapping("/add")
-    public ModelAndView doAdd(@ModelAttribute("skill") @Valid SkillDTO skillDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
-            ModelAndView modelAndView = new ModelAndView("skill/create");
-            return modelAndView;
+    public String doAdd(@ModelAttribute("skill") @Valid SkillDTO skillDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "skill/create";
         }
-        skillServiceImpl.save(skillDTO);
-        ModelAndView modelAndView = new ModelAndView("skill/index");
-        modelAndView.addObject("skills", skillDTO);
-        return modelAndView;
+        skillService.save(skillDTO);
+        return "redirect:/skills/index";
     }
 
     @GetMapping("/edit/{id}")
-    public String showEdit(@PathVariable Long id, Model model,Pageable pageable){
-        Optional<SkillDTO> skills = skillServiceImpl.findOne(id);
-        if (skills!=null) {
+    public String showEdit(@PathVariable Long id, Model model, Pageable pageable) {
+        Optional<SkillDTO> skills = skillService.findOne(id);
+        if (skills != null) {
             model.addAttribute("department", skills);
-            return "department/edit";
+            return "skill/edit";
         } else {
-            return "redirect:/skill/detail";
+            return "redirect:/skill/{id}";
         }
     }
 
     @PostMapping("/edit/{id}")
-    public String doEdit(@PathVariable Long id, @ModelAttribute("skill") @Valid SkillDTO skillDTO,BindingResult bindingResult) {
+    public String doEdit(@PathVariable Long id, @ModelAttribute("skill") @Valid SkillDTO skillDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "skill/edit";
         }
         skillDTO.setId(id);
-        skillServiceImpl.save(skillDTO);
-        return "redirect:/department/detail";
+        skillService.save(skillDTO);
+        return "redirect:/skills/{id}";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String doDelete(@PathVariable Long id) {
+        skillService.delete(id);
+        return "redirect:/skills/index";
     }
 }

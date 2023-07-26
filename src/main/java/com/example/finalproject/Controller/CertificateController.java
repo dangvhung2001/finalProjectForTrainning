@@ -2,7 +2,6 @@ package com.example.finalproject.Controller;
 
 import com.example.finalproject.service.CertificateService;
 import com.example.finalproject.service.dto.CertificateDTO;
-import com.example.finalproject.service.dto.SkillDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -26,24 +25,24 @@ public class CertificateController {
     public String listCertificates(Model model, @PageableDefault(size = 10) Pageable pageable) {
         Page<CertificateDTO> certificates = certificateService.findAll(pageable);
         model.addAttribute("certificates", certificates);
-        return "certificate/list";
+        return "certificate/index";
     }
 
     @GetMapping("/{id}")
-    public String viewCertificate(@PathVariable Long id, Model model) {
+    public String detailCertificate(@PathVariable Long id, Model model) {
         Optional<CertificateDTO> certificate = certificateService.findOne(id);
         model.addAttribute("certificate", certificate.orElse(null));
-        return "certificate/view";
+        return "certificate/details";
     }
 
-    @GetMapping("/create")
-    public String showCreateForm(Model model) {
+    @GetMapping("/add")
+    public String showAdd(Model model) {
         model.addAttribute("certificateDTO", new CertificateDTO());
         return "certificate/create";
     }
 
-    @PostMapping("/create")
-    public String createCertificate(@ModelAttribute("certificateDTO") CertificateDTO certificateDTO,BindingResult bindingResult) {
+    @PostMapping("/add")
+    public String doAdd(@ModelAttribute("certificateDTO") CertificateDTO certificateDTO,BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "certificate/create";
         }
@@ -52,26 +51,26 @@ public class CertificateController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable Long id, Model model) {
+    public String showEdit(@PathVariable Long id, Model model) {
         Optional<CertificateDTO> certificate = certificateService.findOne(id);
         model.addAttribute("certificateDTO", certificate.orElse(null));
         return "certificate/edit";
     }
 
     @PostMapping("/edit/{id}")
-    public String updateCertificate(@PathVariable Long id, @ModelAttribute("certificateDTO") CertificateDTO certificateDTO, BindingResult bindingResult,Model model) {
+    public String doEdit(@PathVariable Long id, @ModelAttribute("certificateDTO") CertificateDTO certificateDTO, BindingResult bindingResult,Model model) {
         if (bindingResult.hasErrors()) {
             return "certificate/edit";
         }
         certificateDTO.setId(id);
         certificateService.save(certificateDTO);
-        return "redirect:/certificates";
+        return "redirect:/certificates/{id}";
     }
 
     @PostMapping("/delete/{id}")
-    public String deleteCertificate(@PathVariable Long id) {
+    public String doDelete(@PathVariable Long id) {
         certificateService.delete(id);
-        return "redirect:/certificates";
+        return "redirect:/certificates/index";
     }
 }
 
