@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface DepartmentService {
     DepartmentDTO save(DepartmentDTO departmentDTO);
 
-    Page<DepartmentDTO> findAll(Pageable pageable);
+    Page<DepartmentDTO> findAll(String textSearch,Pageable pageable);
 
     Optional<DepartmentDTO> findOne(Long id);
 

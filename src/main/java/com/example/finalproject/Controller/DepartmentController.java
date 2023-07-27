@@ -5,6 +5,7 @@ import com.example.finalproject.repository.DepartmentRepository;
 import com.example.finalproject.service.DepartmentService;
 import com.example.finalproject.service.dto.DepartmentDTO;
 import com.example.finalproject.service.impl.DepartmentServiceImpl;
+import com.example.finalproject.service.mapper.impl.DepartmentMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -21,16 +22,18 @@ import java.util.Optional;
 @RequestMapping("/department")
 public class DepartmentController {
     private final DepartmentServiceImpl departmentServiceImpl;
+    private final DepartmentMapper departmentMapper;
 
     private final DepartmentRepository departmentRepository;
-    public DepartmentController(DepartmentServiceImpl departmentServiceImpl, DepartmentRepository departmentRepository) {
+    public DepartmentController(DepartmentServiceImpl departmentServiceImpl, DepartmentRepository departmentRepository,DepartmentMapper departmentMapper) {
         this.departmentServiceImpl = departmentServiceImpl;
         this.departmentRepository = departmentRepository;
+        this.departmentMapper = departmentMapper;
     }
 
     @GetMapping("/detail")
-    public String showDetail(Model model, @RequestParam(required = false) String textSearch,Pageable pageable) {
-        Page<DepartmentDTO> departments = departmentServiceImpl.findAll(pageable);
+    public String showDetail(Model model, @RequestParam(required = false, defaultValue = "") String textSearch,Pageable pageable) {
+        Page<DepartmentDTO> departments = departmentServiceImpl.findAll(textSearch,pageable);
         model.addAttribute("departments", departments);
         return "department/department_index";
     }
@@ -38,7 +41,7 @@ public class DepartmentController {
     @GetMapping("/create")
     public String showAdd(Model model, Pageable pageable) {
         model.addAttribute("department", new DepartmentDTO());
-        List<Department> department = departmentRepository.findByParentIsNotNull();
+        List<Department> department = departmentRepository.findAll();
         model.addAttribute("department_parent", department);
         return "department/department_create";
     }
@@ -61,6 +64,8 @@ public class DepartmentController {
         if (departmentOptional.isPresent()) {
             DepartmentDTO department = departmentOptional.get();
             model.addAttribute("department", department);
+            List<Department> departments = departmentRepository.findAll();
+            model.addAttribute("department_parent", departments);
             return "department/department_edit";
         } else {
             return "redirect:/department/detail";

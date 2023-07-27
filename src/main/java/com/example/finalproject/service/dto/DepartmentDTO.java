@@ -5,13 +5,13 @@ import java.sql.Date;
 
 public class DepartmentDTO {
     private Long id;
-
     @NotEmpty(message = "Tên bộ phận không được để trống")
     private String name;
     private String departmentCode;
     private String description;
     private Date issueDate;
-    private DepartmentDTO parentDepartment;
+    private Long parentId;
+    private String parentName;
 
     public Long getId() {
         return id;
@@ -53,11 +53,19 @@ public class DepartmentDTO {
         this.issueDate = issueDate;
     }
 
-    public DepartmentDTO getParentDepartment() {
-        return parentDepartment;
+    public Long getParentId() {
+        return parentId;
     }
 
-    public void setParentDepartment(DepartmentDTO parentDepartment) {
-        this.parentDepartment = parentDepartment;
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
 }

@@ -22,11 +22,12 @@ public class DepartmentMapper implements EntityMapper<DepartmentDTO, Department>
         entity.setDepartmentCode(dto.getDepartmentCode());
         entity.setDescription(dto.getDescription());
         entity.setIssueDate(dto.getIssueDate());
-        if (dto.getParentDepartment() != null) {
-            Department parentEntity = new Department();
-            parentEntity.setId(dto.getParentDepartment().getId());
-            entity.setParent(parentEntity);
-        }
+//        if (dto.getParentDepartment() != null) {
+//            Department parentEntity = new Department();
+//            parentEntity.setId(dto.getParentDepartment().getId());
+//            entity.setParent(parentEntity);
+//        }
+        entity.setParentId(dto.getParentId());
         return entity;
     }
 
@@ -41,10 +42,15 @@ public class DepartmentMapper implements EntityMapper<DepartmentDTO, Department>
         dto.setDepartmentCode(entity.getDepartmentCode());
         dto.setDescription(entity.getDescription());
         dto.setIssueDate((Date) entity.getIssueDate());
-        if (entity.getParent() != null) {
-            DepartmentDTO departmentDTO = new DepartmentDTO();
-            departmentDTO.setId(dto.getParentDepartment().getId());
-            dto.setParentDepartment(departmentDTO);
+//        if (entity.getParent() != null) {
+//            DepartmentDTO departmentDTO = new DepartmentDTO();
+//            departmentDTO.setId(dto.getParentDepartment().getId());
+//            dto.setParentDepartment(departmentDTO);
+//        }
+        dto.setParentId(entity.getParentId());
+        Department department = entity.getParent();
+        if (department != null) {
+            dto.setParentName(entity.getParent().getName());
         }
         return dto;
     }
@@ -72,5 +78,4 @@ public class DepartmentMapper implements EntityMapper<DepartmentDTO, Department>
         }
         return dtoList;
     }
-    }
-
+}
