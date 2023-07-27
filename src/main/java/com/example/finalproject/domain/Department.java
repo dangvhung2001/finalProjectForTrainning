@@ -21,9 +21,13 @@ public class Department {
     @Column(name = "issue_date")
     private java.sql.Date issueDate;
 
+    @Column(name = "parent_id")
+    private Long parentId;
+
     @ManyToOne
-    @JoinColumn(name = "parent_Id")
+    @JoinColumn(name = "parent_Id", insertable = false, updatable = false)
     private Department parent;
+
 
     public Department() {
     }
@@ -74,5 +78,13 @@ public class Department {
 
     public void setIssueDate(java.sql.Date issueDate) {
         this.issueDate = issueDate;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 }

@@ -32,8 +32,8 @@ public class DepartmentController {
     }
 
     @GetMapping("/detail")
-    public String showDetail(Model model, @RequestParam(required = false) String textSearch,Pageable pageable) {
-        Page<DepartmentDTO> departments = departmentServiceImpl.findAll(pageable);
+    public String showDetail(Model model, @RequestParam(required = false, defaultValue = "") String textSearch,Pageable pageable) {
+        Page<DepartmentDTO> departments = departmentServiceImpl.findAll(textSearch,pageable);
         model.addAttribute("departments", departments);
         return "department/department_index";
     }
@@ -41,7 +41,7 @@ public class DepartmentController {
     @GetMapping("/create")
     public String showAdd(Model model, Pageable pageable) {
         model.addAttribute("department", new DepartmentDTO());
-        List<Department> department = departmentRepository.findByParentIsNull();
+        List<Department> department = departmentRepository.findAll();
         model.addAttribute("department_parent", department);
         return "department/department_create";
     }
@@ -64,6 +64,8 @@ public class DepartmentController {
         if (departmentOptional.isPresent()) {
             DepartmentDTO department = departmentOptional.get();
             model.addAttribute("department", department);
+            List<Department> departments = departmentRepository.findAll();
+            model.addAttribute("department_parent", departments);
             return "department/department_edit";
         } else {
             return "redirect:/department/detail";
