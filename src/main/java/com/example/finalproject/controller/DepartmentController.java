@@ -1,13 +1,13 @@
-package com.example.finalproject.Controller;
+package com.example.finalproject.controller;
 
 import com.example.finalproject.domain.Department;
 import com.example.finalproject.repository.DepartmentRepository;
-import com.example.finalproject.service.DepartmentService;
 import com.example.finalproject.service.dto.DepartmentDTO;
 import com.example.finalproject.service.impl.DepartmentServiceImpl;
 import com.example.finalproject.service.mapper.impl.DepartmentMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,9 +32,11 @@ public class DepartmentController {
     }
 
     @GetMapping("/detail")
-    public String showDetail(Model model, @RequestParam(required = false, defaultValue = "") String textSearch,Pageable pageable) {
+    public String showDetail(Model model, @RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable, Authentication authentication) {
+        String username = authentication.getName();
         Page<DepartmentDTO> departments = departmentServiceImpl.findAll(textSearch,pageable);
         model.addAttribute("departments", departments);
+        model.addAttribute("username", username);
         return "department/department_index";
     }
 
@@ -52,6 +54,7 @@ public class DepartmentController {
             ModelAndView modelAndView = new ModelAndView("department/department_create");
             return modelAndView;
         }
+
         departmentServiceImpl.save(departmentDTO);
         ModelAndView modelAndView = new ModelAndView("redirect:/department/detail");
         modelAndView.addObject("department", departmentDTO);

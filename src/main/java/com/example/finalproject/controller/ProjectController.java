@@ -1,8 +1,5 @@
-package com.example.finalproject.Controller;
+package com.example.finalproject.controller;
 
-import com.example.finalproject.domain.Experience;
-import com.example.finalproject.domain.Project;
-import com.example.finalproject.service.dto.ExperienceDTO;
 import com.example.finalproject.service.dto.ProjectDTO;
 import com.example.finalproject.service.impl.ProjectServiceImpl;
 import com.example.finalproject.service.mapper.impl.ProjectMapper;

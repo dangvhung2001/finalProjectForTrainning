@@ -37,12 +37,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDTO save(EmployeeDTO employeeDTO) {
         Employee employee = employeeMapper.toEntity(employeeDTO);
+        employee.setManager(employeeRepository.findById(employeeDTO.getDepartmentId()).get());
         employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         if (employeeDTO.getRoles() != null) {
             Set<Role> roles = employeeDTO
                     .getRoles()
                     .stream()
-                    .map(roleRepository::findById)
+                    .map(roleRepository::findByRoleName)
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .collect(Collectors.toSet());
@@ -74,8 +75,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Optional<EmployeeDTO> findByEmail(String email) {
-//        return employeeRepository.findOneByEmailIgnoreCase(email).map(employeeMapper::toDto);
-        return null;
+        return employeeRepository.findByEmailIgnoreCase(email).map(employeeMapper::toDto);
+    }
+
+    @Override
+    public Optional<EmployeeDTO> findByEmployeeCode(String employeeCode) {
+        return employeeRepository.findByEmployeeCode(employeeCode).map(employeeMapper::toDto);
+    }
+
+    @Override
+    public Optional<EmployeeDTO> findByPhone(int Phone) {
+        return employeeRepository.findByPhone(Phone).map(employeeMapper::toDto);
     }
 
     @Override

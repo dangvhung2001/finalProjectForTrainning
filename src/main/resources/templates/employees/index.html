@@ -2,7 +2,7 @@
 <html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Danh sách nhân viên</title>
 </head>
 <body onload="time()" class="app sidebar-mini rtl" layout:fragment="content">
     <main class="app-content" >
@@ -54,7 +54,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="employee : ${listOfEmployees}">
+                            <tr th:each="employee : ${listOfEmployees}" th:if="${employee.roles != 'ADMIN'}">
                                 <td><input type="checkbox" name="check1" value="1"></td>
                                 <td th:text="${employee.employeeCode}"></td>
                                 <td th:text="${employee.firstname + ' ' + employee.lastname}"></td>

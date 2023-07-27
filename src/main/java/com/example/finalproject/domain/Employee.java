@@ -1,6 +1,7 @@
 package com.example.finalproject.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.*;
 import java.sql.Date;
 @Entity
@@ -34,18 +35,17 @@ public class Employee {
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
 
-
+    @Column(name = "department_id")
+    private Long departmentId;
     private String citizenCode;
 
     private Date issueDate;
 
     private String placeOfIssue;
 
-
     private String employeeCode;
-
+    @Email
     private String email;
-
 
     private String address;
 
@@ -71,7 +71,7 @@ public class Employee {
     private Employee manager;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id")
+    @JoinColumn(name = "department_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Department department;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -89,6 +89,21 @@ public class Employee {
     public Employee() {
     }
 
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
+    }
 
     public Long getId() {
         return id;

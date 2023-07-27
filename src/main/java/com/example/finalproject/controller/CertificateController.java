@@ -1,4 +1,4 @@
-package com.example.finalproject.Controller;
+package com.example.finalproject.controller;
 
 import com.example.finalproject.service.CertificateService;
 import com.example.finalproject.service.dto.CertificateDTO;
@@ -32,19 +32,19 @@ public class CertificateController {
     public String detailCertificate(@PathVariable Long id, Model model) {
         Optional<CertificateDTO> certificate = certificateService.findOne(id);
         model.addAttribute("certificate", certificate.orElse(null));
-        return "certificate/details";
+        return "certificate/detail";
     }
 
     @GetMapping("/add")
     public String showAdd(Model model) {
         model.addAttribute("certificateDTO", new CertificateDTO());
-        return "certificate/create";
+        return "certificate/add";
     }
 
     @PostMapping("/add")
     public String doAdd(@ModelAttribute("certificateDTO") CertificateDTO certificateDTO,BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "certificate/create";
+            return "certificate/add";
         }
         certificateService.save(certificateDTO);
         return "redirect:/certificates/index";

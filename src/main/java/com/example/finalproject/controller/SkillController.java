@@ -1,21 +1,14 @@
-package com.example.finalproject.Controller;
+package com.example.finalproject.controller;
 
-import com.example.finalproject.domain.Department;
-import com.example.finalproject.domain.Skill;
-import com.example.finalproject.repository.DepartmentRepository;
 import com.example.finalproject.repository.SkillRepository;
-import com.example.finalproject.service.DepartmentService;
 import com.example.finalproject.service.SkillService;
-import com.example.finalproject.service.dto.DepartmentDTO;
 import com.example.finalproject.service.dto.SkillDTO;
-import com.example.finalproject.service.impl.SkillServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -49,13 +42,13 @@ public class SkillController {
     @GetMapping("/add")
     public String showAdd(Model model, Pageable pageable) {
         model.addAttribute("skill", new SkillDTO());
-        return "skill/create";
+        return "skill/add";
     }
 
     @PostMapping("/add")
     public String doAdd(@ModelAttribute("skill") @Valid SkillDTO skillDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "skill/create";
+            return "skill/add";
         }
         skillService.save(skillDTO);
         return "redirect:/skills/index";

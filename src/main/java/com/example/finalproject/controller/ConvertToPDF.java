@@ -1,12 +1,4 @@
-package com.example.finalproject.Controller;
-
-import com.itextpdf.html2pdf.HtmlConverter;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+package com.example.finalproject.controller;
 
 public class ConvertToPDF {
 //    @RequestMapping(path = "/pdf")
