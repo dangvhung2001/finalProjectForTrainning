@@ -7,6 +7,7 @@ import com.example.finalproject.service.DepartmentService;
 import com.example.finalproject.service.EmployeeService;
 import com.example.finalproject.service.dto.DepartmentDTO;
 import com.example.finalproject.service.dto.EmployeeDTO;
+import com.example.finalproject.service.impl.MailSenderService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -26,15 +27,18 @@ public class EmployeeController {
     private final EmployeeRepository employeeRepository;
     private final DepartmentService departmentService;
     private final RoleRepository roleRepository;
+    private final MailSenderService mailService;
 
     public EmployeeController(EmployeeService employeeService,
                               DepartmentService departmentService,
                               RoleRepository roleRepository,
-                              EmployeeRepository employeeRepository) {
+                              EmployeeRepository employeeRepository,
+                              MailSenderService mailService) {
         this.employeeService = employeeService;
         this.departmentService = departmentService;
         this.roleRepository = roleRepository;
         this.employeeRepository = employeeRepository;
+        this.mailService = mailService;
     }
 
     @GetMapping("homePage")
@@ -43,25 +47,28 @@ public class EmployeeController {
     }
 
     @GetMapping("/index")
-    public String index(@RequestParam(required = false,defaultValue = "") String textSearch, Pageable pageable, Model model, Authentication authentication) {
+    public String index(@RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable, Model model, Authentication authentication) {
         String username = authentication.getName();
-        Page<EmployeeDTO> listOfEmployees = employeeService.findAll(textSearch,pageable);
+        Page<EmployeeDTO> listOfEmployees = employeeService.findAll(textSearch, pageable);
         model.addAttribute("listOfEmployees", listOfEmployees);
         model.addAttribute("username", username);
         return "employees/index";
     }
+
     @GetMapping("/search")
-    public String listSearch(@RequestParam(required = false, defaultValue = "") String textSearch, @PageableDefault(size = 10) Pageable pageable, Model model) {
+    public String listSearch(@RequestParam(required = false, defaultValue = "") String textSearch, @PageableDefault(size = 5) Pageable pageable, Model model) {
         Page<EmployeeDTO> employees = employeeService.findAll(textSearch, pageable);
         model.addAttribute("employees", employees);
         return "employees/search";
     }
+
     @GetMapping("/{id}")
     public String detailEmployee(@PathVariable Long id, Model model) {
         Optional<EmployeeDTO> employees = employeeService.findOne(id);
         model.addAttribute("employees", employees.orElse(null));
         return "employees/detail";
     }
+
     @GetMapping("/add")
     public String showAdd(Model model) {
         model.addAttribute("employee", new EmployeeDTO());
@@ -75,7 +82,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/add")
-    public String doAdd(@ModelAttribute("employee") @Valid EmployeeDTO employeeDTO, BindingResult bindingResult,Model model) throws Exception {
+    public String doAdd(@ModelAttribute("employee") @Valid EmployeeDTO employeeDTO, BindingResult bindingResult, Model model) throws Exception {
         if (bindingResult.hasErrors()) {
             return "employees/add";
         }
@@ -87,11 +94,6 @@ public class EmployeeController {
         Optional<EmployeeDTO> existingEmployeeCode = employeeService.findByEmployeeCode(employeeDTO.getEmployeeCode());
         if (existingEmployeeCode.isPresent()) {
             bindingResult.rejectValue("employeeCode", "error.employee", "Code đã tồn tại");
-            return "employees/add";
-        }
-        Optional<EmployeeDTO> existingEmployeePhone = employeeService.findByPhone(employeeDTO.getPhone());
-        if (existingEmployeePhone.isPresent()) {
-            bindingResult.rejectValue("phone", "error.employee", "Phone đã tồn tại");
             return "employees/add";
         }
         employeeService.save(employeeDTO);

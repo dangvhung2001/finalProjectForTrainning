@@ -10,9 +10,9 @@ import java.util.Optional;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Optional<Employee> findByEmailIgnoreCase(String email);
-    Optional<Employee> findByEmployeeCode(String employeeCode);
+    Optional<Employee> findByEmployeeCodeContainingIgnoreCase(String employeeCode);
 
     Page<Employee> findAllByLastnameOrEmailContainingIgnoreCase(String textSearchName, String textSearchEmail, Pageable pageable);
     Employee findEmployeeByEmail(String email);
-    Optional<Employee> findByPhone(int phone);
+
 }

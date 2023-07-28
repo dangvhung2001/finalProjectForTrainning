@@ -123,7 +123,7 @@
                                     <option value="">-- Chọn quản lý --</option>
                                     <option th:each="employee : ${listOfEmployees}"
                                             th:value="${employee.id}"
-                                            th:text="${employee.firstname + ' ' + employee.lastname + ' ' + employee.position}"></option>
+                                            th:text="${employee.firstname + ' ' + employee.lastname + ', ' + employee.position + ',' + employee.departmentName}"></option>
                                 </select>
                             </div>
 
@@ -179,7 +179,7 @@
                                 </div>
                             </div>
                             <button class="btn btn-save" type="submit">Lưu lại</button>
-                            <a class="btn btn-cancel" href="/doc/table-data-table.html">Hủy bỏ</a>
+                            <a class="btn btn-cancel" th:href="@{/employees/index}">Hủy bỏ</a>
                         </form>
                     </div>
                 </div>

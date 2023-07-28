@@ -17,18 +17,22 @@ import java.security.Principal;
 public class AuthController {
     private final EmployeeService employeeService;
     private final PasswordEncoder passwordEncoder;
+
     public AuthController(EmployeeService employeeService, PasswordEncoder passwordEncoder) {
         this.employeeService = employeeService;
         this.passwordEncoder = passwordEncoder;
     }
+
     @RequestMapping("/login")
     public String loginPage() {
         return "login/index";
     }
+
     @GetMapping("/changePassword")
     public String changePasswordForm() {
         return "login/changePassword";
     }
+
     @PostMapping("/changePassword")
     public String changePassword(@RequestParam("currentPassword") String currentPassword,
                                  @RequestParam("newPassword") String newPassword,

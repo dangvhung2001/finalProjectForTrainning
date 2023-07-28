@@ -23,15 +23,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final RoleRepository roleRepository;
     private final EmployeeMapper employeeMapper;
     private PasswordEncoder passwordEncoder;
+    private final MailSenderService mailSenderService;
 
     public EmployeeServiceImpl(EmployeeRepository employeeRepository,
                                RoleRepository roleRepository,
                                EmployeeMapper employeeMapper,
-                               PasswordEncoder passwordEncoder) {
+                               PasswordEncoder passwordEncoder,
+                               MailSenderService mailSenderService) {
         this.employeeRepository = employeeRepository;
         this.roleRepository = roleRepository;
         this.employeeMapper = employeeMapper;
         this.passwordEncoder = passwordEncoder;
+        this.mailSenderService = mailSenderService;
     }
 
     @Override
@@ -50,6 +53,16 @@ public class EmployeeServiceImpl implements EmployeeService {
             employee.setRoles(roles);
         }
         employee = employeeRepository.save(employee);
+        String to = employee.getEmail();
+        String subject = "Chào mừng bạn đến với công ty chúng tôi";
+        String body = "Xin chào " + employee.getFirstname() + " " + employee.getLastname() + ",\n\n" +
+                "Chúng tôi rất vui mừng thông báo rằng bạn đã trở thành thành viên mới của công ty chúng tôi.\n" +
+                "Cảm ơn bạn đã tham gia và chúc bạn có những trải nghiệm tuyệt vời tại công ty.\n\n" +
+                "Trân trọng,\n" +
+                "Mật khẩu của bạn là " + employee.getPassword() + "\n" +
+                "Ban quản trị";
+
+        mailSenderService.sendNewMail(to, subject, body);
         return employeeMapper.toDto(employee);
     }
 
@@ -80,13 +93,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Optional<EmployeeDTO> findByEmployeeCode(String employeeCode) {
-        return employeeRepository.findByEmployeeCode(employeeCode).map(employeeMapper::toDto);
+        return employeeRepository.findByEmployeeCodeContainingIgnoreCase(employeeCode).map(employeeMapper::toDto);
     }
 
-    @Override
-    public Optional<EmployeeDTO> findByPhone(int Phone) {
-        return employeeRepository.findByPhone(Phone).map(employeeMapper::toDto);
-    }
 
     @Override
     public void saveEmployee(EmployeeDTO employeeDTO) {

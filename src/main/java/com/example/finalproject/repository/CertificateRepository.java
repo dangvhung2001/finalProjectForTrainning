@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CertificateRepository extends JpaRepository<Certificate, Long> {
-    Certificate findCertificateByEmployee (String employee);
+    Certificate findCertificateByEmployee(String employee);
 }

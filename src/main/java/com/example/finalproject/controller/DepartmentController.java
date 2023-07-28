@@ -4,7 +4,7 @@ import com.example.finalproject.domain.Department;
 import com.example.finalproject.repository.DepartmentRepository;
 import com.example.finalproject.service.dto.DepartmentDTO;
 import com.example.finalproject.service.impl.DepartmentServiceImpl;
-import com.example.finalproject.service.mapper.impl.DepartmentMapper;
+import com.example.finalproject.service.mapper.impl.DepartmentMapperImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -22,10 +22,11 @@ import java.util.Optional;
 @RequestMapping("/department")
 public class DepartmentController {
     private final DepartmentServiceImpl departmentServiceImpl;
-    private final DepartmentMapper departmentMapper;
+    private final DepartmentMapperImpl departmentMapper;
 
     private final DepartmentRepository departmentRepository;
-    public DepartmentController(DepartmentServiceImpl departmentServiceImpl, DepartmentRepository departmentRepository,DepartmentMapper departmentMapper) {
+
+    public DepartmentController(DepartmentServiceImpl departmentServiceImpl, DepartmentRepository departmentRepository, DepartmentMapperImpl departmentMapper) {
         this.departmentServiceImpl = departmentServiceImpl;
         this.departmentRepository = departmentRepository;
         this.departmentMapper = departmentMapper;
@@ -34,7 +35,7 @@ public class DepartmentController {
     @GetMapping("/detail")
     public String showDetail(Model model, @RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable, Authentication authentication) {
         String username = authentication.getName();
-        Page<DepartmentDTO> departments = departmentServiceImpl.findAll(textSearch,pageable);
+        Page<DepartmentDTO> departments = departmentServiceImpl.findAll(textSearch, pageable);
         model.addAttribute("departments", departments);
         model.addAttribute("username", username);
         return "department/department_index";
@@ -50,7 +51,7 @@ public class DepartmentController {
 
     @PostMapping("/add")
     public ModelAndView doAdd(@ModelAttribute("department") @Valid DepartmentDTO departmentDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("department/department_create");
             return modelAndView;
         }
@@ -62,7 +63,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEdit(@PathVariable Long id, Model model, Pageable pageable){
+    public String showEdit(@PathVariable Long id, Model model, Pageable pageable) {
         Optional<DepartmentDTO> departmentOptional = departmentServiceImpl.findOne(id);
         if (departmentOptional.isPresent()) {
             DepartmentDTO department = departmentOptional.get();
@@ -76,7 +77,7 @@ public class DepartmentController {
     }
 
     @PostMapping("/edit/{id}")
-    public String doEdit(@PathVariable Long id, @ModelAttribute("department") @Valid DepartmentDTO departmentDTO,BindingResult bindingResult) {
+    public String doEdit(@PathVariable Long id, @ModelAttribute("department") @Valid DepartmentDTO departmentDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "department/department_edit";
         }

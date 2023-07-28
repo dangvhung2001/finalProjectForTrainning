@@ -11,6 +11,7 @@ public class CertificateDTO {
     private EmployeeDTO employee;
     private String certificationOfficer;
 
+
     public Long getId() {
         return id;
     }

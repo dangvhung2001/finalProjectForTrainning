@@ -2,6 +2,7 @@ package com.example.finalproject.domain;
 
 import javax.persistence.*;
 import java.sql.Date;
+
 @Entity
 @Table(name = "experience")
 public class Experience {
