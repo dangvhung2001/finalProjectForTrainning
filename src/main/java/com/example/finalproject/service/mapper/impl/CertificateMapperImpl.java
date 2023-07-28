@@ -1,14 +1,21 @@
 package com.example.finalproject.service.mapper.impl;
 
 import com.example.finalproject.domain.Certificate;
+import com.example.finalproject.domain.Employee;
 import com.example.finalproject.service.dto.CertificateDTO;
 import com.example.finalproject.service.mapper.CertificateMapper;
+import com.example.finalproject.service.mapper.EmployeeMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 @Component
 public class CertificateMapperImpl implements CertificateMapper {
+
+    private final EmployeeMapper employeeMapper;
+    public CertificateMapperImpl(EmployeeMapper employeeMapper) {
+        this.employeeMapper = employeeMapper;
+    }
     @Override
     public Certificate toEntity(CertificateDTO dto) {
         if (dto == null) {
@@ -21,6 +28,7 @@ public class CertificateMapperImpl implements CertificateMapper {
         certificate.setExpirationDate(dto.getExpirationDate());
         certificate.setDescription(dto.getDescription());
         certificate.setCertificationOfficer(dto.getCertificationOfficer());
+        certificate.setEmployee(employeeMapper.toEntity(dto.getEmployee()));
         return certificate;
     }
 
@@ -36,6 +44,7 @@ public class CertificateMapperImpl implements CertificateMapper {
         certificateDTO.setExpirationDate(entity.getExpirationDate());
         certificateDTO.setDescription(entity.getDescription());
         certificateDTO.setCertificationOfficer(entity.getCertificationOfficer());
+        certificateDTO.setEmployee(employeeMapper.toDto(entity.getEmployee()));
         return certificateDTO;
     }
 

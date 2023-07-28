@@ -1,11 +1,8 @@
-package com.example.finalproject.Controller;
+package com.example.finalproject.controller;
 
-import com.example.finalproject.domain.Experience;
-import com.example.finalproject.domain.Project;
-import com.example.finalproject.service.dto.ExperienceDTO;
 import com.example.finalproject.service.dto.ProjectDTO;
 import com.example.finalproject.service.impl.ProjectServiceImpl;
-import com.example.finalproject.service.mapper.impl.ProjectMapper;
+import com.example.finalproject.service.mapper.impl.ProjectMapperImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -22,17 +19,17 @@ import java.util.Optional;
 public class ProjectController {
     private final ProjectServiceImpl projectServiceImpl;
 
-    private final ProjectMapper projectMapper;
+    private final ProjectMapperImpl projectMapperImpl;
 
-    public ProjectController(ProjectServiceImpl projectServiceImpl, ProjectMapper projectMapper){
-        this.projectMapper = projectMapper;
+    public ProjectController(ProjectServiceImpl projectServiceImpl, ProjectMapperImpl projectMapperImpl) {
+        this.projectMapperImpl = projectMapperImpl;
         this.projectServiceImpl = projectServiceImpl;
     }
 
     @GetMapping("/detail")
     public String showDetail(Model model, @RequestParam(required = false) String textSearch, Pageable pageable) {
         Page<ProjectDTO> projectDTOS = projectServiceImpl.findAll(pageable);
-        model.addAttribute("projects",projectDTOS);
+        model.addAttribute("projects", projectDTOS);
         return "project/project_index";
     }
 
@@ -44,7 +41,7 @@ public class ProjectController {
 
     @PostMapping("/add")
     public ModelAndView doAdd(@ModelAttribute("project") @Valid ProjectDTO projectDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("project/project_create");
             return modelAndView;
         }
@@ -55,9 +52,9 @@ public class ProjectController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEdit(@PathVariable Long id, Model model,Pageable pageable){
+    public String showEdit(@PathVariable Long id, Model model, Pageable pageable) {
         Optional<ProjectDTO> projects = projectServiceImpl.findOne(id);
-        if (projects!=null) {
+        if (projects != null) {
             model.addAttribute("projects", projects);
             return "project/project_edit";
         } else {
@@ -66,7 +63,7 @@ public class ProjectController {
     }
 
     @PostMapping("/edit/{id}")
-    public String doEdit(@PathVariable Long id, @ModelAttribute("projects") @Valid ProjectDTO projectDTO,BindingResult bindingResult) {
+    public String doEdit(@PathVariable Long id, @ModelAttribute("projects") @Valid ProjectDTO projectDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "project/project_edit";
         }

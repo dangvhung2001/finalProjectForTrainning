@@ -1,7 +1,10 @@
 package com.example.finalproject.domain;
 
+import com.example.finalproject.service.dto.EmployeeDTO;
+
 import javax.persistence.*;
 import java.sql.Date;
+
 @Entity
 @Table(name = "certificate")
 public class Certificate {

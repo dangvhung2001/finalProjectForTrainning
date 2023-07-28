@@ -1,12 +1,7 @@
 package com.example.finalproject.service.mapper.impl;
 
-import com.example.finalproject.domain.Employee;
-import com.example.finalproject.domain.Experience;
 import com.example.finalproject.domain.Project;
-import com.example.finalproject.domain.Skill;
-import com.example.finalproject.service.dto.ExperienceDTO;
 import com.example.finalproject.service.dto.ProjectDTO;
-import com.example.finalproject.service.dto.SkillDTO;
 import com.example.finalproject.service.mapper.EntityMapper;
 import org.springframework.stereotype.Controller;
 
@@ -14,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class ProjectMapper implements EntityMapper<ProjectDTO, Project> {
+public class ProjectMapperImpl implements EntityMapper<ProjectDTO, Project> {
     @Override
     public Project toEntity(ProjectDTO dto) {
         if (dto == null) {

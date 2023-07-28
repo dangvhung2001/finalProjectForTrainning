@@ -1,5 +1,6 @@
 package com.example.finalproject.service.dto;
 
+import javax.validation.constraints.Email;
 import java.sql.Date;
 import java.util.Set;
 
@@ -15,8 +16,10 @@ public class EmployeeDTO {
     private Date dateOfBirth;
     private String citizenCode;
     private Date issueDate;
+    private Long departmentId;
     private String placeOfIssue;
     private String employeeCode;
+    @Email
     private String email;
     private String address;
     private int phone;
@@ -30,6 +33,14 @@ public class EmployeeDTO {
     private String departmentName;
     private Set<String> roles;
     private Set<String> projects;
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
 
     public Set<String> getRoles() {
         return roles;

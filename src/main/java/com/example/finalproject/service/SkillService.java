@@ -14,8 +14,11 @@ public interface SkillService {
     Optional<SkillDTO> findOne(Long id);
 
     void delete(Long id);
+
     List<SkillDTO> getAll();
+
     SkillDTO getListByEmployee(String employee);
+
     Page<SkillDTO> findAll(String textSearch, Pageable pageable);
 
 }

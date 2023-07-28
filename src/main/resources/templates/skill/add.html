@@ -16,7 +16,9 @@
             <div class="tile">
                 <h3 class="tile-title">Tạo mới kĩ năng</h3>
                 <div class="tile-body">
-                    <form th:action="@{/skills/add}" th:object="${skill}" method="post">
+                    <form th:action="@{/skills/add}" th:object="${skillDTO}" method="post">
+                        <input type="hidden" th:field="*{id}" />
+                        <input type="hidden" th:field="*{employee.id}" />
                         <div class="form-group">
                             <label for="name">Tên chứng chỉ:</label>
                             <input type="text" class="form-control" id="name" name="name"

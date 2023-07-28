@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface SkillRepository extends JpaRepository<Skill, Long> {
-    Skill findAllByEmployee (String employee);
+    Skill findAllByEmployee(String employee);
+
     Page<Skill> findAllByNameContainingIgnoreCase(String textSearchName, Pageable pageable);
 }

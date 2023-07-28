@@ -1,17 +1,14 @@
 package com.example.finalproject.service.mapper.impl;
 
-import com.example.finalproject.domain.Employee;
 import com.example.finalproject.domain.Experience;
-import com.example.finalproject.domain.Skill;
 import com.example.finalproject.service.dto.ExperienceDTO;
-import com.example.finalproject.service.dto.SkillDTO;
 import com.example.finalproject.service.mapper.EntityMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 @Component
-public class ExperienceMapper implements EntityMapper<ExperienceDTO, Experience> {
+public class ExperienceMapperImpl implements EntityMapper<ExperienceDTO, Experience> {
     @Override
     public Experience toEntity(ExperienceDTO dto) {
         if (dto == null) {

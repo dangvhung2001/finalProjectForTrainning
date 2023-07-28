@@ -2,6 +2,7 @@ package com.example.finalproject.service.mapper.impl;
 
 import com.example.finalproject.domain.Skill;
 import com.example.finalproject.service.dto.SkillDTO;
+import com.example.finalproject.service.mapper.EmployeeMapper;
 import com.example.finalproject.service.mapper.SkillMapper;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 @Component
 public class SkillMapperImpl implements SkillMapper {
+    private final EmployeeMapper employeeMapper;
+    public SkillMapperImpl (EmployeeMapper employeeMapper) {
+        this.employeeMapper = employeeMapper;
+    }
     @Override
     public Skill toEntity(SkillDTO dto) {
         if (dto == null) {
@@ -21,6 +26,7 @@ public class SkillMapperImpl implements SkillMapper {
         skill.setYearExperience(dto.getYearExperience());
         skill.setMonthExperience(dto.getMonthExperience());
         skill.setDescription(dto.getDescription());
+        skill.setEmployee(employeeMapper.toEntity(dto.getEmployee()));
         return skill;
     }
 
@@ -36,6 +42,7 @@ public class SkillMapperImpl implements SkillMapper {
         skillDTO.setYearExperience(entity.getYearExperience());
         skillDTO.setMonthExperience(entity.getMonthExperience());
         skillDTO.setDescription(entity.getDescription());
+        skillDTO.setEmployee(employeeMapper.toDto(entity.getEmployee()));
         return skillDTO;
     }
 
