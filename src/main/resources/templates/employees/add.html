@@ -121,8 +121,7 @@
                                 <label class="control-label">Quản lý</label>
                                 <select class="form-control" th:field="*{manager.id}">
                                     <option value="">-- Chọn quản lý --</option>
-                                    <option th:each="employee : ${listOfEmployees}"
-                                            th:value="${employee.id}"
+                                    <option th:each="employee : ${listOfEmployees}" th:value="${employee.id}"
                                             th:text="${employee.firstname + ' ' + employee.lastname + ', ' + employee.position + ',' + employee.departmentName}"></option>
                                 </select>
                             </div>

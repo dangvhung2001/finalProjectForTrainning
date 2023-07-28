@@ -30,7 +30,7 @@ public class AuthController {
 
     @GetMapping("/changePassword")
     public String changePasswordForm() {
-        return "login/changePassword";
+        return "login/change-password";
     }
 
     @PostMapping("/changePassword")
@@ -44,18 +44,18 @@ public class AuthController {
 
         if (!passwordEncoder.matches(currentPassword, employee.getPassword())) {
             model.addAttribute("errorMessage", "Mật khẩu hiện tại không đúng");
-            return "login/changePassword";
+            return "login/change-password";
         }
 
         if (!newPassword.equals(confirmPassword)) {
             model.addAttribute("errorMessage", "Xác nhận mật khẩu mới không khớp");
-            return "login/changePassword";
+            return "login/change-password";
         }
 
         employee.setPassword(passwordEncoder.encode(newPassword));
         employeeService.save(employee);
 
         model.addAttribute("successMessage", "Đổi mật khẩu thành công");
-        return "login/changePassword";
+        return "login/change-password";
     }
 }
