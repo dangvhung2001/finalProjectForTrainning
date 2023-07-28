@@ -1,13 +1,14 @@
-package com.example.finalproject.Controller;
+package com.example.finalproject.controller;
 
 import com.example.finalproject.domain.Department;
 import com.example.finalproject.repository.DepartmentRepository;
 import com.example.finalproject.service.DepartmentService;
 import com.example.finalproject.service.dto.DepartmentDTO;
 import com.example.finalproject.service.impl.DepartmentServiceImpl;
-import com.example.finalproject.service.mapper.impl.DepartmentMapper;
+import com.example.finalproject.service.mapper.impl.DepartmentMapperImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,20 +23,24 @@ import java.util.Optional;
 @RequestMapping("/department")
 public class DepartmentController {
     private final DepartmentServiceImpl departmentServiceImpl;
-    private final DepartmentMapper departmentMapper;
+    private final DepartmentMapperImpl departmentMapper;
 
     private final DepartmentRepository departmentRepository;
-    public DepartmentController(DepartmentServiceImpl departmentServiceImpl, DepartmentRepository departmentRepository,DepartmentMapper departmentMapper) {
+
+    public DepartmentController(DepartmentServiceImpl departmentServiceImpl, DepartmentRepository departmentRepository, DepartmentMapperImpl departmentMapper) {
         this.departmentServiceImpl = departmentServiceImpl;
         this.departmentRepository = departmentRepository;
         this.departmentMapper = departmentMapper;
     }
 
     @GetMapping("/detail")
-    public String showDetail(Model model, @RequestParam(required = false, defaultValue = "") String textSearch,Pageable pageable) {
-        Page<DepartmentDTO> departments = departmentServiceImpl.findAll(textSearch,pageable);
+    public String showDetail(Model model, @RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable, Authentication authentication) {
+        String username = authentication.getName();
+        Page<DepartmentDTO> departments = departmentServiceImpl.findAll(textSearch, pageable);
         model.addAttribute("departments", departments);
-        return "department/department_index";
+        model.addAttribute("username", username);
+        return "department/index";
+
     }
 
     @GetMapping("/create")
@@ -43,7 +48,7 @@ public class DepartmentController {
         model.addAttribute("department", new DepartmentDTO());
         List<Department> department = departmentRepository.findAll();
         model.addAttribute("department_parent", department);
-        return "department/department_create";
+        return "department/create";
     }
 
     @PostMapping("/add")
@@ -66,7 +71,7 @@ public class DepartmentController {
             model.addAttribute("department", department);
             List<Department> departments = departmentRepository.findAll();
             model.addAttribute("department_parent", departments);
-            return "department/department_edit";
+            return "department/edit";
         } else {
             return "redirect:/department/detail";
         }
@@ -75,7 +80,7 @@ public class DepartmentController {
     @PostMapping("/edit/{id}")
     public String doEdit(@PathVariable Long id, @ModelAttribute("department") @Valid DepartmentDTO departmentDTO,BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "department/department_edit";
+            return "department/edit";
         }
         departmentDTO.setId(id);
         departmentServiceImpl.save(departmentDTO);
@@ -88,3 +93,4 @@ public class DepartmentController {
         return "redirect:/department/detail";
     }
 }
+

@@ -40,6 +40,7 @@ public class EmployeeMapperImpl implements EmployeeMapper {
         employee.setSalaryCoefficient(dto.getSalaryCoefficient());
         employee.setSalary(dto.getSalary());
         employee.setPosition(dto.getPosition());
+        employee.setDepartmentId(dto.getDepartmentId());
         employee.setEducationLevel(dto.getEducationLevel());
         return employee;
     }
@@ -71,6 +72,7 @@ public class EmployeeMapperImpl implements EmployeeMapper {
         employeeDTO.setSalary(entity.getSalary());
         employeeDTO.setPosition(entity.getPosition());
         employeeDTO.setEducationLevel(entity.getEducationLevel());
+        employeeDTO.setDepartmentId(entity.getDepartmentId());
         Department department = entity.getDepartment();
         if (department != null) {
             employeeDTO.setDepartmentName(department.getName());

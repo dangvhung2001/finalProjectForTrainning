@@ -23,32 +23,45 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final RoleRepository roleRepository;
     private final EmployeeMapper employeeMapper;
     private PasswordEncoder passwordEncoder;
+    private final MailSenderService mailSenderService;
 
     public EmployeeServiceImpl(EmployeeRepository employeeRepository,
                                RoleRepository roleRepository,
                                EmployeeMapper employeeMapper,
-                               PasswordEncoder passwordEncoder) {
+                               PasswordEncoder passwordEncoder,
+                               MailSenderService mailSenderService) {
         this.employeeRepository = employeeRepository;
         this.roleRepository = roleRepository;
         this.employeeMapper = employeeMapper;
         this.passwordEncoder = passwordEncoder;
+        this.mailSenderService = mailSenderService;
     }
 
     @Override
     public EmployeeDTO save(EmployeeDTO employeeDTO) {
         Employee employee = employeeMapper.toEntity(employeeDTO);
+        employee.setManager(employeeRepository.findById(employeeDTO.getDepartmentId()).get());
+        String to = employee.getEmail();
+        String subject = "Chào mừng bạn đến với công ty chúng tôi";
+        String body = "Xin chào " + employee.getFirstname() + " " + employee.getLastname() + ",\n\n" +
+                "Chúng tôi rất vui mừng thông báo rằng bạn đã trở thành thành viên mới của công ty chúng tôi.\n" +
+                "Cảm ơn bạn đã tham gia và chúc bạn có những trải nghiệm tuyệt vời tại công ty.\n\n" +
+                "Trân trọng,\n" +
+                "Mật khẩu của bạn là " + employee.getPassword() + "\n\n" +
+                "Lưu ý: Đây là một email tự động, vui lòng không trả lời. Hãy thay đổi mật khẩu của bạn ngay sau khi nhận được email này để bảo mật thông tin cá nhân.\\n\"";
         employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         if (employeeDTO.getRoles() != null) {
             Set<Role> roles = employeeDTO
                     .getRoles()
                     .stream()
-                    .map(roleRepository::findById)
+                    .map(roleRepository::findByRoleName)
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .collect(Collectors.toSet());
             employee.setRoles(roles);
         }
         employee = employeeRepository.save(employee);
+        mailSenderService.sendNewMail(to, subject, body);
         return employeeMapper.toDto(employee);
     }
 
@@ -74,9 +87,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Optional<EmployeeDTO> findByEmail(String email) {
-//        return employeeRepository.findOneByEmailIgnoreCase(email).map(employeeMapper::toDto);
-        return null;
+        return employeeRepository.findByEmailIgnoreCase(email).map(employeeMapper::toDto);
     }
+
+    @Override
+    public Optional<EmployeeDTO> findByEmployeeCode(String employeeCode) {
+        return employeeRepository.findByEmployeeCodeContainingIgnoreCase(employeeCode).map(employeeMapper::toDto);
+    }
+
 
     @Override
     public void saveEmployee(EmployeeDTO employeeDTO) {

@@ -11,14 +11,13 @@ import java.util.Optional;
 public interface DepartmentService {
     DepartmentDTO save(DepartmentDTO departmentDTO);
 
-    Page<DepartmentDTO> findAll(String textSearch,Pageable pageable);
+    Page<DepartmentDTO> findAll(String textSearch, Pageable pageable);
 
     Optional<DepartmentDTO> findOne(Long id);
 
     void delete(Long id);
 
     List<DepartmentDTO> getAll();
-
 
 
 }

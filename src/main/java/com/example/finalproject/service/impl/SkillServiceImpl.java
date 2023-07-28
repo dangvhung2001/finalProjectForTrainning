@@ -11,14 +11,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class SkillServiceImpl implements SkillService {
     private final SkillRepository skillRepository;
     private final SkillMapper skillMapper;
-    public SkillServiceImpl(SkillRepository skillRepository, SkillMapper skillMapper){
+
+    public SkillServiceImpl(SkillRepository skillRepository, SkillMapper skillMapper) {
         this.skillRepository = skillRepository;
         this.skillMapper = skillMapper;
     }
+
     @Override
     public SkillDTO save(SkillDTO skillDTO) {
         Skill skill = skillMapper.toEntity(skillDTO);
@@ -27,8 +30,8 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public Page<SkillDTO> findAll(String textSearch ,Pageable pageable) {
-        return skillRepository.findAllByNameContainingIgnoreCase(textSearch,pageable).map(skillMapper::toDto);
+    public Page<SkillDTO> findAll(String textSearch, Pageable pageable) {
+        return skillRepository.findAllByNameContainingIgnoreCase(textSearch, pageable).map(skillMapper::toDto);
     }
 
     @Override

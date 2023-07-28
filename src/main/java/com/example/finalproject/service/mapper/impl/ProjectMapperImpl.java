@@ -1,12 +1,7 @@
 package com.example.finalproject.service.mapper.impl;
 
-import com.example.finalproject.domain.Employee;
-import com.example.finalproject.domain.Experience;
-import com.example.finalproject.domain.Project;
-import com.example.finalproject.domain.Skill;
-import com.example.finalproject.service.dto.ExperienceDTO;
+import com.example.finalproject.domain.*;
 import com.example.finalproject.service.dto.ProjectDTO;
-import com.example.finalproject.service.dto.SkillDTO;
 import com.example.finalproject.service.mapper.EntityMapper;
 import org.springframework.stereotype.Controller;
 
@@ -14,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class ProjectMapper implements EntityMapper<ProjectDTO, Project> {
+public class ProjectMapperImpl implements EntityMapper<ProjectDTO, Project> {
     @Override
     public Project toEntity(ProjectDTO dto) {
         if (dto == null) {
@@ -33,6 +28,7 @@ public class ProjectMapper implements EntityMapper<ProjectDTO, Project> {
         entity.setStartDate(dto.getStartDate());
         entity.setEndDate(dto.getEndDate());
         entity.setDescription(dto.getDescription());
+        entity.setPmId(dto.getPmId());
         return entity;
     }
 
@@ -42,7 +38,7 @@ public class ProjectMapper implements EntityMapper<ProjectDTO, Project> {
             return null;
         }
         ProjectDTO dto = new ProjectDTO();
-        dto.setId(dto.getId());
+        dto.setId(entity.getId());
         dto.setNameProject(entity.getNameProject());
         dto.setLink(entity.getLink());
         dto.setLanguage(entity.getLanguage());
@@ -54,6 +50,14 @@ public class ProjectMapper implements EntityMapper<ProjectDTO, Project> {
         dto.setStartDate(entity.getStartDate());
         dto.setEndDate(entity.getEndDate());
         dto.setDescription(entity.getDescription());
+        dto.setPmId(entity.getPmId());
+
+        Employee pm = entity.getPm();
+        if (pm != null) {
+            dto.setNamePm(pm.getFirstname());
+        } else {
+            dto.setNamePm("Chưa có nhân viên quản lý");
+        }
         return dto;
     }
 

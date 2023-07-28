@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class DepartmentMapper implements EntityMapper<DepartmentDTO, Department> {
+public class DepartmentMapperImpl implements EntityMapper<DepartmentDTO, Department> {
     @Override
     public Department toEntity(DepartmentDTO dto) {
         if (dto == null) {

@@ -4,7 +4,6 @@ import com.example.finalproject.domain.Employee;
 import com.example.finalproject.service.dto.EmployeeDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,9 +18,15 @@ public interface EmployeeService {
     void delete(Long id);
 
     Page<EmployeeDTO> findAllEmployee(Pageable pageable);
+
     Optional<EmployeeDTO> findByEmail(String email);
 
+    Optional<EmployeeDTO> findByEmployeeCode(String employeeCode);
+
+
     void saveEmployee(EmployeeDTO employeeDTO);
+
     Employee findUserByEmail(String email);
+
     List<EmployeeDTO> getAll();
 }
