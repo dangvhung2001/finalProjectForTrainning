@@ -4,92 +4,89 @@
     <meta charset="UTF-8">
     <title>Danh sách nhân viên</title>
 </head>
-<body onload="time()" class="app sidebar-mini rtl" layout:fragment="content">
-    <main class="app-content" >
-        <div class="app-title">
-            <ul class="app-breadcrumb breadcrumb side">
-                <li class="breadcrumb-item active"><a href=""><b>Danh sách nhân viên</b></a></li>
-            </ul>
-            <div id="clock"></div>
-        </div>
+<main class="app-content" layout:fragment="content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb side">
+            <li class="breadcrumb-item active"><a href=""><b>Danh sách nhân viên</b></a></li>
+        </ul>
+        <div id="clock"></div>
+    </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="tile">
-                    <div class="tile-body">
-                        <div class="row element-button">
-                            <div class="col-sm-2">
-                                <a class="btn btn-add btn-sm" th:href="@{/employees/add}" title="Thêm"><i class="fas fa-plus"></i>
-                                    Tạo mới nhân viên</a>
-                            </div>
-                            <div class="col-sm-2">
-                                <a class="btn btn-delete btn-sm print-file" type="button" title="In" onclick=""><i
-                                        class="fas fa-print"></i> In dữ liệu</a>
-                            </div>
-                            <div class="col-sm-2">
-                                <a class="btn btn-delete btn-sm pdf-file" type="button" title="In" ><i
-                                        class="fas fa-file-pdf"></i> Xuất PDF</a>
-                            </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <div class="tile-body">
+                    <div class="row element-button">
+                        <div class="col-sm-2">
+                            <a class="btn btn-add btn-sm" th:href="@{/employees/add}" title="Thêm"><i
+                                    class="fas fa-plus"></i>
+                                Tạo mới nhân viên</a>
                         </div>
-                        <div class="input-group">
-                            <form class="search-bar" method="get" th:action="@{/employees/index}" style="display: flex">
-                                <input type="text" class="form-control" placeholder="Tìm kiếm nhân viên" id="searchInput" name="textSearch">
-                                <button class="btn btn-primary" type="submit" id="searchButton">Tìm</button>
-                            </form>
+                        <div class="col-sm-2">
+                            <a class="btn btn-delete btn-sm print-file" type="button" title="In" onclick=""><i
+                                    class="fas fa-print"></i> In dữ liệu</a>
                         </div>
-                        <!-- Employee table -->
-                        <table class="table table-hover table-bordered js-copytextarea" id="sampleTable">
-                            <thead>
-                            <tr>
-                                <th style="width: 10px"><input type="checkbox" id="all"></th>
-                                <th>ID nhân viên</th>
-                                <th style="width: 150px">Họ và tên</th>
-                                <th>Ảnh thẻ</th>
-                                <th style="width: 300px">Địa chỉ</th>
-                                <th>Ngày sinh</th>
-                                <th>Giới tính</th>
-                                <th>SĐT</th>
-                                <th>Chức vụ</th>
-                                <th style="width: 100px">Tính năng</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="employee : ${listOfEmployees}" th:if="${employee.roles != 'ADMIN'}">
-                                <td><input type="checkbox" name="check1" value="1"></td>
-                                <td th:text="${employee.employeeCode}"></td>
-                                <td th:text="${employee.firstname + ' ' + employee.lastname}"></td>
-                                <td><img class="img-card-person" th:src="@{'../image' + ${employee.imgUrl}}" alt=""></td>
-                                <td th:text="${employee.address}"></td>
-                                <td th:text="${#dates.format(employee.dateOfBirth, 'dd/MM/yyyy')}"></td>
-                                <td>
-                                    <span th:if="${employee.sex == 0}">Nam</span>
-                                    <span th:if="${employee.sex == 1}">Nữ</span>
-                                </td>
-                                <td th:text="${employee.phone}"></td>
-                                <td th:text="${employee.position}"></td>
-                                <td class="table-td-center">
-                                    <a class="btn btn-primary btn-sm trash" type="button" title="Xóa" th:href="@{/employees/delete/{id}(id=${employee.id})}">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
-                                    <a class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
-                                       th:href="@{/employees/edit/{id}(id=${employee.id})}">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <a th:if="${listOfEmployees.hasPrevious()}" th:href="@{/employees/index(page=${listOfEmployees.previousPageable().pageNumber})}">
-                            Previous
-                        </a>
-                        <a th:if="${listOfEmployees.hasNext()}" th:href="@{/employees/index(page=${listOfEmployees.nextPageable().pageNumber})}">
-                            Next
-                        </a>
+                        <div class="col-sm-2">
+                            <a class="btn btn-delete btn-sm pdf-file" type="button" title="In"><i
+                                    class="fas fa-file-pdf"></i> Xuất PDF</a>
+                        </div>
                     </div>
+                    <!-- Employee table -->
+                    <table class="table table-hover table-bordered js-copytextarea" id="sampleTable">
+                        <thead>
+                        <tr>
+                            <th style="width: 10px"><input type="checkbox" id="all"></th>
+                            <th>ID nhân viên</th>
+                            <th style="width: 150px">Họ và tên</th>
+                            <th>Ảnh thẻ</th>
+                            <th style="width: 300px">Địa chỉ</th>
+                            <th>Ngày sinh</th>
+                            <th>Giới tính</th>
+                            <th>SĐT</th>
+                            <th>Chức vụ</th>
+                            <th style="width: 100px">Tính năng</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="employee : ${listOfEmployees}" th:if="${employee.roles != 'ADMIN'}">
+                            <td><input type="checkbox" name="check1" value="1"></td>
+                            <td th:text="${employee.employeeCode}"></td>
+                            <td th:text="${employee.firstname + ' ' + employee.lastname}"></td>
+                            <td><img class="img-card-person" th:src="@{'../image' + ${employee.imgUrl}}" alt=""></td>
+                            <td th:text="${employee.address}"></td>
+                            <td th:text="${#dates.format(employee.dateOfBirth, 'dd/MM/yyyy')}"></td>
+                            <td>
+                                <span th:if="${employee.sex == 0}">Nam</span>
+                                <span th:if="${employee.sex == 1}">Nữ</span>
+                            </td>
+                            <td th:text="${employee.phone}"></td>
+                            <td th:text="${employee.position}"></td>
+                            <td class="table-td-center">
+                                <a class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                   th:href="@{/employees/delete/{id}(id=${employee.id})}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                                <a class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
+                                   th:href="@{/employees/edit/{id}(id=${employee.id})}">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <a th:if="${listOfEmployees.hasPrevious()}"
+                       th:href="@{/employees/index(page=${listOfEmployees.previousPageable().pageNumber})}">
+                        Previous
+                    </a>
+                    <a th:if="${listOfEmployees.hasNext()}"
+                       th:href="@{/employees/index(page=${listOfEmployees.nextPageable().pageNumber})}">
+                        Next
+                    </a>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 
 <script>
     function time() {
@@ -131,6 +128,7 @@
             return i;
         }
     }
+
     //In dữ liệu
     var myApp = new function () {
         this.printTable = function () {
@@ -141,10 +139,12 @@
             win.print();
         }
     }
+
     function deleteRow(r) {
         var i = r.parentNode.parentNode.rowIndex;
         document.getElementById("myTable").deleteRow(i);
     }
+
     jQuery(function () {
         jQuery(".trash").click(function () {
             swal({
@@ -155,9 +155,7 @@
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        swal("Đã xóa thành công.!", {
-
-                        });
+                        swal("Đã xóa thành công.!", {});
                     }
                 });
         });
@@ -168,5 +166,5 @@
         e.stopImmediatePropagation();
     });
 </script>
-</body>
+
 </html>

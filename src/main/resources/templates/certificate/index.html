@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/layout}">
 <head>
-    <title>Title</title>
+    <title>Chứng chỉ</title>
 
 </head>
-<body onload="time()" class="app sidebar-mini rtl" layout:fragment="content">
-<main class="app-content">
+<main class="app-content" layout:fragment="content">
     <div class="app-title">
         <ul class="app-breadcrumb breadcrumb side">
             <li class="breadcrumb-item active"><a href="#"><b>Danh sách chứng chỉ</b></a></li>
@@ -18,15 +17,16 @@
                 <div class="tile-body">
                     <div class="row element-button">
                         <div class="col-sm-2">
-                            <a class="btn btn-add btn-sm" th:href="@{/certificates/add}" title="Thêm"><i class="fas fa-plus"></i>
+                            <a class="btn btn-add btn-sm" th:href="@{/certificates/add}" title="Thêm"><i
+                                    class="fas fa-plus"></i>
                                 Tạo mới chứng chỉ</a>
                         </div>
                         <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm print-file" type="button" title="In" ><i
+                            <a class="btn btn-delete btn-sm print-file" type="button" title="In"><i
                                     class="fas fa-print"></i> In dữ liệu</a>
                         </div>
                         <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm pdf-file" type="button" title="In" ><i
+                            <a class="btn btn-delete btn-sm pdf-file" type="button" title="In"><i
                                     class="fas fa-file-pdf"></i> Xuất PDF</a>
                         </div>
                     </div>
@@ -43,7 +43,8 @@
                         <tbody>
                         <tr th:each="certificate : ${certificates}">
                             <td th:text="${certificate.id}"></td>
-                            <td> <a th:href="@{/certificates/{id}(id=${certificate.id})}" th:text="${certificate.nameCertificate}"></a></td>
+                            <td><a th:href="@{/certificates/{id}(id=${certificate.id})}"
+                                   th:text="${certificate.nameCertificate}"></a></td>
                             <td th:text="${certificate.issueDate}"></td>
                             <td th:text="${certificate.expirationDate}"></td>
                             <td th:text="${certificate.description}"></td>
@@ -55,46 +56,5 @@
         </div>
     </div>
 </main>
-<script>
-    function time() {
-        var today = new Date();
-        var weekday = new Array(7);
-        weekday[0] = "Chủ Nhật";
-        weekday[1] = "Thứ Hai";
-        weekday[2] = "Thứ Ba";
-        weekday[3] = "Thứ Tư";
-        weekday[4] = "Thứ Năm";
-        weekday[5] = "Thứ Sáu";
-        weekday[6] = "Thứ Bảy";
-        var day = weekday[today.getDay()];
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1;
-        var yyyy = today.getFullYear();
-        var h = today.getHours();
-        var m = today.getMinutes();
-        var s = today.getSeconds();
-        m = checkTime(m);
-        s = checkTime(s);
-        nowTime = h + " giờ " + m + " phút " + s + " giây";
-        if (dd < 10) {
-            dd = '0' + dd
-        }
-        if (mm < 10) {
-            mm = '0' + mm
-        }
-        today = day + ', ' + dd + '/' + mm + '/' + yyyy;
-        tmp = '<span class="date"> ' + today + ' - ' + nowTime +
-            '</span>';
-        document.getElementById("clock").innerHTML = tmp;
-        clocktime = setTimeout("time()", "1000", "Javascript");
 
-        function checkTime(i) {
-            if (i < 10) {
-                i = "0" + i;
-            }
-            return i;
-        }
-    }
-</script>
-</body>
 </html>
