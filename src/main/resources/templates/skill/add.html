@@ -3,8 +3,7 @@
 <head>
     <title>Thêm mới kĩ năng</title>
 </head>
-<body class="app sidebar-mini rtl" layout:fragment="content">
-<main class="app-content">
+<main class="app-content" layout:fragment="content">
     <div class="app-title">
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item">Danh sách kĩ năng</li>
@@ -17,8 +16,8 @@
                 <h3 class="tile-title">Tạo mới kĩ năng</h3>
                 <div class="tile-body">
                     <form th:action="@{/skills/add}" th:object="${skillDTO}" method="post">
-                        <input type="hidden" th:field="*{id}" />
-                        <input type="hidden" th:field="*{employee.id}" />
+                        <input type="hidden" th:field="*{id}"/>
+                        <input type="hidden" th:field="*{employee.id}"/>
                         <div class="form-group">
                             <label for="name">Tên chứng chỉ:</label>
                             <input type="text" class="form-control" id="name" name="name"
@@ -52,5 +51,4 @@
         </div>
     </div>
 </main>
-</body>
 </html>

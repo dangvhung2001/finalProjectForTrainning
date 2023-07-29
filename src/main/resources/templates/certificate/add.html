@@ -3,8 +3,8 @@
 <head>
     <title>Thêm mới chứng chỉ</title>
 </head>
-<body class="app sidebar-mini rtl" layout:fragment="content">
-<main class="app-content">
+
+<main class="app-content" layout:fragment="content">
     <div class="app-title">
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item">Danh sách chứng chỉ</li>
@@ -42,12 +42,12 @@
                         </div>
                         <!-- Thêm các trường khác tùy theo yêu cầu -->
                         <button type="submit" class="btn btn-primary">Lưu</button>
-                        <a class="btn btn-secondary" href="">Hủy bỏ</a>
+                        <a class="btn btn-secondary" th:href="@{/certificates/index}">Hủy bỏ</a>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </main>
-</body>
+
 </html>

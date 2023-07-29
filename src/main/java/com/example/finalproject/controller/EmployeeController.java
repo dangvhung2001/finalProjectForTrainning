@@ -14,10 +14,17 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 
 @Controller
@@ -27,23 +34,14 @@ public class EmployeeController {
     private final EmployeeRepository employeeRepository;
     private final DepartmentService departmentService;
     private final RoleRepository roleRepository;
-    private final MailSenderService mailService;
-
     public EmployeeController(EmployeeService employeeService,
                               DepartmentService departmentService,
                               RoleRepository roleRepository,
-                              EmployeeRepository employeeRepository,
-                              MailSenderService mailService) {
+                              EmployeeRepository employeeRepository) {
         this.employeeService = employeeService;
         this.departmentService = departmentService;
         this.roleRepository = roleRepository;
         this.employeeRepository = employeeRepository;
-        this.mailService = mailService;
-    }
-
-    @GetMapping("homePage")
-    public String homePage() {
-        return "dashboard/index";
     }
 
     @GetMapping("/index")
@@ -82,7 +80,9 @@ public class EmployeeController {
     }
 
     @PostMapping("/add")
-    public String doAdd(@ModelAttribute("employee") @Valid EmployeeDTO employeeDTO, BindingResult bindingResult, Model model) throws Exception {
+    public String doAdd(@ModelAttribute("employee") @Valid EmployeeDTO employeeDTO,
+                        BindingResult bindingResult,
+                        Model model) throws IOException {
         if (bindingResult.hasErrors()) {
             return "employees/add";
         }
@@ -96,6 +96,8 @@ public class EmployeeController {
             bindingResult.rejectValue("employeeCode", "error.employee", "Code đã tồn tại");
             return "employees/add";
         }
+
+
         employeeService.save(employeeDTO);
         return "redirect:/employees/index";
     }
