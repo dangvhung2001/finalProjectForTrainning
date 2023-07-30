@@ -20,6 +20,8 @@ public interface EmployeeService {
     Page<EmployeeDTO> findAllEmployee(Pageable pageable);
 
     Optional<EmployeeDTO> findByEmail(String email);
+    Optional<EmployeeDTO> findByEmployeeCode(String employeeCode);
+    Optional<EmployeeDTO> findByPhone(int Phone);
 
     Optional<EmployeeDTO> findByEmployeeCode(String employeeCode);
 

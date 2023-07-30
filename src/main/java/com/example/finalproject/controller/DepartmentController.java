@@ -2,7 +2,6 @@ package com.example.finalproject.controller;
 
 import com.example.finalproject.domain.Department;
 import com.example.finalproject.repository.DepartmentRepository;
-import com.example.finalproject.service.DepartmentService;
 import com.example.finalproject.service.dto.DepartmentDTO;
 import com.example.finalproject.service.impl.DepartmentServiceImpl;
 import com.example.finalproject.service.mapper.impl.DepartmentMapperImpl;
@@ -36,11 +35,18 @@ public class DepartmentController {
     @GetMapping("/detail")
     public String showDetail(Model model, @RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable, Authentication authentication) {
         String username = authentication.getName();
+<<<<<<< HEAD:src/main/java/com/example/finalproject/Controller/DepartmentController.java
         Page<DepartmentDTO> departments = departmentServiceImpl.findAll(textSearch, pageable);
         model.addAttribute("departments", departments);
         model.addAttribute("username", username);
         return "department/index";
 
+=======
+        Page<DepartmentDTO> departments = departmentServiceImpl.findAll(textSearch,pageable);
+        model.addAttribute("departments", departments);
+        model.addAttribute("username", username);
+        return "department/department_index";
+>>>>>>> 65f3340 (fix:fix bug addEmployee , feat: Login,changePassword Layout):src/main/java/com/example/finalproject/controller/DepartmentController.java
     }
 
     @GetMapping("/create")
@@ -57,6 +63,7 @@ public class DepartmentController {
             ModelAndView modelAndView = new ModelAndView("department/department_create");
             return modelAndView;
         }
+
         departmentServiceImpl.save(departmentDTO);
         ModelAndView modelAndView = new ModelAndView("redirect:/department/detail");
         modelAndView.addObject("department", departmentDTO);

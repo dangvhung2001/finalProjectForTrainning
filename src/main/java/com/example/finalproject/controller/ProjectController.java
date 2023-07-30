@@ -1,8 +1,12 @@
 package com.example.finalproject.controller;
+<<<<<<< HEAD:src/main/java/com/example/finalproject/Controller/ProjectController.java
 import com.example.finalproject.repository.RoleRepository;
 import com.example.finalproject.service.DepartmentService;
 import com.example.finalproject.service.EmployeeService;
 import com.example.finalproject.service.dto.EmployeeDTO;
+=======
+
+>>>>>>> 65f3340 (fix:fix bug addEmployee , feat: Login,changePassword Layout):src/main/java/com/example/finalproject/controller/ProjectController.java
 import com.example.finalproject.service.dto.ProjectDTO;
 import com.example.finalproject.service.impl.ProjectServiceImpl;
 import com.example.finalproject.service.mapper.impl.ProjectMapperImpl;

@@ -32,13 +32,20 @@ public class EmployeeController {
     public EmployeeController(EmployeeService employeeService,
                               DepartmentService departmentService,
                               RoleRepository roleRepository,
+<<<<<<< HEAD:src/main/java/com/example/finalproject/Controller/EmployeeController.java
                               EmployeeRepository employeeRepository,
                               MailSenderService mailService) {
+=======
+                              EmployeeRepository employeeRepository) {
+>>>>>>> 65f3340 (fix:fix bug addEmployee , feat: Login,changePassword Layout):src/main/java/com/example/finalproject/controller/EmployeeController.java
         this.employeeService = employeeService;
         this.departmentService = departmentService;
         this.roleRepository = roleRepository;
         this.employeeRepository = employeeRepository;
+<<<<<<< HEAD:src/main/java/com/example/finalproject/Controller/EmployeeController.java
         this.mailService = mailService;
+=======
+>>>>>>> 65f3340 (fix:fix bug addEmployee , feat: Login,changePassword Layout):src/main/java/com/example/finalproject/controller/EmployeeController.java
     }
 
     @GetMapping("homePage")
@@ -47,9 +54,15 @@ public class EmployeeController {
     }
 
     @GetMapping("/index")
+<<<<<<< HEAD:src/main/java/com/example/finalproject/Controller/EmployeeController.java
     public String index(@RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable, Model model, Authentication authentication) {
         String username = authentication.getName();
         Page<EmployeeDTO> listOfEmployees = employeeService.findAll(textSearch, pageable);
+=======
+    public String index(@RequestParam(required = false,defaultValue = "") String textSearch, Pageable pageable, Model model, Authentication authentication) {
+        String username = authentication.getName();
+        Page<EmployeeDTO> listOfEmployees = employeeService.findAll(textSearch,pageable);
+>>>>>>> 65f3340 (fix:fix bug addEmployee , feat: Login,changePassword Layout):src/main/java/com/example/finalproject/controller/EmployeeController.java
         model.addAttribute("listOfEmployees", listOfEmployees);
         model.addAttribute("username", username);
         return "employees/index";
@@ -95,6 +108,14 @@ public class EmployeeController {
         if (existingEmployeeCode.isPresent()) {
             bindingResult.rejectValue("employeeCode", "error.employee", "Code đã tồn tại");
             return "employees/add";
+<<<<<<< HEAD:src/main/java/com/example/finalproject/Controller/EmployeeController.java
+=======
+        }
+        Optional<EmployeeDTO> existingEmployeePhone = employeeService.findByPhone(employeeDTO.getPhone());
+        if (existingEmployeePhone.isPresent()) {
+            bindingResult.rejectValue("phone", "error.employee", "Phone đã tồn tại");
+            return "employees/add";
+>>>>>>> 65f3340 (fix:fix bug addEmployee , feat: Login,changePassword Layout):src/main/java/com/example/finalproject/controller/EmployeeController.java
         }
         employeeService.save(employeeDTO);
         return "redirect:/employees/index";
