@@ -42,6 +42,7 @@ public class ProjectController {
 
     List<EmployeeDTO> selectedEmployee = new ArrayList<>();
 
+
     @GetMapping("/detail")
     public String showDetail(Model model, @RequestParam(required = false) String textSearch, Pageable pageable) {
         Page<ProjectDTO> projectDTOS = projectServiceImpl.findAll(pageable);
