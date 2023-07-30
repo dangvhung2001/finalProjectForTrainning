@@ -74,14 +74,10 @@ public class SkillController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEdit(@PathVariable Long id, Model model, Pageable pageable) {
+    public String showEdit(@PathVariable Long id, Model model) {
         Optional<SkillDTO> skills = skillService.findOne(id);
-        if (skills != null) {
-            model.addAttribute("department", skills);
-            return "skill/edit";
-        } else {
-            return "redirect:/skill/{id}";
-        }
+        model.addAttribute("certificateDTO", skills.orElse(null));
+        return "skill/edit";
     }
 
     @PostMapping("/edit/{id}")

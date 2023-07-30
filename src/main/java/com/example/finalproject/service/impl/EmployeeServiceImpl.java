@@ -9,9 +9,13 @@ import com.example.finalproject.service.dto.EmployeeDTO;
 import com.example.finalproject.service.mapper.EmployeeMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -110,5 +114,38 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeDTO> getAll() {
         List<Employee> employees = employeeRepository.findAll();
         return employeeMapper.toDto(employees);
+    }
+
+    @Override
+    public void updateEmployee(EmployeeDTO employeeDTO, MultipartFile imageFile) {
+        Optional<Employee> oldEmployee = employeeRepository.findById(employeeDTO.getId());
+        if (oldEmployee.isPresent()) {
+            Employee existingEmployee = oldEmployee.get();
+            if (employeeDTO.getPassword() == null || employeeDTO.getPassword().isEmpty()) {
+                employeeDTO.setPassword(existingEmployee.getPassword());
+//                employeeDTO.setSalary(existingEmployee.getSalary());
+//                employeeDTO.setSalaryCoefficient(existingEmployee.getSalaryCoefficient());
+//                employeeDTO.setDepartmentId(existingEmployee.getDepartmentId());
+//                employeeDTO.setEmployeeCode(existingEmployee.getEmployeeCode());
+//                employeeDTO.setStartDate(existingEmployee.getStartDate());
+            }
+            existingEmployee.setFirstname(employeeDTO.getFirstname());
+            existingEmployee.setLastname(employeeDTO.getLastname());
+            existingEmployee.setDateOfBirth(employeeDTO.getDateOfBirth());
+            existingEmployee.setEducationLevel(employeeDTO.getEducationLevel());
+            existingEmployee.setPosition(employeeDTO.getPosition());
+            existingEmployee.setPhone(employeeDTO.getPhone());
+            existingEmployee.setAddress(employeeDTO.getAddress());
+            existingEmployee.setEmail(employeeDTO.getEmail());
+            existingEmployee.setIssueDate(employeeDTO.getIssueDate());
+            existingEmployee.setCitizenCode(employeeDTO.getCitizenCode());
+            existingEmployee.setSex(employeeDTO.getSex());
+            existingEmployee.setPlaceOfIssue(employeeDTO.getPlaceOfIssue());
+            existingEmployee.setImgUrl(employeeDTO.getImgUrl());
+
+            employeeRepository.save(existingEmployee);
+        } else {
+            throw new RuntimeException("Employee not found");
+        }
     }
 }

@@ -67,6 +67,13 @@ public class EmployeeController {
         model.addAttribute("employees", employees.orElse(null));
         return "employees/detail";
     }
+    @GetMapping("/detail")
+    public String detailEmployee(Model model, Authentication authentication) {
+        String loggedInUsername = authentication.getName();
+        EmployeeDTO loggedInEmployee = employeeService.findByEmail(loggedInUsername).orElseThrow(() -> new RuntimeException("Employee not found"));
+        model.addAttribute("employees", loggedInEmployee);
+        return "employees/detail";
+    }
 
     @GetMapping("/add")
     public String showAdd(Model model) {
@@ -85,25 +92,29 @@ public class EmployeeController {
                         BindingResult bindingResult
                         )  {
         if (bindingResult.hasErrors()) {
-            return "redirect:employees/add";
+            return "employees/add";
         }
         Optional<EmployeeDTO> existingEmployee = employeeService.findByEmail(employeeDTO.getEmail());
         if (existingEmployee.isPresent()) {
             bindingResult.rejectValue("email", "error.employee", "Email đã tồn tại");
-            return "redirect:employees/add";
+            return "employees/add";
         }
         Optional<EmployeeDTO> existingEmployeeCode = employeeService.findByEmployeeCode(employeeDTO.getEmployeeCode());
         if (existingEmployeeCode.isPresent()) {
             bindingResult.rejectValue("employeeCode", "error.employee", "Code đã tồn tại");
-            return "redirect:employees/add";
+            return "employees/add";
         }
         employeeService.save(employeeDTO);
         return "redirect:/employees/index";
     }
 
     @GetMapping("/edit/{id}")
-    public String showEdit(@PathVariable Long id, Model model
-    ) {
+    public String showEdit(@PathVariable Long id, Model model, Authentication authentication) {
+        String loggedInUsername = authentication.getName();
+        EmployeeDTO loggedInEmployee = employeeService.findByEmail(loggedInUsername).orElseThrow(() -> new RuntimeException("Employee not found"));
+        if (!id.equals(loggedInEmployee.getId())) {
+            return "login/403";
+        }
         Optional<EmployeeDTO> employee = employeeService.findOne(id);
         if (employee.isPresent()) {
             EmployeeDTO employeeDTO = employee.get();
@@ -128,6 +139,7 @@ public class EmployeeController {
         if (bindingResult.hasErrors()) {
             return "employees/edit";
         }
+
         if (!imageFile.isEmpty()) {
             EmployeeDTO oldEmployee = employeeService.findOne(id).orElse(null);
             if (oldEmployee != null && oldEmployee.getImgUrl() != null && !oldEmployee.getImgUrl().isEmpty()) {
@@ -143,8 +155,7 @@ public class EmployeeController {
             imageFile.transferTo(newImage);
             employeeDTO.setImgUrl(imagePath);
         }
-        employeeDTO.setId(id);
-        employeeService.save(employeeDTO);
+        employeeService.updateEmployee(employeeDTO, imageFile);
         return "redirect:/employees/index";
     }
 

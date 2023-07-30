@@ -5,8 +5,6 @@
 <head>
     <title>Thêm nhân viên | Quản trị Admin</title>
 </head>
-
-<div>
     <main class="app-content" layout:fragment="content">
         <div class="app-title">
             <ul class="app-breadcrumb breadcrumb">
@@ -103,7 +101,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label class="control-label">Phòng ban</label>
-                                <select class="form-control" required th:field="*{departmentId}">
+                                <select class="form-control"  th:field="*{departmentId}">
                                     <option value="">-- Chọn phòng ban --</option>
                                     <option th:each="department: ${departments}" th:value="${department.id}"
                                             th:text="${department.name}"></option>
