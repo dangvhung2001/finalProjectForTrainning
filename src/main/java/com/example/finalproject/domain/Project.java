@@ -2,6 +2,8 @@ package com.example.finalproject.domain;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "project")
@@ -47,7 +49,18 @@ public class Project {
     private String description;
 
     @Column(name = "pm_id", unique = true)
-    private int pmId;
+    private Long pmId;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pm_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Employee pm;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "employee_project",
+            joinColumns = {@JoinColumn(name = "employee_id")},
+            inverseJoinColumns = {@JoinColumn(name = "project_id")})
+    private Set<Employee> employees = new HashSet<>();
 
     public Project() {
     }
@@ -164,11 +177,27 @@ public class Project {
         this.projectCost = projectCost;
     }
 
-    public int getPmId() {
+    public Long getPmId() {
         return pmId;
     }
 
-    public void setPmId(int pmId) {
+    public void setPmId(Long pmId) {
         this.pmId = pmId;
+    }
+
+    public Employee getPm() {
+        return pm;
+    }
+
+    public void setPm(Employee pm) {
+        this.pm = pm;
+    }
+
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
     }
 }

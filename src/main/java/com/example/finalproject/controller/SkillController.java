@@ -1,9 +1,19 @@
 package com.example.finalproject.controller;
 
 import com.example.finalproject.repository.SkillRepository;
+<<<<<<< HEAD
+<<<<<<< HEAD:src/main/java/com/example/finalproject/Controller/SkillController.java
 import com.example.finalproject.service.EmployeeService;
 import com.example.finalproject.service.SkillService;
 import com.example.finalproject.service.dto.EmployeeDTO;
+=======
+import com.example.finalproject.service.SkillService;
+>>>>>>> 65f3340 (fix:fix bug addEmployee , feat: Login,changePassword Layout):src/main/java/com/example/finalproject/controller/SkillController.java
+=======
+import com.example.finalproject.service.EmployeeService;
+import com.example.finalproject.service.SkillService;
+import com.example.finalproject.service.dto.EmployeeDTO;
+>>>>>>> dev
 import com.example.finalproject.service.dto.SkillDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,11 +61,22 @@ public class SkillController {
     }
 
     @GetMapping("/add")
+<<<<<<< HEAD
+<<<<<<< HEAD:src/main/java/com/example/finalproject/Controller/SkillController.java
+=======
+>>>>>>> dev
     public String showAdd(Model model, Authentication authentication) {
         String loggedInUsername = authentication.getName();
         EmployeeDTO loggedInEmployee = employeeService.findByEmail(loggedInUsername).orElseThrow(() -> new RuntimeException("Employee not found"));
         model.addAttribute("employee", loggedInEmployee);
         model.addAttribute("skillDTO", new SkillDTO());
+<<<<<<< HEAD
+=======
+    public String showAdd(Model model, Pageable pageable) {
+        model.addAttribute("skill", new SkillDTO());
+>>>>>>> 65f3340 (fix:fix bug addEmployee , feat: Login,changePassword Layout):src/main/java/com/example/finalproject/controller/SkillController.java
+=======
+>>>>>>> dev
         return "skill/add";
     }
 
@@ -74,10 +95,21 @@ public class SkillController {
     }
 
     @GetMapping("/edit/{id}")
+<<<<<<< HEAD
+    public String showEdit(@PathVariable Long id, Model model, Pageable pageable) {
+        Optional<SkillDTO> skills = skillService.findOne(id);
+        if (skills != null) {
+            model.addAttribute("department", skills);
+            return "skill/edit";
+        } else {
+            return "redirect:/skill/{id}";
+        }
+=======
     public String showEdit(@PathVariable Long id, Model model) {
         Optional<SkillDTO> skills = skillService.findOne(id);
         model.addAttribute("certificateDTO", skills.orElse(null));
         return "skill/edit";
+>>>>>>> dev
     }
 
     @PostMapping("/edit/{id}")

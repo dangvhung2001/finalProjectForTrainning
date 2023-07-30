@@ -65,24 +65,26 @@
                         </tr>
                         </thead>
                         <tbody>
-<!--                        <tr th:each="pr : ${projects}">-->
-<!--                            <td width="10"><input type="checkbox" name="check1" value="1"></td>-->
-<!--                            <th th:text="${pr.getId()}"></th>-->
-<!--                            <td th:text="${pr.getNameProject()}"></td>-->
-<!--                            <td th:text="${pr.getLink()}"></td>-->
-<!--                            <td th:text="${pr.getLanguage()}"></td>-->
-<!--                            <td th:text="${pr.getOs()}"></td>-->
-<!--                            <td th:text="${pr.getFramework()}"></td>-->
-<!--                            <td th:text="${pr.getWorkplace()}"></td>-->
-<!--                            <td th:text="${pr.getTeamSize()}"></td>-->
-<!--                            <td th:text="${pr.getProjectCost()}"></td>-->
-<!--                            <td th:text="${pr.getProjectResources()}"></td>-->
-<!--                            <td th:text="${pr.getStartDate()}"></td>-->
-<!--                            <td th:text="${pr.getEndDate()}"></td>-->
-<!--                            <td th:text="${pr.getDescription()}"></td>-->
-<!--                            <td><a th:href="@{/project/delete/{id}(id=${project.id})}"><button class="btn btn-primary btn-sm trash" type="button" title="Xóa" ><i class="fas fa-trash-alt"></i></button></a>-->
-<!--                                <a th:href="@{/project/edit/{id}(id=${project.id})}"><button class="btn btn-primary btn-sm edit" type="button" title="Sửa" ><i class="fa fa-edit"></i></button></a></td>-->
-<!--                        </tr>-->
+                        <tr th:each="pr : ${projects}">
+                            <td width="10"><input type="checkbox" name="check1" value="1"></td>
+                            <th th:text="${pr.getId()}"></th>
+                            <td th:text="${pr.getNameProject()}"></td>
+                            <td th:text="${pr.getLink()}"></td>
+                            <td th:text="${pr.getLanguage()}"></td>
+                            <td th:text="${pr.getOs()}"></td>
+                            <td th:text="${pr.getFramework()}"></td>
+                            <td th:text="${pr.getWorkplace()}"></td>
+                            <td th:text="${pr.getTeamSize()}"></td>
+                            <td th:text="${pr.getProjectCost()}"></td>
+                            <td th:text="${pr.getProjectResources()}"></td>
+                            <td th:text="${pr.getStartDate()}"></td>
+                            <td th:text="${pr.getEndDate()}"></td>
+                            <td th:text="${pr.getDescription()}"></td>
+                            <td th:text="${pr.getNamePm()}"></td>
+
+                            <td><a th:href="@{/project/delete/{id}(id=${pr.id})}"><button class="btn btn-primary btn-sm trash" type="button" title="Xóa" ><i class="fas fa-trash-alt"></i></button></a>
+                                <a th:href="@{/project/edit/{id}(id=${pr.id})}"><button class="btn btn-primary btn-sm edit" type="button" title="Sửa" ><i class="fa fa-edit"></i></button></a></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

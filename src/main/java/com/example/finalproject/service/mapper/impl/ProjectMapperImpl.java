@@ -1,6 +1,6 @@
 package com.example.finalproject.service.mapper.impl;
 
-import com.example.finalproject.domain.Project;
+import com.example.finalproject.domain.*;
 import com.example.finalproject.service.dto.ProjectDTO;
 import com.example.finalproject.service.mapper.EntityMapper;
 import org.springframework.stereotype.Controller;
@@ -28,6 +28,7 @@ public class ProjectMapperImpl implements EntityMapper<ProjectDTO, Project> {
         entity.setStartDate(dto.getStartDate());
         entity.setEndDate(dto.getEndDate());
         entity.setDescription(dto.getDescription());
+        entity.setPmId(dto.getPmId());
         return entity;
     }
 
@@ -37,7 +38,7 @@ public class ProjectMapperImpl implements EntityMapper<ProjectDTO, Project> {
             return null;
         }
         ProjectDTO dto = new ProjectDTO();
-        dto.setId(dto.getId());
+        dto.setId(entity.getId());
         dto.setNameProject(entity.getNameProject());
         dto.setLink(entity.getLink());
         dto.setLanguage(entity.getLanguage());
@@ -49,6 +50,14 @@ public class ProjectMapperImpl implements EntityMapper<ProjectDTO, Project> {
         dto.setStartDate(entity.getStartDate());
         dto.setEndDate(entity.getEndDate());
         dto.setDescription(entity.getDescription());
+        dto.setPmId(entity.getPmId());
+
+        Employee pm = entity.getPm();
+        if (pm != null) {
+            dto.setNamePm(pm.getFirstname());
+        } else {
+            dto.setNamePm("Chưa có nhân viên quản lý");
+        }
         return dto;
     }
 
