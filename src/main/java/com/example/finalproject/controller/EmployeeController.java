@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -81,23 +82,21 @@ public class EmployeeController {
 
     @PostMapping("/add")
     public String doAdd(@ModelAttribute("employee") @Valid EmployeeDTO employeeDTO,
-                        BindingResult bindingResult,
-                        Model model) throws IOException {
+                        BindingResult bindingResult
+                        )  {
         if (bindingResult.hasErrors()) {
-            return "employees/add";
+            return "redirect:employees/add";
         }
         Optional<EmployeeDTO> existingEmployee = employeeService.findByEmail(employeeDTO.getEmail());
         if (existingEmployee.isPresent()) {
             bindingResult.rejectValue("email", "error.employee", "Email đã tồn tại");
-            return "employees/add";
+            return "redirect:employees/add";
         }
         Optional<EmployeeDTO> existingEmployeeCode = employeeService.findByEmployeeCode(employeeDTO.getEmployeeCode());
         if (existingEmployeeCode.isPresent()) {
             bindingResult.rejectValue("employeeCode", "error.employee", "Code đã tồn tại");
-            return "employees/add";
+            return "redirect:employees/add";
         }
-
-
         employeeService.save(employeeDTO);
         return "redirect:/employees/index";
     }
@@ -123,9 +122,26 @@ public class EmployeeController {
 
     @PostMapping("/edit/{id}")
     public String doEdit(@PathVariable Long id, @ModelAttribute("employee") @Valid EmployeeDTO employeeDTO,
-                         BindingResult bindingResult) {
+                         @RequestParam("imageFile") MultipartFile imageFile,
+                         Model model,
+                         BindingResult bindingResult) throws IOException {
         if (bindingResult.hasErrors()) {
             return "employees/edit";
+        }
+        if (!imageFile.isEmpty()) {
+            EmployeeDTO oldEmployee = employeeService.findOne(id).orElse(null);
+            if (oldEmployee != null && oldEmployee.getImgUrl() != null && !oldEmployee.getImgUrl().isEmpty()) {
+                File oldImage = new File(oldEmployee.getImgUrl());
+                if (oldImage.exists()) {
+                    oldImage.delete();
+                }
+            }
+
+            String imagePath = "D:\\ThucTap\\FinalProject\\src\\main\\resources\\static\\image\\" + imageFile.getOriginalFilename();
+            System.out.println("Image path: " + imagePath);
+            File newImage = new File(imagePath);
+            imageFile.transferTo(newImage);
+            employeeDTO.setImgUrl(imagePath);
         }
         employeeDTO.setId(id);
         employeeService.save(employeeDTO);
