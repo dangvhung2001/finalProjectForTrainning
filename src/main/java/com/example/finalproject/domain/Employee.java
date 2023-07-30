@@ -67,6 +67,9 @@ public class Employee {
     @Column(name = "education_level", length = 255)
     private String educationLevel;
 
+    @Column(name = "department_id")
+    private Long departmentId;
+
     @ManyToOne
     @JoinColumn(name = "manager_id")
     private Employee manager;

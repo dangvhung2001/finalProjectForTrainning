@@ -31,9 +31,6 @@
                             <div class="form-group col-md-4">
                                 <label class="control-label">Mã nhân viên</label>
                                 <input class="form-control" type="text" required th:field="*{employeeCode}">
-                                <div th:if="${#fields.hasErrors('employeeCode')}" class="alert alert-danger">
-                                    <p th:each="error : ${#fields.errors('employeeCode')}" th:text="${error}"></p>
-                                </div>
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="control-label">Họ nhân viên</label>
@@ -46,9 +43,6 @@
                             <div class="form-group col-md-4">
                                 <label class="control-label">Địa chỉ email</label>
                                 <input class="form-control" type="text" required th:field="*{email}">
-                                <div th:if="${#fields.hasErrors('email')}" class="alert alert-danger">
-                                    <p th:each="error : ${#fields.errors('email')}" th:text="${error}"></p>
-                                </div>
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="control-label">Password</label>
@@ -56,7 +50,7 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="control-label">Địa chỉ thường trú</label>
-                                <input class="form-control" type="text" th:field="*{address}">
+                                <input class="form-control" type="text" required th:field="*{address}">
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="control-label">Ngày bắt đầu làm việc</label>
@@ -64,10 +58,7 @@
                             </div>
                             <div class="form-group  col-md-4">
                                 <label class="control-label">Số điện thoại</label>
-                                <input class="form-control" type="number" th:field="*{phone}">
-                                <div th:if="${#fields.hasErrors('phone')}" class="alert alert-danger">
-                                    <p th:each="error : ${#fields.errors('phone')}" th:text="${error}"></p>
-                                </div>
+                                <input class="form-control" type="number" required th:field="*{phone}">
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="control-label">Ngày sinh</label>
@@ -75,23 +66,23 @@
                             </div>
                             <div class="form-group  col-md-3">
                                 <label class="control-label">Hệ số lương</label>
-                                <input class="form-control" type="text" th:field="*{salaryCoefficient}">
+                                <input class="form-control" type="text" required th:field="*{salaryCoefficient}">
                             </div>
                             <div class="form-group  col-md-3">
                                 <label class="control-label">Lương cơ bản</label>
-                                <input class="form-control" type="text" th:field="*{salary}">
+                                <input class="form-control" type="text" required th:field="*{salary}">
                             </div>
                             <div class="form-group col-md-3">
                                 <label class="control-label">Số CMND</label>
-                                <input class="form-control" type="number" th:field="*{citizenCode}">
+                                <input class="form-control" type="number" required th:field="*{citizenCode}">
                             </div>
                             <div class="form-group col-md-3">
                                 <label class="control-label">Ngày cấp</label>
-                                <input class="form-control" type="date" th:field="*{issueDate}">
+                                <input class="form-control" type="date" required th:field="*{issueDate}">
                             </div>
                             <div class="form-group col-md-3">
                                 <label class="control-label">Nơi cấp</label>
-                                <input class="form-control" type="text" th:field="*{placeOfIssue}">
+                                <input class="form-control" type="text" required th:field="*{placeOfIssue}">
                             </div>
                             <div class="form-group col-md-3">
                                 <label class="control-label">Giới tính</label>
@@ -103,26 +94,30 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label class="control-label">Quyền hạn</label>
-                                <select class="form-control" name="roles" required th:field="*{roles}">
-                                    <option value="">-- Chọn quyền hạn --</option>
-                                    <option th:each="role: ${roles}" th:value="${role.roleName}"
-                                            th:text="${role.roleName}"></option>
+                                <select class="form-control">
+                                    <option>-- Chọn quyền hạn --</option>
+                                    <th:block th:each="role : ${roles}" th:value="${role.roleName}">
+                                        <option th:value="${role.roleName}" th:text="${role.roleName}"></option>
+                                    </th:block>
                                 </select>
                             </div>
                             <div class="form-group col-md-3">
                                 <label class="control-label">Phòng ban</label>
-                                <select class="form-control" required th:field="*{departmentId}">
-                                    <option value="">-- Chọn phòng ban --</option>
-                                    <option th:each="department: ${departments}" th:value="${department.id}"
-                                            th:text="${department.name}"></option>
+                                <select class="form-control" required>
+                                    <option>-- Chọn phòng ban --</option>
+                                    <th:block th:each="department : ${departments}" th:value="${department.id}">
+                                        <option th:value="${department.id}" th:text="${department.name}"></option>
+                                    </th:block>
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
                                 <label class="control-label">Quản lý</label>
                                 <select class="form-control" th:field="*{manager.id}">
                                     <option value="">-- Chọn quản lý --</option>
-                                    <option th:each="employee : ${listOfEmployees}" th:value="${employee.id}"
-                                            th:text="${employee.firstname + ' ' + employee.lastname + ', ' + employee.position + ',' + employee.departmentName}"></option>
+                                    <th:block th:each="employee : ${listOfEmployees}" th:value="${employee.id}">
+                                        <option th:value="${employee.id}"
+                                                th:text="${employee.firstname + ' ' + employee.lastname}"></option>
+                                    </th:block>
                                 </select>
                             </div>
 
@@ -178,7 +173,7 @@
                                 </div>
                             </div>
                             <button class="btn btn-save" type="submit">Lưu lại</button>
-                            <a class="btn btn-cancel" th:href="@{/employees/index}">Hủy bỏ</a>
+                            <a class="btn btn-cancel" href="/doc/table-data-table.html">Hủy bỏ</a>
                         </form>
                     </div>
                 </div>
