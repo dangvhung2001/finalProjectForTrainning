@@ -4,8 +4,6 @@
 <head>
     <title>Quản trị phòng ban</title>
 </head>
-
-<body>
 <main class="app-content" layout:fragment="content">
     <div class="app-title">
         <ul class="app-breadcrumb breadcrumb side">
@@ -47,23 +45,6 @@
                         <!-- Add row with dropdown and search bar -->
 
                     </div>
-                    <div id="ccc">
-<!--                        <div id="cccc" class="col-sm-2">-->
-<!--                            <div for="display-number">Hiển thị danh mục:</div>-->
-<!--                            <select class="form-control" id="display-number">-->
-<!--                                <option>10</option>-->
-<!--                                <option>20</option>-->
-<!--                                <option>50</option>-->
-<!--                                <option>100</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-                        <div id="ccccc" >
-                           <form method="get" th:action="@{/department/detail}">
-                               <input type="text" name="textSearch" class="form-control" id="search" placeholder="Nhập từ khóa">
-                               <button type="submit">Tìm kiếm</button>
-                           </form>
-                        </div>
-                    </div>
 
                     <table class="table table-hover table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0"
                            id="sampleTable">
@@ -98,27 +79,9 @@
                         </tbody>
                     </table>
 
-<!--                    <nav aria-label="...">-->
-<!--                        <ul class="pagination">-->
-<!--                            <li class="page-item disabled">-->
-<!--                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>-->
-<!--                            </li>-->
-<!--                            <li class="page-item active" aria-current="page"><a class="page-link" th:href="@{department/detail?page=0&size=10}">1</a></li>-->
-<!--                            <li class="page-item" >-->
-<!--                                <a class="page-link" th:href="@{department/detail?page=1&size=10}">2</a>-->
-<!--                            </li>-->
-<!--                            <li class="page-item"><a class="page-link" th:href="@{department/detail?page=3&size=10}">3</a></li>-->
-<!--                            <li class="page-item">-->
-<!--                                <a class="page-link" href="#">Next</a>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </nav>-->
                 </div>
             </div>
         </div>
     </div>
 </main>
-
-</body>
-
 </html>

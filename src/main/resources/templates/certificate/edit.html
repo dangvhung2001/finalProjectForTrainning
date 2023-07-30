@@ -3,8 +3,8 @@
 <head>
     <title>Sửa chứng chỉ</title>
 </head>
-<body class="app sidebar-mini rtl" layout:fragment="content">
-<main class="app-content">
+
+<main class="app-content" layout:fragment="content">
     <div class="app-title">
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><a th:href="@{/certificates/index}">Danh sách chứng chỉ</a></li>
@@ -21,15 +21,15 @@
                         <input type="hidden" th:field="*{id}" />
                         <div class="form-group">
                             <label class="control-label">Tên chứng chỉ</label>
-                            <input class="form-control" type="text" th:field="*{nameCertificate}" required />
+                            <input class="form-control" type="text" th:field="*{nameCertificate}"  />
                         </div>
                         <div class="form-group">
                             <label class="control-label">Ngày cấp</label>
-                            <input class="form-control" type="date" th:field="*{issueDate}" required />
+                            <input class="form-control" type="date" th:field="*{issueDate}"  />
                         </div>
                         <div class="form-group">
                             <label class="control-label">Ngày hết hạn</label>
-                            <input class="form-control" type="date" th:field="*{expirationDate}" required />
+                            <input class="form-control" type="date" th:field="*{expirationDate}"  />
                         </div>
                         <div class="form-group">
                             <label class="control-label">Mô tả</label>
@@ -46,5 +46,5 @@
         </div>
     </div>
 </main>
-</body>
+
 </html>

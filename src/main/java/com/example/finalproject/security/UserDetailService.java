@@ -26,6 +26,7 @@ public class UserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
         Employee employee = employeeRepository.findEmployeeByEmail(usernameOrEmail);
         if (employee != null) {
+            System.out.println(new BCryptPasswordEncoder().encode(employee.getPassword()));
             return new org.springframework.security.core.userdetails.User(employee.getEmail()
                     , employee.getPassword(),
                     employee.getRoles().stream()

@@ -1,4 +1,5 @@
 package com.example.finalproject.controller;
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/com/example/finalproject/Controller/ProjectController.java
 import com.example.finalproject.repository.RoleRepository;
 import com.example.finalproject.service.DepartmentService;
@@ -7,6 +8,9 @@ import com.example.finalproject.service.dto.EmployeeDTO;
 =======
 
 >>>>>>> 65f3340 (fix:fix bug addEmployee , feat: Login,changePassword Layout):src/main/java/com/example/finalproject/controller/ProjectController.java
+=======
+
+>>>>>>> dev
 import com.example.finalproject.service.dto.ProjectDTO;
 import com.example.finalproject.service.impl.ProjectServiceImpl;
 import com.example.finalproject.service.mapper.impl.ProjectMapperImpl;
@@ -17,17 +21,24 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+<<<<<<< HEAD
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.*;
+=======
+
+import javax.validation.Valid;
+import java.util.Optional;
+>>>>>>> dev
 
 @Controller
 @RequestMapping("/project")
 public class ProjectController {
     private final ProjectServiceImpl projectServiceImpl;
 
+<<<<<<< HEAD
     private final RoleRepository roleRepository;
 
     private final DepartmentService departmentService;
@@ -101,18 +112,67 @@ public class ProjectController {
             return "project/edit";
         } else {
             return "redirect:/project/detail";
+=======
+    private final ProjectMapperImpl projectMapperImpl;
+
+    public ProjectController(ProjectServiceImpl projectServiceImpl, ProjectMapperImpl projectMapperImpl) {
+        this.projectMapperImpl = projectMapperImpl;
+        this.projectServiceImpl = projectServiceImpl;
+    }
+
+    @GetMapping("/detail")
+    public String showDetail(Model model, @RequestParam(required = false) String textSearch, Pageable pageable) {
+        Page<ProjectDTO> projectDTOS = projectServiceImpl.findAll(pageable);
+        model.addAttribute("projects", projectDTOS);
+        return "project/project_index";
+    }
+
+    @GetMapping("/create")
+    public String showAdd(Model model, Pageable pageable) {
+        model.addAttribute("project", new ProjectDTO());
+        return "project/project_create";
+    }
+
+    @PostMapping("/add")
+    public ModelAndView doAdd(@ModelAttribute("project") @Valid ProjectDTO projectDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView("project/project_create");
+            return modelAndView;
+        }
+        projectServiceImpl.save(projectDTO);
+        ModelAndView modelAndView = new ModelAndView("project/project_index");
+        modelAndView.addObject("experience", projectDTO);
+        return modelAndView;
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEdit(@PathVariable Long id, Model model, Pageable pageable) {
+        Optional<ProjectDTO> projects = projectServiceImpl.findOne(id);
+        if (projects != null) {
+            model.addAttribute("projects", projects);
+            return "project/project_edit";
+        } else {
+            return "redirect:/projects/detail";
+>>>>>>> dev
         }
     }
 
     @PostMapping("/edit/{id}")
+<<<<<<< HEAD
     public String doEdit(@PathVariable Long id, @ModelAttribute("projects") @Valid ProjectDTO projectDTO,BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "project/edit";
+=======
+    public String doEdit(@PathVariable Long id, @ModelAttribute("projects") @Valid ProjectDTO projectDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "project/project_edit";
+>>>>>>> dev
         }
         projectDTO.setId(id);
         projectServiceImpl.save(projectDTO);
         return "redirect:/project/detail";
     }
+<<<<<<< HEAD
 
     @GetMapping("/show/employee")
     public String index(@RequestParam(required = false,defaultValue = "") String textSearch, Pageable pageable, Model model) {
@@ -161,4 +221,6 @@ public class ProjectController {
 
         return "redirect:/project/create"; // Chuyển hướng về trang create để hiển thị danh sách nhân viên đã chọn
     }
+=======
+>>>>>>> dev
 }

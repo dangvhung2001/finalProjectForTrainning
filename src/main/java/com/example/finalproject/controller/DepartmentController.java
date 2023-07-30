@@ -35,6 +35,7 @@ public class DepartmentController {
     @GetMapping("/detail")
     public String showDetail(Model model, @RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable, Authentication authentication) {
         String username = authentication.getName();
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/com/example/finalproject/Controller/DepartmentController.java
         Page<DepartmentDTO> departments = departmentServiceImpl.findAll(textSearch, pageable);
         model.addAttribute("departments", departments);
@@ -43,6 +44,9 @@ public class DepartmentController {
 
 =======
         Page<DepartmentDTO> departments = departmentServiceImpl.findAll(textSearch,pageable);
+=======
+        Page<DepartmentDTO> departments = departmentServiceImpl.findAll(textSearch, pageable);
+>>>>>>> dev
         model.addAttribute("departments", departments);
         model.addAttribute("username", username);
         return "department/department_index";
@@ -59,7 +63,7 @@ public class DepartmentController {
 
     @PostMapping("/add")
     public ModelAndView doAdd(@ModelAttribute("department") @Valid DepartmentDTO departmentDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("department/department_create");
             return modelAndView;
         }
@@ -71,7 +75,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEdit(@PathVariable Long id, Model model, Pageable pageable){
+    public String showEdit(@PathVariable Long id, Model model, Pageable pageable) {
         Optional<DepartmentDTO> departmentOptional = departmentServiceImpl.findOne(id);
         if (departmentOptional.isPresent()) {
             DepartmentDTO department = departmentOptional.get();
@@ -85,7 +89,7 @@ public class DepartmentController {
     }
 
     @PostMapping("/edit/{id}")
-    public String doEdit(@PathVariable Long id, @ModelAttribute("department") @Valid DepartmentDTO departmentDTO,BindingResult bindingResult) {
+    public String doEdit(@PathVariable Long id, @ModelAttribute("department") @Valid DepartmentDTO departmentDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "department/edit";
         }

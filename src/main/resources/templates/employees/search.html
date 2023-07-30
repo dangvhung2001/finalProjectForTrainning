@@ -1,48 +1,97 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/layout}">
+<html layout:decorate="~{layout/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Tìm Nnhân viên</title>
+    <title>Trang tìm kiếm nhân viên</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            display: flex;
+        }
+
+        header {
+            flex: 0 0 250px; /* Đưa header về bên trái và chiếm 250px */
+        }
+
+        .app-sidebar {
+            flex: 0 0 250px; /* Đưa slidebar về bên trái và chiếm 250px */
+        }
+
+        main {
+            flex: 1 1 80%; /* Đưa main về bên phải và chiếm 80% */
+            padding: 20px;
+        }
+
+        #searchForm {
+            text-align: center;
+            padding: 5px;
+        }
+
+        #searchInput {
+            padding: 8px 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        #employeeList {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            justify-content: space-between; /* Hiển thị các ô item cách đều nhau trên mỗi dòng */
+        }
+
+        .employee {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 20px; /* Tăng margin dưới cho các ô item */
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
+            overflow: hidden; /* Thêm thuộc tính overflow để ẩn nội dung bị tràn ra ngoài */
+            flex-basis: calc(25% - 30px); /* Chiều rộng cơ bản của mỗi ô, giảm width để hiển thị 4 ô trên 1 dòng */
+        }
+
+        .employee img {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .employee p {
+            margin: 0;
+            white-space: nowrap; /* Ngăn chặn các dòng văn bản xuống dòng */
+            overflow: hidden;
+            text-overflow: ellipsis; /* Thêm dấu ba chấm (...) khi văn bản bị cắt */
+        }
+    </style>
 </head>
-
-<body class="app sidebar-mini rtl" layout:fragment="content">
-<!-- Content -->
-<div class="app-content">
-    <div class="container">
-        <!-- Search Employee -->
-        <div class="row mt-3">
-            <div class="col-md-6 offset-md-3">
-                <div class="input-group">
-                    <form class="search-bar" method="get" th:action="@{/employees/search}"
-                    style="display: flex">
-                    <input type="text" class="form-control" placeholder="Tìm kiếm nhân viên" id="searchInput" name="textSearch">
-                    <button class="btn btn-primary" type="submit" id="searchButton">Tìm</button>
-                    </form>
-                </div>
-            </div>
+<main class="app-content-1" layout:fragment="content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb side">
+            <li class="breadcrumb-item "><a><b>Trang tìm kiếm nhân viên</b></a></li>
+        </ul>
+        <div id="clock"></div>
+    </div>
+    <form th:action="@{/employees/search}" method="get">
+        <div id="searchForm">
+            <input type="text" id="searchInput" placeholder="Nhập từ khóa tìm kiếm..." name="textSearch">
         </div>
-
-            <div class="row mt-4" id="employeeList" th:each="employee : ${employees}">
-                <div class="col-md-3 mb-4">
-                    <div class="card">
-                        <img th:src="@{'/images/' + ${employee.imgUrl}}" class="card-img-top" alt="Avatar">
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${employee.firstname + ' ' + employee.lastname}" th:href="@{/employees/{id}(id=${employee.id})}"></h5>
-                            <p class="card-text">Giới tính: <span th:text="${employee.sex}"></span></p>
-                            <p class="card-text">Mã nhân viên: <span th:text="${employee.employeeCode}"></span></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <div class="row mt-4">
-            <div class="col-md-12 d-flex justify-content-center">
-                <nav aria-label="Page navigation">
-                    <ul class="pagination" id="pagination">
-                    </ul>
-                </nav>
-            </div>
+    </form>
+    <div id="employeeList" class="row">
+        <div th:each="employee : ${employees}" class="employee col-lg-3 col-md-4 col-sm-6" >
+            <img th:src="@{${employee.imgUrl}}" alt="Avatar" th:href="@{/employees/{id}(id = ${employee.id})}">
+            <a th:href="@{/employees/{id}(id = ${employee.id})}"><p th:text="${employee.firstname + ' ' + employee.lastname}" ></p></a>
+            <p th:text="'Vị trí: ' + ${employee.position}"></p>
+            <p th:text="'Số điện thoại: ' + ${employee.phone}"></p>
         </div>
     </div>
-</div>
-</body>
+</main>
 
 </html>

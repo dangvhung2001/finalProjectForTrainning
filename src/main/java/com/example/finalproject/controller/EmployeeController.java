@@ -14,10 +14,25 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+<<<<<<< HEAD
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+=======
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+>>>>>>> dev
 import java.util.*;
 
 @Controller
@@ -27,6 +42,7 @@ public class EmployeeController {
     private final EmployeeRepository employeeRepository;
     private final DepartmentService departmentService;
     private final RoleRepository roleRepository;
+<<<<<<< HEAD
     private final MailSenderService mailService;
 
     public EmployeeController(EmployeeService employeeService,
@@ -38,10 +54,17 @@ public class EmployeeController {
 =======
                               EmployeeRepository employeeRepository) {
 >>>>>>> 65f3340 (fix:fix bug addEmployee , feat: Login,changePassword Layout):src/main/java/com/example/finalproject/controller/EmployeeController.java
+=======
+    public EmployeeController(EmployeeService employeeService,
+                              DepartmentService departmentService,
+                              RoleRepository roleRepository,
+                              EmployeeRepository employeeRepository) {
+>>>>>>> dev
         this.employeeService = employeeService;
         this.departmentService = departmentService;
         this.roleRepository = roleRepository;
         this.employeeRepository = employeeRepository;
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/com/example/finalproject/Controller/EmployeeController.java
         this.mailService = mailService;
 =======
@@ -63,6 +86,14 @@ public class EmployeeController {
         String username = authentication.getName();
         Page<EmployeeDTO> listOfEmployees = employeeService.findAll(textSearch,pageable);
 >>>>>>> 65f3340 (fix:fix bug addEmployee , feat: Login,changePassword Layout):src/main/java/com/example/finalproject/controller/EmployeeController.java
+=======
+    }
+
+    @GetMapping("/index")
+    public String index(@RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable, Model model, Authentication authentication) {
+        String username = authentication.getName();
+        Page<EmployeeDTO> listOfEmployees = employeeService.findAll(textSearch, pageable);
+>>>>>>> dev
         model.addAttribute("listOfEmployees", listOfEmployees);
         model.addAttribute("username", username);
         return "employees/index";
@@ -81,6 +112,16 @@ public class EmployeeController {
         model.addAttribute("employees", employees.orElse(null));
         return "employees/detail";
     }
+<<<<<<< HEAD
+=======
+    @GetMapping("/detail")
+    public String detailEmployee(Model model, Authentication authentication) {
+        String loggedInUsername = authentication.getName();
+        EmployeeDTO loggedInEmployee = employeeService.findByEmail(loggedInUsername).orElseThrow(() -> new RuntimeException("Employee not found"));
+        model.addAttribute("employees", loggedInEmployee);
+        return "employees/detail";
+    }
+>>>>>>> dev
 
     @GetMapping("/add")
     public String showAdd(Model model) {
@@ -95,7 +136,13 @@ public class EmployeeController {
     }
 
     @PostMapping("/add")
+<<<<<<< HEAD
     public String doAdd(@ModelAttribute("employee") @Valid EmployeeDTO employeeDTO, BindingResult bindingResult, Model model) throws Exception {
+=======
+    public String doAdd(@ModelAttribute("employee") @Valid EmployeeDTO employeeDTO,
+                        BindingResult bindingResult
+                        )  {
+>>>>>>> dev
         if (bindingResult.hasErrors()) {
             return "employees/add";
         }
@@ -108,6 +155,7 @@ public class EmployeeController {
         if (existingEmployeeCode.isPresent()) {
             bindingResult.rejectValue("employeeCode", "error.employee", "Code đã tồn tại");
             return "employees/add";
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/com/example/finalproject/Controller/EmployeeController.java
 =======
         }
@@ -116,14 +164,25 @@ public class EmployeeController {
             bindingResult.rejectValue("phone", "error.employee", "Phone đã tồn tại");
             return "employees/add";
 >>>>>>> 65f3340 (fix:fix bug addEmployee , feat: Login,changePassword Layout):src/main/java/com/example/finalproject/controller/EmployeeController.java
+=======
+>>>>>>> dev
         }
         employeeService.save(employeeDTO);
         return "redirect:/employees/index";
     }
 
     @GetMapping("/edit/{id}")
+<<<<<<< HEAD
     public String showEdit(@PathVariable Long id, Model model
     ) {
+=======
+    public String showEdit(@PathVariable Long id, Model model, Authentication authentication) {
+        String loggedInUsername = authentication.getName();
+        EmployeeDTO loggedInEmployee = employeeService.findByEmail(loggedInUsername).orElseThrow(() -> new RuntimeException("Employee not found"));
+        if (!id.equals(loggedInEmployee.getId())) {
+            return "login/403";
+        }
+>>>>>>> dev
         Optional<EmployeeDTO> employee = employeeService.findOne(id);
         if (employee.isPresent()) {
             EmployeeDTO employeeDTO = employee.get();
@@ -142,12 +201,38 @@ public class EmployeeController {
 
     @PostMapping("/edit/{id}")
     public String doEdit(@PathVariable Long id, @ModelAttribute("employee") @Valid EmployeeDTO employeeDTO,
+<<<<<<< HEAD
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "employees/edit";
         }
         employeeDTO.setId(id);
         employeeService.save(employeeDTO);
+=======
+                         @RequestParam("imageFile") MultipartFile imageFile,
+                         Model model,
+                         BindingResult bindingResult) throws IOException {
+        if (bindingResult.hasErrors()) {
+            return "employees/edit";
+        }
+
+        if (!imageFile.isEmpty()) {
+            EmployeeDTO oldEmployee = employeeService.findOne(id).orElse(null);
+            if (oldEmployee != null && oldEmployee.getImgUrl() != null && !oldEmployee.getImgUrl().isEmpty()) {
+                File oldImage = new File(oldEmployee.getImgUrl());
+                if (oldImage.exists()) {
+                    oldImage.delete();
+                }
+            }
+
+            String imagePath = "D:\\ThucTap\\FinalProject\\src\\main\\resources\\static\\image\\" + imageFile.getOriginalFilename();
+            System.out.println("Image path: " + imagePath);
+            File newImage = new File(imagePath);
+            imageFile.transferTo(newImage);
+            employeeDTO.setImgUrl(imagePath);
+        }
+        employeeService.updateEmployee(employeeDTO, imageFile);
+>>>>>>> dev
         return "redirect:/employees/index";
     }
 

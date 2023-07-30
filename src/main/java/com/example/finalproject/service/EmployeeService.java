@@ -4,7 +4,10 @@ import com.example.finalproject.domain.Employee;
 import com.example.finalproject.service.dto.EmployeeDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +23,6 @@ public interface EmployeeService {
     Page<EmployeeDTO> findAllEmployee(Pageable pageable);
 
     Optional<EmployeeDTO> findByEmail(String email);
-    Optional<EmployeeDTO> findByEmployeeCode(String employeeCode);
-    Optional<EmployeeDTO> findByPhone(int Phone);
 
     Optional<EmployeeDTO> findByEmployeeCode(String employeeCode);
 
@@ -31,4 +32,5 @@ public interface EmployeeService {
     Employee findUserByEmail(String email);
 
     List<EmployeeDTO> getAll();
+    void updateEmployee(EmployeeDTO employeeDTO, MultipartFile imageFile);
 }
