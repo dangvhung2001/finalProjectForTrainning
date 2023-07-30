@@ -79,7 +79,6 @@
         </ul>
         <div id="clock"></div>
     </div>
-
     <form th:action="@{/employees/search}" method="get">
         <div id="searchForm">
             <input type="text" id="searchInput" placeholder="Nhập từ khóa tìm kiếm..." name="textSearch">
@@ -87,10 +86,10 @@
     </form>
     <div id="employeeList" class="row">
         <div th:each="employee : ${employees}" class="employee col-lg-3 col-md-4 col-sm-6" >
-            <img th:src="@{'images' + ${employee.imgUrl}}" alt="Avatar" th:href="@{/employees/{id}(id = ${employee.id})}">
+            <img th:src="@{${employee.imgUrl}}" alt="Avatar" th:href="@{/employees/{id}(id = ${employee.id})}">
             <a th:href="@{/employees/{id}(id = ${employee.id})}"><p th:text="${employee.firstname + ' ' + employee.lastname}" ></p></a>
             <p th:text="'Vị trí: ' + ${employee.position}"></p>
-            <p th:text="'Số điện thoại: ' + ${employee.position}"></p>
+            <p th:text="'Số điện thoại: ' + ${employee.phone}"></p>
         </div>
     </div>
 </main>
