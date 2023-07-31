@@ -1,0 +1,26 @@
+[33mf460dca[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/implement-project-manager[m[33m, [m[1;31morigin/feature/department[m[33m, [m[1;32mfeature/department[m[33m)[m HEAD@{0}: reset: moving to ORIG_HEAD
+[33mf460dca[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/implement-project-manager[m[33m, [m[1;31morigin/feature/department[m[33m, [m[1;32mfeature/department[m[33m)[m HEAD@{1}: reset: moving to f460dcae888357b753a419694d988a71d8fad897
+[33mf460dca[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/implement-project-manager[m[33m, [m[1;31morigin/feature/department[m[33m, [m[1;32mfeature/department[m[33m)[m HEAD@{2}: reset: moving to HEAD
+[33mf460dca[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/implement-project-manager[m[33m, [m[1;31morigin/feature/department[m[33m, [m[1;32mfeature/department[m[33m)[m HEAD@{3}: reset: moving to HEAD
+[33mf460dca[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/implement-project-manager[m[33m, [m[1;31morigin/feature/department[m[33m, [m[1;32mfeature/department[m[33m)[m HEAD@{4}: reset: moving to HEAD
+[33mf460dca[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/implement-project-manager[m[33m, [m[1;31morigin/feature/department[m[33m, [m[1;32mfeature/department[m[33m)[m HEAD@{5}: reset: moving to f460dcae888357b753a419694d988a71d8fad897
+[33mf85a4e4[m HEAD@{6}: checkout: moving from dev to feature/implement-project-manager
+[33mb980eb1[m[33m ([m[1;31morigin/dev[m[33m, [m[1;32mdev[m[33m)[m HEAD@{7}: pull origin dev: Fast-forward
+[33m2865c87[m HEAD@{8}: checkout: moving from feature/implement-project-manager to dev
+[33mf85a4e4[m HEAD@{9}: commit: implement-project-manager
+[33mf460dca[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/implement-project-manager[m[33m, [m[1;31morigin/feature/department[m[33m, [m[1;32mfeature/department[m[33m)[m HEAD@{10}: checkout: moving from feature/department to feature/implement-project-manager
+[33mf460dca[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/implement-project-manager[m[33m, [m[1;31morigin/feature/department[m[33m, [m[1;32mfeature/department[m[33m)[m HEAD@{11}: commit: feature/department_sucess
+[33m0f2b8db[m HEAD@{12}: pull origin dev: Merge made by the 'ort' strategy.
+[33mf3aee70[m HEAD@{13}: checkout: moving from dev to feature/department
+[33m2865c87[m HEAD@{14}: checkout: moving from feature/department to dev
+[33mf3aee70[m HEAD@{15}: commit (merge): Merge branch 'dev' of https://github.com/dangvhung2001/finalProjectForTrainning into feature/department
+[33m76446cf[m HEAD@{16}: commit: 333
+[33m6da742b[m HEAD@{17}: pull origin dev: Merge made by the 'ort' strategy.
+[33m3ddb0ce[m HEAD@{18}: commit: 222
+[33mbb2aa7b[m HEAD@{19}: commit: chinh sua template roi
+[33mf5a401e[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{20}: reset: moving to HEAD
+[33mf5a401e[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{21}: reset: moving to HEAD
+[33mf5a401e[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{22}: reset: moving to HEAD
+[33mf5a401e[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{23}: checkout: moving from master to feature/department
+[33m071e6a0[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{24}: commit: hello
+[33mf5a401e[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{25}: clone: from https://github.com/dangvhung2001/finalProjectForTrainning.git

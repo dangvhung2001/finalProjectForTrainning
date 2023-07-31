@@ -101,4 +101,3 @@ public class CertificateController {
         return "redirect:/certificates/index";
     }
 }
-

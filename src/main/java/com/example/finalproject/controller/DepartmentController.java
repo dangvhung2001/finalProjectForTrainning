@@ -38,7 +38,7 @@ public class DepartmentController {
         Page<DepartmentDTO> departments = departmentServiceImpl.findAll(textSearch, pageable);
         model.addAttribute("departments", departments);
         model.addAttribute("username", username);
-        return "department/department_index";
+        return "department/index";
     }
 
     @GetMapping("/create")
@@ -46,7 +46,7 @@ public class DepartmentController {
         model.addAttribute("department", new DepartmentDTO());
         List<Department> department = departmentRepository.findAll();
         model.addAttribute("department_parent", department);
-        return "department/department_create";
+        return "department/create";
     }
 
     @PostMapping("/add")
@@ -70,7 +70,7 @@ public class DepartmentController {
             model.addAttribute("department", department);
             List<Department> departments = departmentRepository.findAll();
             model.addAttribute("department_parent", departments);
-            return "department/department_edit";
+            return "department/edit";
         } else {
             return "redirect:/department/detail";
         }
@@ -79,7 +79,7 @@ public class DepartmentController {
     @PostMapping("/edit/{id}")
     public String doEdit(@PathVariable Long id, @ModelAttribute("department") @Valid DepartmentDTO departmentDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "department/department_edit";
+            return "department/edit";
         }
         departmentDTO.setId(id);
         departmentServiceImpl.save(departmentDTO);
