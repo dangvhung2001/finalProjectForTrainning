@@ -5,224 +5,154 @@
 <head>
     <title>Thêm nhân viên | Quản trị Admin</title>
 </head>
-
-<body class="app sidebar-mini rtl" layout:fragment="content">
-<div>
-    <main class="app-content">
-        <div class="app-title">
-            <ul class="app-breadcrumb breadcrumb">
-                <li class="breadcrumb-item">Danh sách nhân viên</li>
-                <li class="breadcrumb-item"><a href="">Thêm nhân viên</a></li>
-            </ul>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="tile">
-                    <h3 class="tile-title">Tạo mới nhân viên</h3>
-                    <div class="tile-body">
-                        <div class="row element-button">
-                            <div class="col-sm-2">
-                                <a class="btn btn-add btn-sm" data-toggle="modal"
-                                   data-target="#exampleModalCenter"><b><i
-                                        class="fas fa-folder-plus"></i> Tạo chức vụ mới</b></a>
+<main class="app-content" layout:fragment="content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item">Danh sách nhân viên</li>
+            <li class="breadcrumb-item"><a href="">Thêm nhân viên</a></li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <h3 class="tile-title">Tạo mới nhân viên</h3>
+                <div class="tile-body">
+                    <form class="row" method="post" th:object="${employee}" th:action="@{/employees/add}" enctype="multipart/form-data">
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Mã nhân viên</label>
+                            <input class="form-control" type="text" required th:field="*{employeeCode}">
+                            <div th:if="${#fields.hasErrors('employeeCode')}" class="alert alert-danger">
+                                <p th:each="error : ${#fields.errors('employeeCode')}" th:text="${error}"></p>
                             </div>
                         </div>
-                        <form class="row" method="post" th:object="${employee}" th:action="@{/employees/add}">
-                            <div class="form-group col-md-4">
-                                <label class="control-label">Mã nhân viên</label>
-                                <input class="form-control" type="text" required th:field="*{employeeCode}">
-                                <div th:if="${#fields.hasErrors('employeeCode')}" class="alert alert-danger">
-                                    <p th:each="error : ${#fields.errors('employeeCode')}" th:text="${error}"></p>
-                                </div>
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Họ nhân viên</label>
+                            <input class="form-control" type="text" th:field="*{firstname}">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Tên nhân viên</label>
+                            <input class="form-control" type="text" required th:field="*{lastname}">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Địa chỉ email</label>
+                            <input class="form-control" type="text" required th:field="*{email}">
+                            <div th:if="${#fields.hasErrors('email')}" class="alert alert-danger">
+                                <p th:each="error : ${#fields.errors('email')}" th:text="${error}"></p>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label class="control-label">Họ nhân viên</label>
-                                <input class="form-control" type="text" th:field="*{firstname}">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Password</label>
+                            <input class="form-control" type="password" required th:field="*{password}">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Địa chỉ thường trú</label>
+                            <input class="form-control" type="text" th:field="*{address}">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Ngày bắt đầu làm việc</label>
+                            <input class="form-control" type="date" th:field="*{startDate}">
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label">Số điện thoại</label>
+                            <input class="form-control" type="number" th:field="*{phone}">
+                            <div th:if="${#fields.hasErrors('phone')}" class="alert alert-danger">
+                                <p th:each="error : ${#fields.errors('phone')}" th:text="${error}"></p>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label class="control-label">Tên nhân viên</label>
-                                <input class="form-control" type="text" required th:field="*{lastname}">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label class="control-label">Địa chỉ email</label>
-                                <input class="form-control" type="text" required th:field="*{email}">
-                                <div th:if="${#fields.hasErrors('email')}" class="alert alert-danger">
-                                    <p th:each="error : ${#fields.errors('email')}" th:text="${error}"></p>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label class="control-label">Password</label>
-                                <input class="form-control" type="password" required th:field="*{password}">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label class="control-label">Địa chỉ thường trú</label>
-                                <input class="form-control" type="text" th:field="*{address}">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label class="control-label">Ngày bắt đầu làm việc</label>
-                                <input class="form-control" type="date" th:field="*{startDate}">
-                            </div>
-                            <div class="form-group  col-md-4">
-                                <label class="control-label">Số điện thoại</label>
-                                <input class="form-control" type="number" th:field="*{phone}">
-                                <div th:if="${#fields.hasErrors('phone')}" class="alert alert-danger">
-                                    <p th:each="error : ${#fields.errors('phone')}" th:text="${error}"></p>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label class="control-label">Ngày sinh</label>
-                                <input class="form-control" type="date" th:field="*{dateOfBirth}">
-                            </div>
-                            <div class="form-group  col-md-3">
-                                <label class="control-label">Hệ số lương</label>
-                                <input class="form-control" type="text" th:field="*{salaryCoefficient}">
-                            </div>
-                            <div class="form-group  col-md-3">
-                                <label class="control-label">Lương cơ bản</label>
-                                <input class="form-control" type="text" th:field="*{salary}">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label class="control-label">Số CMND</label>
-                                <input class="form-control" type="number" th:field="*{citizenCode}">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label class="control-label">Ngày cấp</label>
-                                <input class="form-control" type="date" th:field="*{issueDate}">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label class="control-label">Nơi cấp</label>
-                                <input class="form-control" type="text" th:field="*{placeOfIssue}">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label class="control-label">Giới tính</label>
-                                <select class="form-control" required th:field="*{sex}">
-                                    <option value="">-- Chọn giới tính --</option>
-                                    <option value="0">Nam</option>
-                                    <option value="1">Nữ</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label class="control-label">Quyền hạn</label>
-                                <select class="form-control" name="roles" required th:field="*{roles}">
-                                    <option value="">-- Chọn quyền hạn --</option>
-                                    <option th:each="role: ${roles}" th:value="${role.roleName}"
-                                            th:text="${role.roleName}"></option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label class="control-label">Phòng ban</label>
-                                <select class="form-control" required th:field="*{departmentId}">
-                                    <option value="">-- Chọn phòng ban --</option>
-                                    <option th:each="department: ${departments}" th:value="${department.id}"
-                                            th:text="${department.name}"></option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Quản lý</label>
-                                <select class="form-control" th:field="*{manager.id}">
-                                    <option value="">-- Chọn quản lý --</option>
-                                    <option th:each="employee : ${listOfEmployees}"
-                                            th:value="${employee.id}"
-                                            th:text="${employee.firstname + ' ' + employee.lastname + ' ' + employee.position}"></option>
-                                </select>
-                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Ngày sinh</label>
+                            <input class="form-control" type="date" th:field="*{dateOfBirth}">
+                        </div>
+                        <div class="form-group  col-md-3">
+                            <label class="control-label">Hệ số lương</label>
+                            <input class="form-control" type="text" th:field="*{salaryCoefficient}">
+                        </div>
+                        <div class="form-group  col-md-3">
+                            <label class="control-label">Lương cơ bản</label>
+                            <input class="form-control" type="text" th:field="*{salary}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Số CMND</label>
+                            <input class="form-control" type="number" th:field="*{citizenCode}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Ngày cấp</label>
+                            <input class="form-control" type="date" th:field="*{issueDate}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Nơi cấp</label>
+                            <input class="form-control" type="text" th:field="*{placeOfIssue}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Giới tính</label>
+                            <select class="form-control" required th:field="*{sex}">
+                                <option value="">-- Chọn giới tính --</option>
+                                <option value="0">Nam</option>
+                                <option value="1">Nữ</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Quyền hạn</label>
+                            <select class="form-control" name="roles" required th:field="*{roles}">
+                                <option value="">-- Chọn quyền hạn --</option>
+                                <option th:each="role: ${roles}" th:value="${role.roleName}"
+                                        th:text="${role.roleName}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Phòng ban</label>
+                            <select class="form-control"  th:field="*{departmentId}">
+                                <option value="">-- Chọn phòng ban --</option>
+                                <option th:each="department: ${departments}" th:value="${department.id}"
+                                        th:text="${department.name}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Quản lý</label>
+                            <select class="form-control" th:field="*{manager.id}">
+                                <option value="">-- Chọn quản lý --</option>
+                                <option th:each="employee : ${listOfEmployees}" th:value="${employee.id}"
+                                        th:text="${employee.firstname + ' ' + employee.lastname + ', ' + employee.position + ',' + employee.departmentName}"></option>
+                            </select>
+                        </div>
 
-                            <div class="form-group  col-md-3">
-                                <label for="exampleSelect1" class="control-label">Chức vụ</label>
-                                <select class="form-control" id="exampleSelect1" th:field="*{position}">
-                                    <option value="">-- Chọn chức vụ --</option>
-                                    <option value="Giám đốc">Giám đốc</option>
-                                    <option value="Phó giám đốc">Phó giám đốc</option>
-                                    <option value="kế toán">Kế toán</option>
-                                    <option value="quản lý">Quản lý</option>
-                                    <option value="nhân viên">Nhân viên</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label class="control-label">Bằng cấp</label>
-                                <select class="form-control" id="exampleSelect3" th:field="*{educationLevel}">
-                                    <option value="">-- Chọn bằng cấp --</option>
-                                    <option value="Tốt nghiệp Đại Học">Tốt nghiệp Đại Học</option>
-                                    <option value="Tốt nghiệp Cao Đẳng">Tốt nghiệp Cao Đẳng</option>
-                                    <option value="Tốt nghiệp Phổ Thông">Tốt nghiệp Phổ Thông</option>
-                                    <option value="Chưa tốt nghiệp">Chưa tốt nghiệp</option>
-                                    <option value="Không bằng cấp">Không bằng cấp</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label class="control-label">Tình trạng hôn nhân</label>
-                                <select class="form-control" th:field="*{maritalStatus}">
-                                    <option value="">-- Chọn tình trạng hôn nhân --</option>
-                                    <option value="Độc thân">Độc thân</option>
-                                    <option value="Đã kết hôn">Đã kết hôn</option>
-                                    <option value="Góa">Góa</option>
-                                    <option value="Khác">Khác</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label class="control-label">Ngày tạo nhân viên</label>
-                                <input class="form-control" type="date" th:field="*{createdAt}">
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label class="control-label">Ảnh 3x4 nhân viên</label>
-                                <div id="myfileupload">
-                                    <input type="file" id="uploadfile" name="ImageUpload" th:field="*{imgUrl}"/>
-                                </div>
-                                <div id="thumbbox">
-                                    <img height="300" width="300" alt="Thumb image" id="thumbimage"
-                                         style="display: none"/>
-                                    <a class="removeimg" href="javascript:"></a>
-                                </div>
-                                <div id="boxchoice">
-                                    <a href="javascript:" class="Choicefile"><i class='bx bx-upload'></i></a>
-                                    <p style="clear:both"></p>
-                                </div>
-                            </div>
-                            <button class="btn btn-save" type="submit">Lưu lại</button>
-                            <a class="btn btn-cancel" href="/doc/table-data-table.html">Hủy bỏ</a>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!--
-    MODAL
-  -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalCenterTitle"
-         data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="form-group  col-md-12">
-              <span class="thong-tin-thanh-toan">
-                <h5>Tạo chức vụ mới</h5>
-              </span>
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Chức vụ</label>
+                            <input class="form-control" type="text" th:field="*{position}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Bằng cấp</label>
+                            <select class="form-control" id="exampleSelect3" th:field="*{educationLevel}">
+                                <option value="">-- Chọn bằng cấp --</option>
+                                <option value="Tốt nghiệp Đại Học">Tốt nghiệp Đại Học</option>
+                                <option value="Tốt nghiệp Cao Đẳng">Tốt nghiệp Cao Đẳng</option>
+                                <option value="Tốt nghiệp Phổ Thông">Tốt nghiệp Phổ Thông</option>
+                                <option value="Chưa tốt nghiệp">Chưa tốt nghiệp</option>
+                                <option value="Không bằng cấp">Không bằng cấp</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Tình trạng hôn nhân</label>
+                            <select class="form-control" th:field="*{maritalStatus}">
+                                <option value="">-- Chọn tình trạng hôn nhân --</option>
+                                <option value="Độc thân">Độc thân</option>
+                                <option value="Đã kết hôn">Đã kết hôn</option>
+                                <option value="Góa">Góa</option>
+                                <option value="Khác">Khác</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Ngày tạo nhân viên</label>
+                            <input class="form-control" type="date" th:field="*{createdAt}">
                         </div>
                         <div class="form-group col-md-12">
-                            <label class="control-label">Nhập tên chức vụ mới</label>
-                            <input class="form-control" type="text" required>
                         </div>
-                    </div>
-                    <BR>
-                    <button class="btn btn-save" type="button">Lưu lại</button>
-                    <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-                    <BR>
-                </div>
-                <div class="modal-footer">
+                        <button class="btn btn-save" type="submit">Lưu lại</button>
+                        <a class="btn btn-cancel" th:href="@{/employees/index}">Hủy bỏ</a>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-
-</div>
-<!--
-MODAL
--->
-</body>
-
+</main>
 </html>
