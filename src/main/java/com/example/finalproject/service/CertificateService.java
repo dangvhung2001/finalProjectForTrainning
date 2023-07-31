@@ -18,4 +18,5 @@ public interface CertificateService {
     void delete(Long id);
 
     List<CertificateDTO> getAll();
+    List<CertificateDTO> findByEmployeeId(Long employeeId);
 }

@@ -21,4 +21,5 @@ public interface SkillService {
 
     Page<SkillDTO> findAll(String textSearch, Pageable pageable);
 
+    List<SkillDTO> findByEmployeeId(Long employeeId);
 }

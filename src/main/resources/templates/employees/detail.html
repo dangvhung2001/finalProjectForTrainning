@@ -53,15 +53,12 @@
                     <a href="" th:text="'https://www.facebook.com/' + ${employees.phone}">
                     </a>
                 </div>
-                <div class="profile_body-skill">
+                <div class="profile_body-skill" th:each="skill : ${skills}">
                     <h2>Các kỹ năng</h2>
-                    <h3>Kỹ năng lập trình fullstack</h3>
-                    <p>- Back end : Java core, java Servlet, Java Framework: Spring boot- Spring MVC, heroj Deploy
-                        Heroku, CSDL MySql, JHipter</p>
-                    <p>- Thành thạo Github nhóm và cá nhân , Boostrap</p>
-                    <p>- Front end : HTML, CSS, Angular, TypeScript, Java Script.</p>
-                    <h3>Tin học văn phòng</h3>
-                    <p>- Biết sử dụng các công cụ Word, Excel, Power Point</p>
+                    <h3 th:text="${skill.name}"></h3>
+                    <p th:text="${skill.yearExperience + ' year ' + skill.monthExperience + ' month '}"></p>
+                    <p th:text="${'Lever: ' + skill.level}"></p>
+                    <p th:text="${skill.description}"></p>
                 </div>
                 <div class="profile_body-interests">
                     <h2>Sở Thích</h2>
@@ -72,24 +69,22 @@
             </div>
         </div>
     </div>
-    <div class="profile_right">
-        <div class="profile_right-target">
+    <div class="profile_right" >
+        <div class="profile_right-target" >
             <h2>Mục tiêu nghề nghiệp</h2>
             <p>- Mong muốn được học hỏi kinh nghiệm ở môi trường làm việc chuyên nghiệp.</p>
             <p>- Trao dồi , áp dụng những kiến thức và kỹ năng tích lũy được trong quá trình học tập để hoàn thiện bản
                 thân.</p>
         </div>
         <div class="profile_right-education">
-            <h2>Học vấn</h2>
-            <h3>Đại học Vinh</h3>
-            <p>CNKT Điện - Điện tử</p>
-            <h3>Học viện công nghệ rikkei academy</h3>
-            <p>Java fullstack</p>
+            <h2></h2>
         </div>
-        <div class="profile_right-exp">
-            <h2>Kinh nghiệm làm việc</h2>
-            <h3>Rikkei Academy</h3>
-            <p>-Học viên</p>
+        <div class="profile_right-exp" th:each="certificate : ${certificates}">
+            <h2>Chứng chỉ </h2>
+            <h3 th:text="${certificate.nameCertificate}"></h3>
+            <p th:text="${certificate.issueDate} + ' - ' + ${certificate.expirationDate}"></p>
+            <p th:text="${certificate.certificationOfficer}"></p>
+            <p th:text="${certificate.description}"></p>
             <br>
             <br>
             <br>
