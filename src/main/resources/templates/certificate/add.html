@@ -31,6 +31,9 @@
                         <div class="form-group">
                             <label for="expirationDate">Ngày hết hạn:</label>
                             <input th:field="*{expirationDate}" type="date" class="form-control" id="expirationDate" name="expirationDate" required/>
+                            <div th:if="${#fields.hasErrors('expirationDate')}" class="alert alert-danger">
+                                <p th:each="error : ${#fields.errors('expirationDate')}" th:text="${error}"></p>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="expirationDate">Nơi cấp:</label>

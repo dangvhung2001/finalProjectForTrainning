@@ -23,7 +23,7 @@
         <div class="profile_wraper">
             <h1 th:text="${employees.firstname} + ' ' +${employees.lastname}"></h1>
             <p th:text="${employees.position}"></p>
-            <img class="avatar_img" th:src="@{${employees.imgUrl}}" alt="">
+            <img class="avatar_img" th:src="@{'/image/' + ${employees.imgUrl}}" alt="">
         </div>
         <div class="profile_body">
             <h2>Thông tin liên hệ</h2>

@@ -149,11 +149,16 @@ public class EmployeeController {
                 }
             }
 
-            String imagePath = "D:\\ThucTap\\FinalProject\\src\\main\\resources\\static\\image\\" + imageFile.getOriginalFilename();
-            System.out.println("Image path: " + imagePath);
-            File newImage = new File(imagePath);
-            imageFile.transferTo(newImage);
-            employeeDTO.setImgUrl(imagePath);
+//            String imagePath = "D:\\ThucTap\\FinalProject\\src\\main\\resources\\static\\image\\" + imageFile.getOriginalFilename();
+//            File newImage = new File(imagePath);
+//            imageFile.transferTo(newImage);
+//            employeeDTO.setImgUrl(imagePath);
+            String uploadDir = "D:\\ThucTap\\FinalProject\\src\\main\\resources\\static\\image\\";
+            String fileName = imageFile.getOriginalFilename();
+            File uploadPath = new File(uploadDir);
+            File targetFile = new File(uploadPath, fileName);
+            imageFile.transferTo(targetFile);
+            employeeDTO.setImgUrl(fileName);
         }
         employeeService.updateEmployee(employeeDTO, imageFile);
         return "redirect:/employees/index";
