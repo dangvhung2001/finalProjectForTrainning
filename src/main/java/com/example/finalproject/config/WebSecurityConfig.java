@@ -36,11 +36,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/employees/index").permitAll()
                 .and()
                 .formLogin((form) -> form
-                                .loginPage("/login")
-                                .usernameParameter("email")
-                                .passwordParameter("password")
-                                .defaultSuccessUrl("/home")
-                                .permitAll()
+                        .loginPage("/login")
+                        .usernameParameter("email")
+                        .passwordParameter("password")
+                        .defaultSuccessUrl("/home")
+                        .permitAll()
                 )
                 .logout((logout) -> logout.permitAll())
                 .exceptionHandling()
@@ -48,4 +48,3 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 }
-
