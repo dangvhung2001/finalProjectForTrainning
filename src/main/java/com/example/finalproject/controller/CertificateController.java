@@ -27,7 +27,7 @@ public class CertificateController {
     }
 
     @GetMapping("/index")
-    public String index(Model model, @PageableDefault(size = 10) Pageable pageable, Authentication authentication) {
+    public String index(Model model, Pageable pageable, Authentication authentication) {
         String username = authentication.getName();
         EmployeeDTO loggedInEmployee = employeeService.findByEmail(username).orElseThrow(() -> new RuntimeException("Employee not found"));
         Page<CertificateDTO> certificates = certificateService.findAll(pageable);
@@ -60,6 +60,12 @@ public class CertificateController {
     ) {
         if (bindingResult.hasErrors()) {
             return "certificate/add";
+        }
+        if (certificateDTO.getExpirationDate() != null && certificateDTO.getIssueDate() != null) {
+            if (certificateDTO.getExpirationDate().before(certificateDTO.getIssueDate())) {
+                bindingResult.rejectValue("expirationDate", "expirationDate.before.issueDate", "Ngày hết hạn phải sau ngày cấp");
+                return "certificate/add";
+            }
         }
         String loggedInUsername = authentication.getName();
         EmployeeDTO loggedInEmployee = employeeService.findByEmail(loggedInUsername).orElseThrow(() -> new RuntimeException("Employee not found"));
@@ -95,4 +101,3 @@ public class CertificateController {
         return "redirect:/certificates/index";
     }
 }
-

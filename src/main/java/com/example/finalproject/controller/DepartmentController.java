@@ -35,22 +35,10 @@ public class DepartmentController {
     @GetMapping("/detail")
     public String showDetail(Model model, @RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable, Authentication authentication) {
         String username = authentication.getName();
-<<<<<<< HEAD
-<<<<<<< HEAD:src/main/java/com/example/finalproject/Controller/DepartmentController.java
         Page<DepartmentDTO> departments = departmentServiceImpl.findAll(textSearch, pageable);
         model.addAttribute("departments", departments);
         model.addAttribute("username", username);
         return "department/index";
-
-=======
-        Page<DepartmentDTO> departments = departmentServiceImpl.findAll(textSearch,pageable);
-=======
-        Page<DepartmentDTO> departments = departmentServiceImpl.findAll(textSearch, pageable);
->>>>>>> dev
-        model.addAttribute("departments", departments);
-        model.addAttribute("username", username);
-        return "department/department_index";
->>>>>>> 65f3340 (fix:fix bug addEmployee , feat: Login,changePassword Layout):src/main/java/com/example/finalproject/controller/DepartmentController.java
     }
 
     @GetMapping("/create")
