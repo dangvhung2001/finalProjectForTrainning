@@ -31,52 +31,18 @@
               <label class="control-label">Nơi làm việc</label>
               <input class="form-control" type="text" th:field="*{workplace}">
             </div>
-            <div class="form-group col-md-4">
-              <label class="control-label" >Ngôn ngữ sử dụng</label>
-              <select class="form-control" th:field="*{language}">
-                <option value="">-- Chọn tình trạng --</option>
-                <option value="Java">Java</option>
-                <option value="Python">Python</option>
-                <option value="PHP">PHP</option>
-                <option value="JavaScript">JavaScript</option>
-                <option value="HTML">HTML</option>
-                <option value="Css">Css</option>
-                <option value="C">C</option>
-                <option value="TypeScript">TypeScript</option>
-                <option value="Ruby">Ruby</option>
-                <option value="Swift">Swift</option>
-              </select>
+            <div class="form-group  col-md-4">
+              <label class="control-label">Ngôn ngữ sử dụng</label>
+              <input class="form-control" type="text" th:field="*{language}">
             </div>
-            <div class="form-group col-md-4">
-              <label class="control-label" >Hệ Điều Hành</label>
-              <select class="form-control" th:field="*{os}">
-                <option value="">-- Chọn tình trạng --</option>
-                <option value="Mac">Mac</option>
-                <option value="Window">Window</option>
-                <option value="Linux">Linux</option>
-                <option value="Android">Android</option>
-                <option value="Chrome OS">Chrome OS</option>
-                <option value="Ubuntu">Ubuntu</option>
-              </select>
+            <div class="form-group  col-md-4">
+              <label class="control-label">Hệ Điều Hành</label>
+              <input class="form-control" type="text" th:field="*{os}">
             </div>
-
-            <div class="form-group col-md-4">
-              <label  class="control-label" >FrameWork Sử Dụng</label>
-              <select class="form-control" th:field="*{framework}">
-                <option value="">-- Chọn tình trạng --</option>
-                <option value="ReactJs">React Js</option>
-                <option value="Angular">Angular</option>
-                <option value="Vue.js">Vue.js</option>
-                <option value="Node.js">Node.js</option>
-                <option value="ASP.NET Core">ASP.NET Core</option>
-                <option value="Ruby on Rails">Ruby on Rails</option>
-                <option value="Django">Django</option>
-                <option value="Express.js">Express.js</option>
-                <option value="Laravel">Laravel</option>
-                <option value="Spring Boot">Spring Boot</option>
-              </select>
+            <div class="form-group  col-md-4">
+              <label class="control-label">FrameWork Sử Dụng</label>
+              <input class="form-control" type="text" th:field="*{framework}">
             </div>
-
             <div class="form-group  col-md-4">
               <label class="control-label">Teamsize của dự án</label>
               <input class="form-control" type="text" th:field="*{teamSize}">
@@ -148,9 +114,6 @@
                             </tr>
                             </tbody>
                           </table>
-
-
-
             <button id="btn-save" type="submit" >Lưu lại</button>
             <a id="btn-cancel" th:href="@{/project/detail}">Hủy bỏ</a>
           </form>

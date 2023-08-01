@@ -16,7 +16,7 @@
                     <div class="widget-small primary coloured-icon"><i class='icon bx bxs-user-account fa-3x'></i>
                         <div class="info">
                             <h4>Tổng số nhân viên</h4>
-                            <p><b>56 nhân viên</b></p>
+                            <p><b th:text="${coutEmployee} + ' nhân viên'"></b></p>
                             <p class="info-tong">Tổng số nhân viên được quản lý.</p>
                         </div>
                     </div>
@@ -26,7 +26,7 @@
                     <div class="widget-small info coloured-icon"><i class='icon bx bxs-data fa-3x'></i>
                         <div class="info">
                             <h4>Tổng số phòng ban</h4>
-                            <p><b>10 phòng ban</b></p>
+                            <p><b th:text="${countDepartment} + ' phòng ban'"></b></p>
                             <p class="info-tong">Tổng số phòng ban trong công ty.</p>
                         </div>
                     </div>
@@ -36,8 +36,8 @@
                     <div class="widget-small warning coloured-icon"><i class='icon bx bxs-shopping-bags fa-3x'></i>
                         <div class="info">
                             <h4>Dự án</h4>
-                            <p><b>10 dự án</b></p>
-                            <p class="info-tong">Tổng số dự đã và đang thực hiện.</p>
+                            <p><b th:text="${countProject} + ' dự án'"></b></p>
+                            <p class="info-tong">Tổng số dự án đã và đang thực hiện.</p>
                         </div>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                     <div class="widget-small danger coloured-icon"><i class='icon bx bxs-error-alt fa-3x'></i>
                         <div class="info">
                             <h4>Quản lý</h4>
-                            <p><b>4 quản lý</b></p>
+                            <p><b th:text="${countPm} + ' quản lý'"></b></p>
                             <p class="info-tong">Số cán bộ quản lý trong công ty.</p>
                         </div>
                     </div>
@@ -71,6 +71,127 @@
     <div class="chart">
         <canvas style="height: 395px;" id="languageChart"></canvas>
     </div>
+
+    <!--script phần biểu đồ của dashboard-->
+    <script src="../../static/js/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="../../static/js/popper.min.js"></script>
+    <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
+    <!--===============================================================================================-->
+    <script src="../../static/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="../../static/js/main.js"></script>
+    <!--===============================================================================================-->
+    <script src="../../static/js/plugins/pace.min.js"></script>
+    <!--===============================================================================================-->
+    <script type="text/javascript" src="../../static/js/plugins/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-doughnutlabel"></script>
+    <!--===============================================================================================-->
+    <script type="text/javascript">
+        const data = {
+            labels: ['HTML', 'CSS', 'JavaScript', 'Python', 'Java', 'C#', 'TypeScript', 'PHP', 'Ruby', 'Swift'],
+            datasets: [{
+                data: [20, 15, 25, 10, 8, 7, 5, 5, 4, 1], // Tỷ lệ phần trăm tương ứng của mỗi ngôn ngữ
+                backgroundColor: [
+                    '#FF6384',
+                    '#36A2EB',
+                    '#FFCE56',
+                    '#E9573F',
+                    '#00A388',
+                    '#8DB646',
+                    '#9F4D95',
+                    '#40A9D4',
+                    '#A46582',
+                    '#ECA527'
+                ],
+            }]
+        };
+
+        // Tùy chọn cấu hình cho biểu đồ tròn - giống như ở ví dụ trước
+        const options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            const dataValue = context.raw;
+                            const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                            const percentage = ((dataValue / total) * 100).toFixed(1);
+                            return `${context.label}: ${percentage}%`;
+                        }
+                    }
+                }
+            },
+        };
+
+        // Tạo biểu đồ tròn - giống như ở ví dụ trước
+        const ctx = document.getElementById('languageChart').getContext('2d');
+        const languageChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    doughnutlabel: {
+                        labels: [{
+                            text: '20%',
+                            font: {
+                                size: '14'
+                            }
+                        }, {
+                            text: '15%',
+                            font: {
+                                size: '14'
+                            }
+                        }, {
+                            text: '25%',
+                            font: {
+                                size: '14'
+                            }
+                        }, {
+                            text: '10%',
+                            font: {
+                                size: '14'
+                            }
+                        }, {
+                            text: '8%',
+                            font: {
+                                size: '14'
+                            }
+                        }, {
+                            text: '7%',
+                            font: {
+                                size: '14'
+                            }
+                        }, {
+                            text: '5%',
+                            font: {
+                                size: '14'
+                            }
+                        }, {
+                            text: '5%',
+                            font: {
+                                size: '14'
+                            }
+                        }, {
+                            text: '4%',
+                            font: {
+                                size: '14'
+                            }
+                        }, {
+                            text: '1%',
+                            font: {
+                                size: '14'
+                            }
+                        }]
+                    }
+                }
+            },
+        });
+    </script>
 
 </main>
 
