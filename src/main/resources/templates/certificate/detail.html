@@ -19,9 +19,10 @@
                     <div>
                         <h4>ID: <span th:text="${certificate.id}"></span></h4>
                         <h4>Tên chứng chỉ: <span th:text="${certificate.nameCertificate}"></span></h4>
-                        <h4>Ngày cấp: <span th:text="${#dates.format(certificate.issueDate, 'dd/MM/yyyy')}"></span></h4>
-                        <h4>Ngày hết hạn: <span th:text="${#dates.format(certificate.expirationDate, 'dd/MM/yyyy')}"></span></h4>
+                        <h4>Ngày cấp: <span th:text="${certificate.issueDate}"></span></h4>
+                        <h4>Ngày hết hạn: <span th:text="${certificate.expirationDate}"></span></h4>
                         <h4>Mô tả: <span th:text="${certificate.description}"></span></h4>
+                        <!-- Thêm các thông tin khác tùy theo yêu cầu -->
                     </div>
                     <!-- Các nút để chuyển hướng đến chỉnh sửa hoặc xóa chứng chỉ -->
                     <a class="btn btn-primary" th:href="@{/certificates/edit/{id}(id=${certificate.id})}">Chỉnh sửa</a>

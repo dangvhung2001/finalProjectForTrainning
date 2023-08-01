@@ -9,6 +9,26 @@ public class SkillDTO {
     private String description;
     private EmployeeDTO employee;
 
+    private int languageUsageCount;
+
+    public SkillDTO() {
+    }
+
+    public SkillDTO(Long id, String name, int level, int yearExperience, int monthExperience, String description, EmployeeDTO employee) {
+        this.id = id;
+        this.name = name;
+        this.level = level;
+        this.yearExperience = yearExperience;
+        this.monthExperience = monthExperience;
+        this.description = description;
+        this.employee = employee;
+    }
+
+    public SkillDTO(String name, int languageUsageCount) {
+        this.name = name;
+        this.languageUsageCount = languageUsageCount;
+    }
+
     public Long getId() {
         return id;
     }
@@ -63,5 +83,13 @@ public class SkillDTO {
 
     public void setEmployee(EmployeeDTO employee) {
         this.employee = employee;
+    }
+
+    public int getLanguageUsageCount() {
+        return languageUsageCount;
+    }
+
+    public void setLanguageUsageCount(int languageUsageCount) {
+        this.languageUsageCount = languageUsageCount;
     }
 }

@@ -32,7 +32,7 @@ public class ProjectController {
 
     private final ProjectMapperImpl projectMapper;
 
-    public ProjectController(ProjectServiceImpl projectServiceImpl, ProjectMapperImpl projectMapper, EmployeeService employeeService, RoleRepository roleRepository, DepartmentService departmentService) {
+    public ProjectController(ProjectServiceImpl projectServiceImpl, ProjectMapperImpl projectMapper,EmployeeService employeeService,RoleRepository roleRepository,DepartmentService departmentService){
         this.projectMapper = projectMapper;
         this.projectServiceImpl = projectServiceImpl;
         this.employeeService = employeeService;
@@ -45,8 +45,20 @@ public class ProjectController {
     @GetMapping("/detail")
     public String showDetail(Model model, @RequestParam(required = false) String textSearch, Pageable pageable) {
         Page<ProjectDTO> projectDTOS = projectServiceImpl.findAll(pageable);
-        model.addAttribute("projects", projectDTOS);
+        model.addAttribute("projects",projectDTOS);
         return "project/index";
+    }
+
+    @GetMapping("/detail/{id}")
+    public String detailProject(@PathVariable Long id, Model model,Pageable pageable) {
+        Optional<ProjectDTO> projects = projectServiceImpl.findOne(id);
+        if (projects.isPresent()) {
+            ProjectDTO projectDTO = projects.get();
+            model.addAttribute("projects", projectDTO);
+            return "project/detail";
+        } else {
+            return "redirect:/project/detail";
+        }
     }
 
     @GetMapping("/create")
@@ -106,10 +118,10 @@ public class ProjectController {
         if (bindingResult.hasErrors()) {
             return "project/edit";
         }
-            projectDTO.setId(id);
-            projectServiceImpl.save(projectDTO);
-            return "redirect:/project/detail";
-        }
+        projectDTO.setId(id);
+        projectServiceImpl.save(projectDTO);
+        return "redirect:/project/detail";
+    }
 
     @GetMapping("/show/employee")
     public String index(@RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable, Model model) {
