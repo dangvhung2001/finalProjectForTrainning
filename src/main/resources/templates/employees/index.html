@@ -17,16 +17,16 @@
             <div class="tile">
                 <div class="tile-body">
                     <div class="row element-button">
-                        <div class="col-sm-2">
+                        <div class="table-nav">
                             <a class="btn btn-add btn-sm" th:href="@{/employees/add}" title="Thêm"><i
                                     class="fas fa-plus"></i>
                                 Tạo mới nhân viên</a>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="table-nav">
                             <a class="btn btn-delete btn-sm print-file" type="button" title="In" onclick=""><i
                                     class="fas fa-print"></i> In dữ liệu</a>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="table-nav">
                             <a class="btn btn-delete btn-sm pdf-file" type="button" title="In"><i
                                     class="fas fa-file-pdf"></i> Xuất PDF</a>
                         </div>
@@ -48,11 +48,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="employee : ${listOfEmployees}" th:if="${employee.roles != 'ADMIN'}">
+                        <tr th:each="employee : ${listOfEmployees}">
                             <td><input type="checkbox" name="check1" value="1"></td>
                             <td th:text="${employee.employeeCode}"></td>
                             <td th:text="${employee.firstname + ' ' + employee.lastname}"></td>
-                            <td><img class="img-card-person" th:src="@{${employee.imgUrl}}" alt=""></td>
+                            <td><img class="img-card-person" th:src="@{'/image/' + ${employee.imgUrl}}" alt=""></td>
                             <td th:text="${employee.address}"></td>
                             <td th:text="${#dates.format(employee.dateOfBirth, 'dd/MM/yyyy')}"></td>
                             <td>

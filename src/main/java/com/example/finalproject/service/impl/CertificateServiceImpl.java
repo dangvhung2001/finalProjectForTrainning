@@ -56,4 +56,10 @@ public class CertificateServiceImpl implements CertificateService {
         List<Certificate> certificates = certificateRepository.findAll();
         return certificateMapper.toDto(certificates);
     }
+
+    @Override
+    public List<CertificateDTO> findByEmployeeId(Long employeeId) {
+        List<Certificate> certificates = certificateRepository.findByEmployeeId(employeeId);
+        return certificateMapper.toDto(certificates);
+    }
 }

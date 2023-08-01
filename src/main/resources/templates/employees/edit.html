@@ -144,10 +144,10 @@
                         <div class="form-group col-md-12">
                             <label class="control-label">Ảnh 3x4 nhân viên</label>
                             <div id="myfileupload">
-                                <input type="file" name="imageFile" accept="image/*"/>
+                                <input type="file" name="imageFile" accept="image/*" id="uploadfile"/>
                             </div>
                             <div id="thumbbox">
-                                <img height="300" width="300" alt="Thumb image" id="thumbimage"
+                                <img height="300" width="300" alt="Thumb image" id="thumbimage" style="display: none"
                                      th:src="@{'/image/' + ${employee.imgUrl}}"/>
                                 <a class="removeimg" href="javascript:"></a>
                             </div>
@@ -155,7 +155,6 @@
                                 <a href="javascript:" class="Choicefile"><i class='bx bx-upload'></i></a>
                                 <p style="clear:both"></p>
                             </div>
-
                         </div>
                         <button class="btn btn-save" type="submit">Lưu lại</button>
                         <a class="btn btn-cancel" th:href="@{/employees/index}">Hủy bỏ</a>
