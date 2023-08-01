@@ -87,6 +87,12 @@ public class CertificateController {
         if (bindingResult.hasErrors()) {
             return "certificate/edit";
         }
+        if (certificateDTO.getExpirationDate() != null && certificateDTO.getIssueDate() != null) {
+            if (certificateDTO.getExpirationDate().before(certificateDTO.getIssueDate())) {
+                bindingResult.rejectValue("expirationDate", "expirationDate.before.issueDate", "Ngày hết hạn phải sau ngày cấp");
+                return "certificate/add";
+            }
+        }
         String loggedInUsername = authentication.getName();
         EmployeeDTO loggedInEmployee = employeeService.findByEmail(loggedInUsername).orElseThrow(() -> new RuntimeException("Employee not found"));
         certificateDTO.setEmployee(employeeService.findOne(loggedInEmployee.getId()).get());

@@ -14,9 +14,14 @@ import com.example.finalproject.service.dto.DepartmentDTO;
 import com.example.finalproject.service.dto.EmployeeDTO;
 import com.example.finalproject.service.dto.SkillDTO;
 import com.example.finalproject.service.impl.MailSenderService;
+import com.lowagie.text.pdf.BaseFont;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,8 +30,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import org.xhtmlrenderer.pdf.ITextFontResolver;
+import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import javax.validation.Valid;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -44,18 +54,21 @@ public class EmployeeController {
     private final RoleRepository roleRepository;
     private final SkillService skillService;
     private final CertificateService certificateService;
+    private final TemplateEngine templateEngine;
     public EmployeeController(EmployeeService employeeService,
                               DepartmentService departmentService,
                               RoleRepository roleRepository,
                               EmployeeRepository employeeRepository,
                               SkillService skillService,
-                              CertificateService certificateService) {
+                              CertificateService certificateService,
+                              TemplateEngine templateEngine) {
         this.employeeService = employeeService;
         this.departmentService = departmentService;
         this.roleRepository = roleRepository;
         this.employeeRepository = employeeRepository;
         this.skillService = skillService;
         this.certificateService = certificateService;
+        this.templateEngine = templateEngine;
     }
 
     @GetMapping("/index")
@@ -183,50 +196,55 @@ public class EmployeeController {
         employeeService.delete(id);
         return "redirect:/employees/index";
     }
+    @GetMapping("/profile/export-pdf/{id}")
+    @ResponseBody
+    public ResponseEntity<byte[]> exportProfileToPdf(@PathVariable Long id) {
+        // Lấy thông tin của employee từ service dựa vào id
+        EmployeeDTO employeeDTO = employeeService.findOne(id).orElse(null);
 
-//    @GetMapping("/employees/profile/{id}/export-pdf")
-//    @ResponseBody
-//    public byte[] exportProfileToPdf(@PathVariable Long id) {
-//        EmployeeDTO employeeDTO = employeeService.findOne(id).orElse(null);
-//
-//        if (employeeDTO == null) {
-//            throw new RuntimeException("Employee not found");
-//            return null;
-//        }
-//        String htmlContent = readProfileHtml();
-//
-//        // Load profile.html từ thư mục resources/templates
-//        htmlContent = htmlContent.replace("{{employeeName}}", employeeDTO.getFirstname() + " " + employeeDTO.getLastname());
-//        htmlContent = htmlContent.replace("{{employeeEmail}}", employeeDTO.getEmail());
-//        // Thay thế các trường thông tin trong profile.html với thông tin của employeeDTO
-//        // Ví dụ: htmlContent = htmlContent.replace("{{employeeName}}", employeeDTO.getFirstname() + " " + employeeDTO.getLastname());
-//
-//        // Chuyển đổi profile.html thành file PDF
-//        try {
-//            ByteArrayOutputStream pdfOutputStream = new ByteArrayOutputStream();
-//            ITextRenderer renderer = new ITextRenderer();
-//            renderer.setDocumentFromString(htmlContent);
-//            renderer.layout();
-//            renderer.createPDF(pdfOutputStream);
-//
-//            // Trả về byte[] của file PDF để người dùng tải xuống
-//            return pdfOutputStream.toByteArray();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            // Xử lý nếu có lỗi khi tạo PDF
-//            // Ví dụ: throw new RuntimeException("Failed to export profile to PDF");
-//            return null;
-//        }
-//    }
-    private String readProfileHtml() {
+        // Nếu không tìm thấy employee, trả về lỗi 404 Not Found
+        if (employeeDTO == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<SkillDTO> skills = skillService.findByEmployeeId(id);
+        List<CertificateDTO> certificates = certificateService.findByEmployeeId(id);
+
+        // Tạo context để truyền dữ liệu vào template Thymeleaf
+        Context context = new Context();
+        context.setVariable("employees", employeeDTO);
+        // Để xuất danh sách kỹ năng và chứng chỉ, bạn cần lấy dữ liệu từ service và truyền vào context
+        context.setVariable("skills", skills);
+        context.setVariable("certificates", certificates);
+
+        // Render template Thymeleaf thành HTML
+        String htmlContent = templateEngine.process("employees/detail", context);
+
+        // Chuyển đổi HTML thành file PDF sử dụng thư viện ITextRenderer
         try {
-            // Thay đổi đường dẫn nếu cần
-            Path path = Paths.get("src/main/resources/templates/employees/detail.html");
-            byte[] fileBytes = Files.readAllBytes(path);
-            return new String(fileBytes);
-        } catch (IOException e) {
+            ByteArrayOutputStream pdfOutputStream = new ByteArrayOutputStream();
+            ITextRenderer renderer = new ITextRenderer();
+            renderer.setDocumentFromString(htmlContent);
+
+            // Thêm cài đặt để hỗ trợ các link trong HTML
+            ITextFontResolver fontResolver = renderer.getFontResolver();
+            fontResolver.addFont("static/fonts/font-awesome-4.7.0/fonts/arialuni.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+
+            renderer.layout();
+            renderer.createPDF(pdfOutputStream);
+
+            // Set the appropriate headers for the response
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("attachment", "profile.pdf"); // Set the file name for download
+
+            // Return the byte array and headers as a ResponseEntity
+            return new ResponseEntity<>(pdfOutputStream.toByteArray(), headers, HttpStatus.OK);
+        } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            // Xử lý nếu có lỗi khi tạo PDF
+            // Ví dụ: throw new RuntimeException("Failed to export profile to PDF");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }
