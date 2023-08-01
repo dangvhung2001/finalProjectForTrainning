@@ -54,14 +54,6 @@
                             <th>Ngôn ngữ sử dụng</th>
                             <th>Hệ điều hành</th>
                             <th>FrameWork sử dụng</th>
-                            <th>Nơi làm việc</th>
-                            <th>Teamsize dự án</th>
-                            <th>Chi phí dự án</th>
-                            <th>Tài liệu dùng trong dự án</th>
-                            <th>Ngày bắt đầu</th>
-                            <th>Ngày kết thúc</th>
-                            <th>Mô tả dự án</th>
-                            <th>Người quản lý</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -73,17 +65,9 @@
                             <td th:text="${pr.getLanguage()}"></td>
                             <td th:text="${pr.getOs()}"></td>
                             <td th:text="${pr.getFramework()}"></td>
-                            <td th:text="${pr.getWorkplace()}"></td>
-                            <td th:text="${pr.getTeamSize()}"></td>
-                            <td th:text="${pr.getProjectCost()}"></td>
-                            <td th:text="${pr.getProjectResources()}"></td>
-                            <td th:text="${pr.getStartDate()}"></td>
-                            <td th:text="${pr.getEndDate()}"></td>
-                            <td th:text="${pr.getDescription()}"></td>
-                            <td th:text="${pr.getNamePm()}"></td>
-
                             <td><a th:href="@{/project/delete/{id}(id=${pr.id})}"><button class="btn btn-primary btn-sm trash" type="button" title="Xóa" ><i class="fas fa-trash-alt"></i></button></a>
                                 <a th:href="@{/project/edit/{id}(id=${pr.id})}"><button class="btn btn-primary btn-sm edit" type="button" title="Sửa" ><i class="fa fa-edit"></i></button></a></td>
+                            <a th:href="@{/project/detail/{id}(id=${pr.id})}"><button class="btn btn-primary btn-sm edit" type="button" title="Chi tiết" ><i class="fa fa-edit"></i></button></a></td>
                         </tr>
                         </tbody>
                     </table>
