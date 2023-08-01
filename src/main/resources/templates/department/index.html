@@ -56,7 +56,7 @@
                             <th>Mã số phòng ban</th>
                             <th>Giới thiệu về phòng ban</th>
                             <th>Ngày thành lập phòng ban</th>
-<!--                            <th>Số nhân viên trong phòng ban</th>-->
+                            <!--                            <th>Số nhân viên trong phòng ban</th>-->
                             <th>Thuộc phòng ban</th>
                             <th>Chức năng</th>
                         </tr>
@@ -69,8 +69,8 @@
                             <td th:text="${department.getDepartmentCode()}"></td>
                             <td th:text="${department.getDescription()}"></td>
                             <td th:text="${department.getIssueDate()}"></td>
-<!--                            <td th:text="${department.getId()}">23</td>-->
-<!--                            <td th:text="${department.getParentDepartment()}"></td>-->
+                            <!--                            <td th:text="${department.getId()}">23</td>-->
+                            <!--                            <td th:text="${department.getParentDepartment()}"></td>-->
                             <td th:text="${department.parentId == null ? '' : department.parentName}"></td>
                             <td><a th:href="@{/department/delete/{id}(id=${department.id})}"><button class="btn btn-primary btn-sm trash" type="button" title="Xóa" ><i class="fas fa-trash-alt"></i></button></a>
                                 <a th:href="@{/department/edit/{id}(id=${department.id})}"><button class="btn btn-primary btn-sm edit" type="button" title="Sửa" ><i class="fa fa-edit"></i></button></a></td>
