@@ -35,6 +35,12 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
+    public List<SkillDTO> findByEmployeeId(Long employeeId) {
+        List<Skill> skills = skillRepository.findByEmployeeId(employeeId);
+        return skillMapper.toDto(skills);
+    }
+
+    @Override
     public Optional<SkillDTO> findOne(Long id) {
         return skillRepository.findById(id).map(skillMapper::toDto);
     }

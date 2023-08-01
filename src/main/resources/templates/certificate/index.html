@@ -16,16 +16,16 @@
             <div class="tile">
                 <div class="tile-body">
                     <div class="row element-button">
-                        <div class="col-sm-2">
+                        <div class="table-nav">
                             <a class="btn btn-add btn-sm" th:href="@{/certificates/add}" title="Thêm"><i
                                     class="fas fa-plus"></i>
                                 Tạo mới chứng chỉ</a>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="table-nav">
                             <a class="btn btn-delete btn-sm print-file" type="button" title="In"><i
                                     class="fas fa-print"></i> In dữ liệu</a>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="table-nav">
                             <a class="btn btn-delete btn-sm pdf-file" type="button" title="In"><i
                                     class="fas fa-file-pdf"></i> Xuất PDF</a>
                         </div>
@@ -45,8 +45,8 @@
                             <td th:text="${certificate.id}"></td>
                             <td><a th:href="@{/certificates/{id}(id=${certificate.id})}"
                                    th:text="${certificate.nameCertificate}"></a></td>
-                            <td th:text="${certificate.issueDate}"></td>
-                            <td th:text="${certificate.expirationDate}"></td>
+                            <td th:text="${#dates.format(certificate.issueDate, 'dd/MM/yyyy')}"></td>
+                            <td th:text="${#dates.format(certificate.expirationDate, 'dd/MM/yyyy')}"></td>
                             <td th:text="${certificate.description}"></td>
                         </tr>
                         </tbody>
