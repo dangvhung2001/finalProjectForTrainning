@@ -18,4 +18,6 @@ public interface ExperienceService {
     void delete(Long id);
 
     List<ExperienceDTO> getAll();
+
+    Optional<ExperienceDTO> findByName(String name);
 }

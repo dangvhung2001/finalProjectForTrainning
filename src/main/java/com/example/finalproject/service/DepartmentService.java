@@ -2,6 +2,7 @@ package com.example.finalproject.service;
 
 
 import com.example.finalproject.service.dto.DepartmentDTO;
+import com.example.finalproject.service.dto.EmployeeDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,6 +13,10 @@ public interface DepartmentService {
     DepartmentDTO save(DepartmentDTO departmentDTO);
 
     Page<DepartmentDTO> findAll(String textSearch, Pageable pageable);
+
+    Optional<DepartmentDTO> findByName(String name);
+
+    Optional<DepartmentDTO> findByDepartmentCode(String departmentCode);
 
     Optional<DepartmentDTO> findOne(Long id);
 
