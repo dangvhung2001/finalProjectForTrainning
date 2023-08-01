@@ -8,12 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
-
 @Repository
 public interface SkillRepository extends JpaRepository<Skill, Long> {
     Skill findAllByEmployee(String employee);
 
     Page<Skill> findAllByNameContainingIgnoreCase(String textSearchName, Pageable pageable);
-    List<Skill> findByEmployeeId(Long employeeId);
 }
