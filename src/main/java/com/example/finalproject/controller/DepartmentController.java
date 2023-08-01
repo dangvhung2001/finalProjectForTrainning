@@ -52,21 +52,10 @@ public class DepartmentController {
     @PostMapping("/add")
     public ModelAndView doAdd(@ModelAttribute("department") @Valid DepartmentDTO departmentDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            ModelAndView modelAndView = new ModelAndView("department/create");
+            ModelAndView modelAndView = new ModelAndView("department/department_create");
             return modelAndView;
         }
-        Optional<DepartmentDTO> existingDepartment = departmentServiceImpl.findByName(departmentDTO.getName());
-        if (existingDepartment.isPresent()) {
-            bindingResult.rejectValue("name", "error.department", "Tên bộ phận đã tồn tại");
-            ModelAndView modelAndView = new ModelAndView("department/create");
-            return modelAndView;
-        }
-        Optional<DepartmentDTO> existingDepartmentCode = departmentServiceImpl.findByDepartmentCode(departmentDTO.getDepartmentCode());
-        if (existingDepartmentCode.isPresent()) {
-            bindingResult.rejectValue("departmentCode", "error.department", "Tên code đã tồn tại");
-            ModelAndView modelAndView = new ModelAndView("department/create");
-            return modelAndView;
-        }
+
         departmentServiceImpl.save(departmentDTO);
         ModelAndView modelAndView = new ModelAndView("redirect:/department/detail");
         modelAndView.addObject("department", departmentDTO);

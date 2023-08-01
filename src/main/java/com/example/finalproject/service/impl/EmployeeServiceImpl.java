@@ -9,8 +9,8 @@ import com.example.finalproject.service.dto.EmployeeDTO;
 import com.example.finalproject.service.mapper.EmployeeMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-//import org.springframework.security.core.Authentication;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,18 +29,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final RoleRepository roleRepository;
     private final EmployeeMapper employeeMapper;
-//    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
     private final MailSenderService mailSenderService;
 
     public EmployeeServiceImpl(EmployeeRepository employeeRepository,
                                RoleRepository roleRepository,
                                EmployeeMapper employeeMapper,
-//                               PasswordEncoder passwordEncoder,
+                               PasswordEncoder passwordEncoder,
                                MailSenderService mailSenderService) {
         this.employeeRepository = employeeRepository;
         this.roleRepository = roleRepository;
         this.employeeMapper = employeeMapper;
-//        this.passwordEncoder = passwordEncoder;
+        this.passwordEncoder = passwordEncoder;
         this.mailSenderService = mailSenderService;
     }
 
@@ -56,7 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 "Trân trọng,\n" +
                 "Mật khẩu của bạn là " + employee.getPassword() + "\n\n" +
                 "Lưu ý: Đây là một email tự động, vui lòng không trả lời. Hãy thay đổi mật khẩu của bạn ngay sau khi nhận được email này để bảo mật thông tin cá nhân.\\n\"";
-//        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         if (employeeDTO.getRoles() != null) {
             Set<Role> roles = employeeDTO
                     .getRoles()

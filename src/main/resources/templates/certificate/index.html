@@ -45,8 +45,8 @@
                             <td th:text="${certificate.id}"></td>
                             <td><a th:href="@{/certificates/{id}(id=${certificate.id})}"
                                    th:text="${certificate.nameCertificate}"></a></td>
-                            <td th:text="${#dates.format(certificate.issueDate, 'dd/MM/yyyy')}"></td>
-                            <td th:text="${#dates.format(certificate.expirationDate, 'dd/MM/yyyy')}"></td>
+                            <td th:text="${certificate.issueDate}"></td>
+                            <td th:text="${certificate.expirationDate}"></td>
                             <td th:text="${certificate.description}"></td>
                         </tr>
                         </tbody>

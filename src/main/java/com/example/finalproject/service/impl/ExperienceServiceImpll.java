@@ -50,9 +50,4 @@ public class ExperienceServiceImpll implements ExperienceService {
         List<Experience> experiences = experienceRepository.findAll();
         return experienceMapperImpl.toDto(experiences);
     }
-
-    @Override
-    public Optional<ExperienceDTO> findByName(String name) {
-        return experienceRepository.findByNameExperienceContainingIgnoreCase(name).map(experienceMapperImpl::toDto);
-    }
 }

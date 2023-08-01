@@ -18,6 +18,4 @@ public interface ProjectService {
     void delete(Long id);
 
     List<ProjectDTO> getAll();
-
-    int getTotalPmCount();
 }

@@ -10,7 +10,7 @@
     <!-- Sidebar menu-->
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
     <aside class="app-sidebar">
-        <div class="app-sidebar__user"><img class="app-sidebar__user-avatar"  width="50px"
+        <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" th:src="@{/image/1.png}" width="50px"
                                             alt="User Image">
             <div>
                 <p class="app-sidebar__user-name"><b th:text="${username}"></b></p>
@@ -33,13 +33,13 @@
                 <a class="app-menu__item " th:href="@{/employees/index}"
                    th:classappend="${#httpServletRequest.getRequestURI() == '/employees/index' ? 'active' : ''}">
                     <i class='app-menu__icon bx bx-id-card'></i>
-                <span class="app-menu__label">Quản Lý Nhân Viên</span>
+                    <span class="app-menu__label">Quản Lý Nhân Viên</span>
                 </a>
             </li>
             <li>
                 <a class="app-menu__item" th:href="@{/project/detail}" th:classappend="${#httpServletRequest.getRequestURI() == '/project/detail' ? 'active' : ''}"><i
-                    class='app-menu__icon bx bx-user-voice'></i><span
-                    class="app-menu__label">Quản Lý Dự Án</span></a></li>
+                        class='app-menu__icon bx bx-user-voice'></i><span
+                        class="app-menu__label">Quản Lý Dự Án</span></a></li>
             <li><a class="app-menu__item" th:href="@{/experience/detail}" th:classappend="${#httpServletRequest.getRequestURI() == '/experience/detail' ? 'active' : ''}"><i
                     class='app-menu__icon bx bx-purchase-tag-alt'></i><span
                     class="app-menu__label">Quản Lý Kinh Nghiệm</span></a>

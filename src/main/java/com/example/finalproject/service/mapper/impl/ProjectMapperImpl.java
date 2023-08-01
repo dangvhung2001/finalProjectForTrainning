@@ -3,22 +3,13 @@ package com.example.finalproject.service.mapper.impl;
 import com.example.finalproject.domain.*;
 import com.example.finalproject.service.dto.ProjectDTO;
 import com.example.finalproject.service.mapper.EntityMapper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
-@Component
+@Controller
 public class ProjectMapperImpl implements EntityMapper<ProjectDTO, Project> {
-
-    private final EmployeeMapperImpl employeeMapper;
-
-    public ProjectMapperImpl(EmployeeMapperImpl employeeMapper) {
-        this.employeeMapper = employeeMapper;
-    }
-
     @Override
     public Project toEntity(ProjectDTO dto) {
         if (dto == null) {
@@ -38,7 +29,6 @@ public class ProjectMapperImpl implements EntityMapper<ProjectDTO, Project> {
         entity.setEndDate(dto.getEndDate());
         entity.setDescription(dto.getDescription());
         entity.setPmId(dto.getPmId());
-        entity.setEmployees(employeeMapper.toEntitySet(dto.getEmployees()));
         return entity;
     }
 
@@ -61,7 +51,6 @@ public class ProjectMapperImpl implements EntityMapper<ProjectDTO, Project> {
         dto.setEndDate(entity.getEndDate());
         dto.setDescription(entity.getDescription());
         dto.setPmId(entity.getPmId());
-        dto.setEmployees(employeeMapper.toDtoSet(entity.getEmployees()));
 
         Employee pm = entity.getPm();
         if (pm != null) {

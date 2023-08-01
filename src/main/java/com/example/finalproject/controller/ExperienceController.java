@@ -1,6 +1,5 @@
 package com.example.finalproject.controller;
 
-import com.example.finalproject.service.dto.DepartmentDTO;
 import com.example.finalproject.service.dto.ExperienceDTO;
 import com.example.finalproject.service.impl.ExperienceServiceImpll;
 import org.springframework.data.domain.Page;
@@ -26,30 +25,24 @@ public class ExperienceController {
     @GetMapping("/detail")
     public String showDetail(Model model, @RequestParam(required = false) String textSearch, Pageable pageable) {
         Page<ExperienceDTO> experienceDTOS = experienceServiceImpllImpll.findAll(pageable);
-        model.addAttribute("experienceDTOS", experienceDTOS);
-        return "experience/index";
+        model.addAttribute("experiences", experienceDTOS);
+        return "experience/experience_index";
     }
 
     @GetMapping("/create")
     public String showAdd(Model model, Pageable pageable) {
         model.addAttribute("experience", new ExperienceDTO());
-        return "experience/create";
+        return "experience/experience_create";
     }
 
     @PostMapping("/add")
     public ModelAndView doAdd(@ModelAttribute("experience") @Valid ExperienceDTO experienceDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            ModelAndView modelAndView = new ModelAndView("experience/create");
-            return modelAndView;
-        }
-        Optional<ExperienceDTO> existingName = experienceServiceImpllImpll.findByName(experienceDTO.getName_experience());
-        if (existingName.isPresent()) {
-            bindingResult.rejectValue("name_experience", "error.experience", "Tên kinh nghiệm đã tồn tại");
-            ModelAndView modelAndView = new ModelAndView("redirect:/experience/detail");
+            ModelAndView modelAndView = new ModelAndView("experience/experience_create");
             return modelAndView;
         }
         experienceServiceImpllImpll.save(experienceDTO);
-        ModelAndView modelAndView = new ModelAndView("redirect:/experience/detail");
+        ModelAndView modelAndView = new ModelAndView("redirect:experience/experience_index");
         modelAndView.addObject("experiences", experienceDTO);
         return modelAndView;
     }
@@ -57,10 +50,9 @@ public class ExperienceController {
     @GetMapping("/edit/{id}")
     public String showEdit(@PathVariable Long id, Model model, Pageable pageable) {
         Optional<ExperienceDTO> experiences = experienceServiceImpllImpll.findOne(id);
-        if (experiences.isPresent()) {
-            ExperienceDTO experienceDTO = experiences.get();
-            model.addAttribute("experiences", experienceDTO);
-            return "experience/edit";
+        if (experiences != null) {
+            model.addAttribute("experiences", experiences);
+            return "experience/experience_edit";
         } else {
             return "redirect:/experiences/detail";
         }
@@ -69,16 +61,10 @@ public class ExperienceController {
     @PostMapping("/edit/{id}")
     public String doEdit(@PathVariable Long id, @ModelAttribute("experiences") @Valid ExperienceDTO experienceDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "experience/edit";
+            return "experience/experience_edit";
         }
         experienceDTO.setId(id);
         experienceServiceImpllImpll.save(experienceDTO);
-        return "redirect:/experience/detail";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String deleteDepartment(@PathVariable Long id) {
-        experienceServiceImpllImpll.delete(id);
         return "redirect:/experience/detail";
     }
 }
