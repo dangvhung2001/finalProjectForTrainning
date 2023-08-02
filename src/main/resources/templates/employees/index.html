@@ -48,7 +48,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="employee : ${listOfEmployees}" th:if="${employee.roles != 'ADMIN'}">
+                        <tr th:each="employee : ${listOfEmployees}" th:if="${employee.roles.contains('USER')}">
                             <td><input type="checkbox" name="check1" value="1"></td>
                             <td th:text="${employee.employeeCode}"></td>
                             <td th:text="${employee.firstname + ' ' + employee.lastname}"></td>

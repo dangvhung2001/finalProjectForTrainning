@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/certificates")
@@ -30,7 +30,7 @@ public class CertificateController {
     public String index(Model model, Pageable pageable, Authentication authentication) {
         String username = authentication.getName();
         EmployeeDTO loggedInEmployee = employeeService.findByEmail(username).orElseThrow(() -> new RuntimeException("Employee not found"));
-        Page<CertificateDTO> certificates = certificateService.findAll(pageable);
+        List<CertificateDTO> certificates = certificateService.findByEmployeeId(loggedInEmployee.getId());
         model.addAttribute("certificates", certificates);
         model.addAttribute("username", username);
         model.addAttribute("employee", loggedInEmployee);

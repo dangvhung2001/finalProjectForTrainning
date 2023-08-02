@@ -2,6 +2,7 @@ package com.example.finalproject.controller;
 
 import com.example.finalproject.service.EmployeeService;
 import com.example.finalproject.service.dto.EmployeeDTO;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +39,8 @@ public class AuthController {
                                  @RequestParam("newPassword") String newPassword,
                                  @RequestParam("confirmPassword") String confirmPassword,
                                  Principal principal,
-                                 Model model) {
+                                 Model model,
+                                 Authentication authentication) {
         String email = principal.getName();
         EmployeeDTO employee = employeeService.findByEmail(email).get();
 
