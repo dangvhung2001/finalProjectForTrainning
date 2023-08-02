@@ -70,16 +70,16 @@
             <div class="form-group col-md-4">
               <label class="control-label" >PM của dự án</label>
               <select class="form-control" th:field="*{pmId}">
-                <option th:value="null">-- Chọn tình trạng --</option>
+                <option th:value="null">-- Chọn Quản Lý Dự Án --</option>
                 <th:block th:each="listOfEmploy : ${listOfEmploy}" >
                   <option th:value="${listOfEmploy.id}" th:text="${listOfEmploy.firstname}"></option>
                 </th:block>
               </select>
             </div>
-
+                       <table>
                             <thead>
                             <tr>
-                              <th style="width: 10px"><input type="checkbox" id="all"></th>
+<!--                              <th style="width: 10px"><input type="checkbox" id="all"></th>-->
                               <th>ID nhân viên</th>
                               <th style="width: 150px">Họ và tên</th>
                               <th>Ảnh thẻ</th>
@@ -93,7 +93,7 @@
                             </thead>
                             <tbody>
                             <tr th:each="employee : ${selectedEmployees}">
-                              <td><input type="checkbox" name="selected" th:value="${employee}" /></td>
+<!--                              <td><input type="checkbox" name="selected" th:value="${employee}" /></td>-->
                               <td th:text="${employee.employeeCode}"></td>
                               <td th:text="${employee.firstname + ' ' + employee.lastname}"></td>
                               <td><img class="img-card-person" th:src="@{'../image' + ${employee.imgUrl}}" alt=""></td>
@@ -117,8 +117,11 @@
             <a id="btn-cancel" th:href="@{/project/detail}">Hủy bỏ</a>
           </form>
 
+<br>
+          <a th:href="@{/project/show/employee}"><button class="btn btn-delete btn-sm print-file js-textareacopybtn" type="button" title="Sao chép"><i class="fas fa-plus"></i>
+              Xem Danh Sách Nhân Viên
+          </button></a>
 
-          <a th:href="@{/project/show/employee}"><button>Xem Danh Sách Nhân Viên</button></a>
 
         </div>
 
