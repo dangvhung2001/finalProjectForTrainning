@@ -50,4 +50,19 @@ public class ProjectServiceImpl implements ProjectService {
         List<Project> projects = projectRepository.findAll();
         return projectMapperImpl.toDto(projects);
     }
+
+    @Override
+    public int getTotalPmCount() {
+        List<Project> projects = projectRepository.findAll();
+        int totalPmCount = 0;
+
+        for (Project project : projects) {
+            if (project.getPm() != null) {
+                totalPmCount++;
+            }
+        }
+
+        return totalPmCount;
+    }
+
 }

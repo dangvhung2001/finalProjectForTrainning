@@ -25,7 +25,7 @@ public class ExperienceController {
     @GetMapping("/detail")
     public String showDetail(Model model, @RequestParam(required = false) String textSearch, Pageable pageable) {
         Page<ExperienceDTO> experienceDTOS = experienceServiceImpllImpll.findAll(pageable);
-        model.addAttribute("experiences", experienceDTOS);
+        model.addAttribute("experienceDTOS", experienceDTOS);
         return "experience/index";
     }
 
@@ -41,8 +41,14 @@ public class ExperienceController {
             ModelAndView modelAndView = new ModelAndView("experience/create");
             return modelAndView;
         }
+        Optional<ExperienceDTO> existingName = experienceServiceImpllImpll.findByName(experienceDTO.getName_experience());
+        if (existingName.isPresent()) {
+            bindingResult.rejectValue("name_experience", "error.experience", "Tên kinh nghiệm đã tồn tại");
+            ModelAndView modelAndView = new ModelAndView("redirect:/experience/detail");
+            return modelAndView;
+        }
         experienceServiceImpllImpll.save(experienceDTO);
-        ModelAndView modelAndView = new ModelAndView("redirect:experience/create");
+        ModelAndView modelAndView = new ModelAndView("redirect:/experience/detail");
         modelAndView.addObject("experiences", experienceDTO);
         return modelAndView;
     }
@@ -50,8 +56,9 @@ public class ExperienceController {
     @GetMapping("/edit/{id}")
     public String showEdit(@PathVariable Long id, Model model, Pageable pageable) {
         Optional<ExperienceDTO> experiences = experienceServiceImpllImpll.findOne(id);
-        if (experiences != null) {
-            model.addAttribute("experiences", experiences);
+        if (experiences.isPresent()) {
+            ExperienceDTO experienceDTO = experiences.get();
+            model.addAttribute("experiences", experienceDTO);
             return "experience/edit";
         } else {
             return "redirect:/experiences/detail";
@@ -65,6 +72,12 @@ public class ExperienceController {
         }
         experienceDTO.setId(id);
         experienceServiceImpllImpll.save(experienceDTO);
+        return "redirect:/experience/detail";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteDepartment(@PathVariable Long id) {
+        experienceServiceImpllImpll.delete(id);
         return "redirect:/experience/detail";
     }
 }

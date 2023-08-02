@@ -4,8 +4,10 @@ import com.example.finalproject.repository.DepartmentRepository;
 import com.example.finalproject.repository.EmployeeRepository;
 import com.example.finalproject.repository.ProjectRepository;
 import com.example.finalproject.repository.SkillRepository;
+import com.example.finalproject.service.dto.SkillDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,4 +42,17 @@ public class DashBoardServiceImpl {
         return projectRepository.count();
     }
 
+    public List<SkillDTO> getLanguageUsed() {
+        List<Object[]> languageStatistics = skillRepository.getLanguageUsageStatistics();
+        List<SkillDTO> languageDTOList = new ArrayList<>();
+
+        for (Object[] result : languageStatistics) {
+            String languageName = (String) result[0];
+            Long languageUsageCount = (Long) result[1];
+            SkillDTO languageDTO = new SkillDTO(languageName, languageUsageCount.intValue());
+            languageDTOList.add(languageDTO);
+        }
+
+        return languageDTOList;
+    }
 }
