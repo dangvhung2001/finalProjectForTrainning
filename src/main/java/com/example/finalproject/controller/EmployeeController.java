@@ -1,10 +1,8 @@
 package com.example.finalproject.controller;
 
 import com.example.finalproject.domain.Role;
-import com.example.finalproject.domain.Skill;
 import com.example.finalproject.repository.EmployeeRepository;
 import com.example.finalproject.repository.RoleRepository;
-import com.example.finalproject.repository.SkillRepository;
 import com.example.finalproject.service.CertificateService;
 import com.example.finalproject.service.DepartmentService;
 import com.example.finalproject.service.EmployeeService;
@@ -13,8 +11,9 @@ import com.example.finalproject.service.dto.CertificateDTO;
 import com.example.finalproject.service.dto.DepartmentDTO;
 import com.example.finalproject.service.dto.EmployeeDTO;
 import com.example.finalproject.service.dto.SkillDTO;
-import com.example.finalproject.service.impl.MailSenderService;
-import com.lowagie.text.pdf.BaseFont;
+import com.itextpdf.text.Document;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -25,7 +24,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,15 +32,15 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.xhtmlrenderer.pdf.ITextFontResolver;
 import org.xhtmlrenderer.pdf.ITextRenderer;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import javax.validation.Valid;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.*;
 
 @Controller
@@ -202,7 +200,6 @@ public class EmployeeController {
         // Lấy thông tin của employee từ service dựa vào id
         EmployeeDTO employeeDTO = employeeService.findOne(id).orElse(null);
 
-        // Nếu không tìm thấy employee, trả về lỗi 404 Not Found
         if (employeeDTO == null) {
             return ResponseEntity.notFound().build();
         }
@@ -218,7 +215,7 @@ public class EmployeeController {
         context.setVariable("certificates", certificates);
 
         // Render template Thymeleaf thành HTML
-        String htmlContent = templateEngine.process("employees/detail", context);
+        String htmlContent = templateEngine.process("employees/pdf_export_template", context);
 
         // Chuyển đổi HTML thành file PDF sử dụng thư viện ITextRenderer
         try {
@@ -228,8 +225,7 @@ public class EmployeeController {
 
             // Thêm cài đặt để hỗ trợ các link trong HTML
             ITextFontResolver fontResolver = renderer.getFontResolver();
-            fontResolver.addFont("static/fonts/font-awesome-4.7.0/fonts/arialuni.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-
+            fontResolver.addFont("static/fonts/font-awesome-4.7.0/fonts/DejaVuSans.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             renderer.layout();
             renderer.createPDF(pdfOutputStream);
 
@@ -242,8 +238,6 @@ public class EmployeeController {
             return new ResponseEntity<>(pdfOutputStream.toByteArray(), headers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            // Xử lý nếu có lỗi khi tạo PDF
-            // Ví dụ: throw new RuntimeException("Failed to export profile to PDF");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

@@ -40,19 +40,4 @@ public class DashBoardServiceImpl {
         return projectRepository.count();
     }
 
-
-
-
-    public Map<String, Integer> countEmployeesBySkill() {
-        List<Object[]> skillCounts = skillRepository.countEmployeesBySkill();
-        Map<String, Integer> result = new HashMap<>();
-
-        for (Object[] obj : skillCounts) {
-            String skillName = (String) obj[0];
-            Long employeeCount = (Long) obj[1];
-            result.put(skillName, employeeCount.intValue());
-        }
-
-        return result;
-    }
 }

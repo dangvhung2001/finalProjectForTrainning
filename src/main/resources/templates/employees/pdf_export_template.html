@@ -23,7 +23,7 @@
     <link rel="stylesheet" th:href="@{http://localhost:8080/css/CVcss.css}"/>
 </head>
 <body>
-<div class="profile" style="display: flex">
+<div class="profile" style="display: flex" >
     <div class="profile_left">
         <div class="profile_wraper">
             <h1 th:text="${employees.firstname} + ' ' +${employees.lastname}"></h1>
@@ -74,8 +74,8 @@
             </div>
         </div>
     </div>
-    <div class="profile_right">
-        <div class="profile_right-target">
+    <div class="profile_right" style="width: 40%">
+        <div class="profile_right-target" >
             <h2>Mục tiêu nghề nghiệp</h2>
             <p>- Mong muốn được học hỏi kinh nghiệm ở môi trường làm việc chuyên nghiệp.</p>
             <p>- Trao dồi , áp dụng những kiến thức và kỹ năng tích lũy được trong quá trình học tập để hoàn thiện bản
@@ -101,23 +101,6 @@
         <div class="profile_right-title">
             <h2>Danh hiệu và giải thưởng</h2>
             <p>Sinh viên giỏi toàn khóa 2017-2022</p>
-        </div>
-    </div>
-    <div class="profile_buttons" >
-        <!-- "Chỉnh sửa" button -->
-        <div class="table-nav">
-            <a class="btn btn-add btn-sm" th:href="@{'~/employees/edit/' + ${employees.id}}" title="Sửa thông tin"
-               style="color: #003c00 !important;background-color: #9df99d !important;" ><i
-                    class="fas fa-plus"></i>
-                Sửa thông tin</a>
-        </div>
-
-        <!-- "In ra PDF" button -->
-        <div class="table-nav" >
-            <a class="btn btn-delete btn-sm pdf-file" type="button" title="In"
-               style="color: #bf0000 !important;background-color: #efcaca !important"
-               th:href="@{'~/employees/profile/export-pdf/' + ${employees.id}}" target="_blank"><i
-                    class="fas fa-file-pdf"></i> Xuất PDF</a>
         </div>
     </div>
 </div>

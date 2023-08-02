@@ -14,7 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/skills")
@@ -36,7 +36,7 @@ public class SkillController {
                         Authentication authentication) {
         String username = authentication.getName();
         EmployeeDTO loggedInEmployee = employeeService.findByEmail(username).orElseThrow(() -> new RuntimeException("Employee not found"));
-        Page<SkillDTO> skills = skillService.findAll(textSearch, pageable);
+        List<SkillDTO> skills = skillService.findByEmployeeId(loggedInEmployee.getId());
         model.addAttribute("username", username);
         model.addAttribute("skills", skills);
         model.addAttribute("employee", loggedInEmployee);
