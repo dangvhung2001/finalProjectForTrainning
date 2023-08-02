@@ -119,7 +119,7 @@ public class EmployeeController {
     @PostMapping("/add")
     public String doAdd(@ModelAttribute("employee") @Valid EmployeeDTO employeeDTO,
                         BindingResult bindingResult, RedirectAttributes redirectAttributes
-                        )  {
+    )  {
         if (bindingResult.hasErrors()) {
             return "employees/add";
         }
