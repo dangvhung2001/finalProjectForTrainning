@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
-
 <head>
     <title>Chi tiết kinh nghiệm</title>
 </head>
-
-
 <main class="app-content" layout:fragment="content">
     <div class="app-title">
         <ul class="app-breadcrumb breadcrumb side">
@@ -19,7 +16,6 @@
                 <div class="tile-body">
                     <div class="row element-button">
                         <div class="table-nav">
-
                             <a class="btn btn-add btn-sm" th:href="@{/experience/create}" title="Thêm"><i class="fas fa-plus"></i>
                                 Tạo mới</a>
                         </div>
@@ -27,25 +23,24 @@
                     <table class="table table-hover table-bordered" id="sampleTable">
                         <thead>
                         <tr>
-<!--                            <th width="10"><input type="checkbox" id="all"></th>-->
+                            <th width="10"><input type="checkbox" id="all"></th>
                             <th>id</th>
                             <th>Tên kinh nghiệm</th>
-                            <th>Date Start</th>
-                            <th>Date End</th>
+                            <th>Thời gian bắt đầu</th>
+                            <th>Thời gian kết thúc</th>
                             <th>Ngôn ngữ</th>
-                            <th>OS</th>
+                            <th>Hệ điều hành</th>
                             <th>Framework</th>
                             <th>Link</th>
                             <th>Nơi làm việc</th>
                             <th>Vị trí</th>
                             <th>Teamsize</th>
                             <th>Mô tả</th>
-                            <th>Chức Năng</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="experience : ${experienceDTOS}">
-<!--                            <td width="10"><input type="checkbox" name="check1" value="1"></td>-->
+                            <td width="10"><input type="checkbox" name="check1" value="1"></td>
                             <th th:text="${experience.getId}"></th>
                             <td th:text="${experience.getName_experience()}"></td>
                             <td th:text="${experience.getTimeStart()}"></td>
@@ -61,7 +56,6 @@
                             <td><a th:href="@{/experience/delete/{id}(id=${experience.id})}"><button class="btn btn-primary btn-sm trash" type="button" title="Xóa" ><i class="fas fa-trash-alt"></i></button></a>
                                 <a th:href="@{/experience/edit/{id}(id=${experience.id})}"><button class="btn btn-primary btn-sm edit" type="button" title="Sửa" ><i class="fa fa-edit"></i></button></a></td>
                         </tr>
-
                         </tbody>
                     </table>
                 </div>
@@ -69,6 +63,4 @@
         </div>
     </div>
 </main>
-
-
 </html>

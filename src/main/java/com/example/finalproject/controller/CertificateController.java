@@ -45,7 +45,7 @@ public class CertificateController {
     }
 
     @GetMapping("/add")
-    public String showAdd( Model model, Authentication authentication) {
+    public String showAdd(Model model, Authentication authentication) {
         String loggedInUsername = authentication.getName();
         EmployeeDTO loggedInEmployee = employeeService.findByEmail(loggedInUsername).orElseThrow(() -> new RuntimeException("Employee not found"));
         model.addAttribute("employee", loggedInEmployee);

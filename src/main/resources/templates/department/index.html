@@ -21,13 +21,23 @@
                                 Tạo mới</a>
                         </div>
                         <div class="table-nav">
+                            <a class="btn btn-delete btn-sm nhapexperience_index.html-tu-file" type="button" title="Nhập" onclick="myFunction(this)"><i
+                                    class="fas fa-file-upload"></i> Tải từ file</a>
+                        </div>
+                        <div class="table-nav">
+                            <a class="btn btn-delete btn-sm print-file" type="button" title="In" onclick="myApp.printTable()"><i
+                                    class="fas fa-print"></i> In dữ liệu</a>
+                        </div>
+                        <div class="table-nav">
+                            <a class="btn btn-delete btn-sm print-file js-textareacopybtn" type="button" title="Sao chép"><i
+                                    class="fas fa-copy"></i> Sao chép</a>
+                        </div>
+                        <div class="table-nav">
                             <a class="btn btn-delete btn-sm pdf-file" type="button" title="In" onclick="myFunction(this)"><i
                                     class="fas fa-file-pdf"></i> Xuất PDF</a>
                         </div>
                         <!-- Add row with dropdown and search bar -->
-
                     </div>
-
                     <table class="table table-hover table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0"
                            id="sampleTable">
                         <thead>
@@ -47,20 +57,18 @@
                         <tr th:each="department : ${departments}">
                             <td width="10"><input type="checkbox" name="check1" value="1"></td>
                             <th th:text="${department.getId()}"></th>
-                            <td> <a th:href="@{/department/detail/{id}(id=${department.id})}" th:text="${department.getName()}"></a></td>
+                            <td th:text="${department.getName()}"></td>
                             <td th:text="${department.getDepartmentCode()}"></td>
                             <td th:text="${department.getDescription()}"></td>
                             <td th:text="${department.getIssueDate()}"></td>
-<!--                                                        <td th:text="${department.get}">23</td>-->
+                            <!--                            <td th:text="${department.getId()}">23</td>-->
                             <!--                            <td th:text="${department.getParentDepartment()}"></td>-->
                             <td th:text="${department.parentId == null ? '' : department.parentName}"></td>
                             <td><a th:href="@{/department/delete/{id}(id=${department.id})}"><button class="btn btn-primary btn-sm trash" type="button" title="Xóa" ><i class="fas fa-trash-alt"></i></button></a>
                                 <a th:href="@{/department/edit/{id}(id=${department.id})}"><button class="btn btn-primary btn-sm edit" type="button" title="Sửa" ><i class="fa fa-edit"></i></button></a></td>
                         </tr>
-
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>

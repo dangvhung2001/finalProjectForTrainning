@@ -14,9 +14,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailService userDetailsService;
+
     public WebSecurityConfig(UserDetailService userDetailService) {
         this.userDetailsService = userDetailService;
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -41,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/certificates/**").hasAuthority("USER")
 //                .antMatchers("/skills/**").hasAuthority("USER")
 //                .antMatchers("/project/**").hasAuthority("ADMIN")
-//                .antMatchers("/experience/**").hasAuthority("USER")
+//                .antMatchers("/experience/**").hasAuthority("ADMIN")
                 .and()
                 .formLogin((form) -> form
                         .loginPage("/login")

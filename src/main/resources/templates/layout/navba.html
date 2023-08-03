@@ -12,8 +12,10 @@
     <ul class="app-nav">
         <!-- User Menu-->
         <li>
-            <a class="app-nav__item" th:href="@{/changePassword}">
-                <i class="bx bx-key"></i> Đổi mật khẩu
+            <a th:href="@{/changePassword}">
+                <button class="app-nav__item">
+                    <i class="bx bx-key"></i> Đổi mật khẩu
+                </button>
             </a>
         </li>
         <li>
@@ -23,7 +25,6 @@
                 </button>
             </form>
         </li>
-
     </ul>
 </header>
 </body>

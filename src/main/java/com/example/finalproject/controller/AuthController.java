@@ -6,12 +6,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 
@@ -39,8 +37,7 @@ public class AuthController {
                                  @RequestParam("newPassword") String newPassword,
                                  @RequestParam("confirmPassword") String confirmPassword,
                                  Principal principal,
-                                 Model model,
-                                 Authentication authentication) {
+                                 Model model) {
         String email = principal.getName();
         EmployeeDTO employee = employeeService.findByEmail(email).get();
 
@@ -54,10 +51,10 @@ public class AuthController {
             return "login/change-password";
         }
 
-        employee.setPassword(passwordEncoder.encode(newPassword));
+        employee.setPassword(newPassword);
         employeeService.save(employee);
 
         model.addAttribute("successMessage", "Đổi mật khẩu thành công");
-        return "login/change-password";
+        return "employees/index";
     }
 }

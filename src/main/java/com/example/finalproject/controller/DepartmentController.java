@@ -1,11 +1,9 @@
 package com.example.finalproject.controller;
 
 import com.example.finalproject.domain.Department;
-import com.example.finalproject.domain.Employee;
 import com.example.finalproject.repository.DepartmentRepository;
 import com.example.finalproject.service.dto.DepartmentDTO;
 import com.example.finalproject.service.dto.EmployeeDTO;
-import com.example.finalproject.service.dto.ProjectDTO;
 import com.example.finalproject.service.impl.DepartmentServiceImpl;
 import com.example.finalproject.service.mapper.impl.DepartmentMapperImpl;
 import org.springframework.data.domain.Page;

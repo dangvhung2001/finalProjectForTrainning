@@ -9,12 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Main CSS-->
     <link rel="stylesheet" type="text/css" th:href="@{/css/mainDoc.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     <!-- or -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -75,32 +72,32 @@
 <script type="text/javascript" src="../../static/js/plugins/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript">$('#sampleTable').DataTable();</script>
 <script>
-    // function deleteRow(r) {
-    //     var i = r.parentNode.parentNode.rowIndex;
-    //     document.getElementById("myTable").deleteRow(i);
-    // }
-    // jQuery(function () {
-    //     jQuery(".trash").click(function () {
-    //         swal({
-    //             title: "Cảnh báo",
-    //
-    //             text: "Bạn có chắc chắn là muốn xóa đơn hàng này?",
-    //             buttons: ["Hủy bỏ", "Đồng ý"],
-    //         })
-    //             .then((willDelete) => {
-    //                 if (willDelete) {
-    //                     swal("Đã xóa thành công.!", {
-    //
-    //                     });
-    //                 }
-    //             });
-    //     });
-    // });
-    // oTable = $('#sampleTable').dataTable();
-    // $('#all').click(function (e) {
-    //     $('#sampleTable tbody :checkbox').prop('checked', $(this).is(':checked'));
-    //     e.stopImmediatePropagation();
-    // });
+    function deleteRow(r) {
+        var i = r.parentNode.parentNode.rowIndex;
+        document.getElementById("myTable").deleteRow(i);
+    }
+    jQuery(function () {
+        jQuery(".trash").click(function () {
+            swal({
+                title: "Cảnh báo",
+
+                text: "Bạn có chắc chắn là muốn xóa đơn hàng này?",
+                buttons: ["Hủy bỏ", "Đồng ý"],
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("Đã xóa thành công.!", {
+
+                        });
+                    }
+                });
+        });
+    });
+    oTable = $('#sampleTable').dataTable();
+    $('#all').click(function (e) {
+        $('#sampleTable tbody :checkbox').prop('checked', $(this).is(':checked'));
+        e.stopImmediatePropagation();
+    });
 
     //Thời Gian
     function time() {
