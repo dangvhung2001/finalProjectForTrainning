@@ -146,7 +146,10 @@ public class EmployeeController {
     }
 
     @PostMapping("/edit/{id}")
-    public String doEdit(@PathVariable Long id, @ModelAttribute("employee") @Valid EmployeeDTO employeeDTO, @RequestParam("imageFile") MultipartFile imageFile, Model model, BindingResult bindingResult) throws IOException {
+    public String doEdit(@PathVariable Long id, @ModelAttribute("employee") @Valid EmployeeDTO employeeDTO,
+                         @RequestParam("imageFile") MultipartFile imageFile,
+                         Model model,
+                         BindingResult bindingResult) throws IOException {
         if (bindingResult.hasErrors()) {
             return "employees/edit";
         }
@@ -221,6 +224,8 @@ public class EmployeeController {
             return new ResponseEntity<>(pdfOutputStream.toByteArray(), headers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
+            // Xử lý nếu có lỗi khi tạo PDF
+            // Ví dụ: throw new RuntimeException("Failed to export profile to PDF");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
