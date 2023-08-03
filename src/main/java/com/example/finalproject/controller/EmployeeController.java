@@ -66,7 +66,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/search")
-    public String listSearch(@RequestParam(required = false, defaultValue = "") String textSearch, @PageableDefault(size = 5) Pageable pageable, Model model) {
+    public String listSearch(@RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable, Model model) {
         Page<EmployeeDTO> employees = employeeService.findAll(textSearch, pageable);
         model.addAttribute("employee", employees);
         return "employees/search";
@@ -108,6 +108,7 @@ public class EmployeeController {
         if (bindingResult.hasErrors()) {
             return "employees/add";
         }
+
         Optional<EmployeeDTO> existingEmployee = employeeService.findByEmail(employeeDTO.getEmail());
         if (existingEmployee.isPresent()) {
             bindingResult.rejectValue("email", "error.employee", "Email đã tồn tại");
@@ -122,14 +123,11 @@ public class EmployeeController {
         return "redirect:/employees/index";
     }
 
-    @GetMapping("/edit/{id}")
-    public String showEdit(@PathVariable Long id, Model model, Authentication authentication) {
+    @GetMapping("/edit")
+    public String showEdit(Model model, Authentication authentication) {
         String loggedInUsername = authentication.getName();
         EmployeeDTO loggedInEmployee = employeeService.findByEmail(loggedInUsername).orElseThrow(() -> new RuntimeException("Employee not found"));
-        if (!id.equals(loggedInEmployee.getId())) {
-            return "login/403";
-        }
-        Optional<EmployeeDTO> employee = employeeService.findOne(id);
+        Optional<EmployeeDTO> employee = employeeService.findOne(loggedInEmployee.getId());
         if (employee.isPresent()) {
             EmployeeDTO employeeDTO = employee.get();
             List<DepartmentDTO> departments = departmentService.getAll();
