@@ -3306,7 +3306,7 @@ input[type="button"].btn-block {
   color: black;
   text-align: left;
   list-style: none;
-  background-color: #FFF;
+  background-color: rgb(0, 28, 64);
   background-clip: padding-box;
   border: 0 solid rgba(0, 0, 0, 0.15);
   border-radius: 0.25rem;
@@ -3432,9 +3432,9 @@ input[type="button"].btn-block {
   color: black;
   text-align: inherit;
   white-space: nowrap;
-  background-color: transparent;
+  background-color: rgb(0, 28, 64);
   border: 0;
-  text-align: center;
+  /*text-align: center;*/
   border-radius: .375rem;
   box-shadow: 1px 1px 5px #0000006b;
 }

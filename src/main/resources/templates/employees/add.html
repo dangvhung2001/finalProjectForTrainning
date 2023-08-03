@@ -102,12 +102,23 @@
                         </div>
                         <div class="form-group col-md-3">
                             <label class="control-label">Quyền hạn</label>
-                            <select class="form-control" name="roles" required th:field="*{roles}">
-                                <option value="">-- Chọn quyền hạn --</option>
-                                <option th:each="role: ${roles}" th:value="${role.roleName}"
-                                        th:text="${role.roleName}"></option>
-                            </select>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle form-control" type="button" id="rolesDropdown" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                    Chọn quyền hạn
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="rolesDropdown">
+                                    <input type="hidden" name="roles" th:field="*{roles}" value="" />
+                                    <label class="dropdown-item">
+                                        <input type="checkbox" name="roles" value="ADMIN"> ADMIN
+                                    </label>
+                                    <label class="dropdown-item">
+                                        <input type="checkbox" name="roles" value="USER"> USER
+                                    </label>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="form-group col-md-3">
                             <label class="control-label">Phòng ban</label>
                             <select class="form-control"  th:field="*{departmentId}">

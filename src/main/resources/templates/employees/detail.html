@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout}"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -23,7 +24,7 @@
     <link rel="stylesheet" th:href="@{http://localhost:8080/css/CVcss.css}"/>
 </head>
 <body>
-<div class="profile" style="display: flex">
+<div class="profile" layout:fragment="content">
     <div class="profile_left">
         <div class="profile_wraper">
             <h1 th:text="${employees.firstname} + ' ' +${employees.lastname}"></h1>
@@ -58,12 +59,14 @@
                     <a href="" th:text="'https://www.facebook.com/' + ${employees.phone}">
                     </a>
                 </div>
-                <div class="profile_body-skill" th:each="skill : ${skills}">
+                <div class="profile_body-skill">
                     <h2>Các kỹ năng</h2>
-                    <h3 th:text="${skill.name}"></h3>
-                    <p th:text="${skill.yearExperience + ' year ' + skill.monthExperience + ' month '}"></p>
-                    <p th:text="${'Lever: ' + skill.level}"></p>
-                    <p th:text="${skill.description}"></p>
+                    <div th:each="skill : ${skills}">
+                        <h3 th:text="${skill.name}"></h3>
+                        <p th:text="${skill.yearExperience + ' year ' + skill.monthExperience + ' month '}"></p>
+                        <p th:text="${'Lever: ' + skill.level}"></p>
+                        <p th:text="${skill.description}"></p>
+                    </div>
                 </div>
                 <div class="profile_body-interests">
                     <h2>Sở Thích</h2>
@@ -84,15 +87,15 @@
         <div class="profile_right-education">
             <h2></h2>
         </div>
-        <div class="profile_right-exp" th:each="certificate : ${certificates}">
+        <div class="profile_right-exp" >
             <h2>Chứng chỉ </h2>
+            <div th:each="certificate : ${certificates}">
             <h3 th:text="${certificate.nameCertificate}"></h3>
             <p th:text="${certificate.issueDate} + ' - ' + ${certificate.expirationDate}"></p>
             <p th:text="${certificate.certificationOfficer}"></p>
             <p th:text="${certificate.description}"></p>
             <br/>
-            <br/>
-            <br/>
+            </div>
         </div>
         <div class="profile_right-work">
             <h2>Hoạt động</h2>
@@ -106,7 +109,7 @@
     <div class="profile_buttons" >
         <!-- "Chỉnh sửa" button -->
         <div class="table-nav">
-            <a class="btn btn-add btn-sm" th:href="@{'~/employees/edit/' + ${employees.id}}" title="Sửa thông tin"
+            <a class="btn btn-add btn-sm" th:href="@{'~/employees/edit'}" title="Sửa thông tin"
                style="color: #003c00 !important;background-color: #9df99d !important;" ><i
                     class="fas fa-plus"></i>
                 Sửa thông tin</a>

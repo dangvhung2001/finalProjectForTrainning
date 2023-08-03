@@ -58,12 +58,14 @@
                     <a href="" th:text="'https://www.facebook.com/' + ${employees.phone}">
                     </a>
                 </div>
-                <div class="profile_body-skill" th:each="skill : ${skills}">
+                <div class="profile_body-skill">
                     <h2>Các kỹ năng</h2>
-                    <h3 th:text="${skill.name}"></h3>
-                    <p th:text="${skill.yearExperience + ' year ' + skill.monthExperience + ' month '}"></p>
-                    <p th:text="${'Lever: ' + skill.level}"></p>
-                    <p th:text="${skill.description}"></p>
+                    <div th:each="skill : ${skills}">
+                        <h3 th:text="${skill.name}"></h3>
+                        <p th:text="${skill.yearExperience + ' year ' + skill.monthExperience + ' month '}"></p>
+                        <p th:text="${'Lever: ' + skill.level}"></p>
+                        <p th:text="${skill.description}"></p>
+                    </div>
                 </div>
                 <div class="profile_body-interests">
                     <h2>Sở Thích</h2>
@@ -84,15 +86,15 @@
         <div class="profile_right-education">
             <h2></h2>
         </div>
-        <div class="profile_right-exp" th:each="certificate : ${certificates}">
+        <div class="profile_right-exp">
             <h2>Chứng chỉ </h2>
-            <h3 th:text="${certificate.nameCertificate}"></h3>
-            <p th:text="${certificate.issueDate} + ' - ' + ${certificate.expirationDate}"></p>
-            <p th:text="${certificate.certificationOfficer}"></p>
-            <p th:text="${certificate.description}"></p>
-            <br/>
-            <br/>
-            <br/>
+            <div th:each="certificate : ${certificates}">
+                <h3 th:text="${certificate.nameCertificate}"></h3>
+                <p th:text="${certificate.issueDate} + ' - ' + ${certificate.expirationDate}"></p>
+                <p th:text="${certificate.certificationOfficer}"></p>
+                <p th:text="${certificate.description}"></p>
+                <br/>
+            </div>
         </div>
         <div class="profile_right-work">
             <h2>Hoạt động</h2>

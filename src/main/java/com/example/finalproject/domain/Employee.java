@@ -53,7 +53,7 @@ public class Employee {
     private String email;
 
     private String address;
-    @Pattern(regexp = "^(\\+\\d{1,3})?\\s*(\\d{10,})$", message = "Số điện thoại không hợp lệ")
+    @Min(value = 0, message = "Số điện thoại phải là số không âm")
     private Integer phone;
 
     private Date startDate;
