@@ -145,6 +145,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             existingEmployee.setSex(employeeDTO.getSex());
             existingEmployee.setPlaceOfIssue(employeeDTO.getPlaceOfIssue());
             existingEmployee.setImgUrl(employeeDTO.getImgUrl());
+            existingEmployee.setDepartmentId(employeeDTO.getDepartmentId());
 
             employeeRepository.save(existingEmployee);
         } else {

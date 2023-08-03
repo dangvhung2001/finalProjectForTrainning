@@ -127,7 +127,7 @@ public class EmployeeController {
         if (existingEmployee.isPresent()) {
             bindingResult.rejectValue("email", "error.employee", "Email đã tồn tại");
 //            redirectAttributes.addFlashAttribute("email", "Email đã tồn tại");
-            return "redirect:employees/add";
+            return "employees/add";
         }
         Optional<EmployeeDTO> existingEmployeeCode = employeeService.findByEmployeeCode(employeeDTO.getEmployeeCode());
         if (existingEmployeeCode.isPresent()) {

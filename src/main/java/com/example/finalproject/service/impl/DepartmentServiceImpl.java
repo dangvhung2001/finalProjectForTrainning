@@ -1,9 +1,13 @@
 package com.example.finalproject.service.impl;
 
 import com.example.finalproject.domain.Department;
+import com.example.finalproject.domain.Employee;
 import com.example.finalproject.repository.DepartmentRepository;
+import com.example.finalproject.repository.EmployeeRepository;
 import com.example.finalproject.service.DepartmentService;
 import com.example.finalproject.service.dto.DepartmentDTO;
+import com.example.finalproject.service.dto.EmployeeDTO;
+import com.example.finalproject.service.mapper.EmployeeMapper;
 import com.example.finalproject.service.mapper.impl.DepartmentMapperImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,9 +22,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     private final DepartmentRepository departmentRepository;
     private final DepartmentMapperImpl departmentMapper;
 
-    public DepartmentServiceImpl(DepartmentRepository departmentRepository, DepartmentMapperImpl departmentMapper) {
+    private final EmployeeMapper employeeMapper;
+
+    private final EmployeeRepository employeeRepository;
+
+    public DepartmentServiceImpl(DepartmentRepository departmentRepository, DepartmentMapperImpl departmentMapper,EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) {
         this.departmentMapper = departmentMapper;
         this.departmentRepository = departmentRepository;
+        this.employeeRepository = employeeRepository;
+        this.employeeMapper = employeeMapper;
     }
 
     @Override
@@ -60,4 +70,17 @@ public class DepartmentServiceImpl implements DepartmentService {
         List<Department> departments = departmentRepository.findAll();
         return departmentMapper.toDto(departments);
     }
+
+    @Override
+    public Long countByDepartmentId(Long departmentId) {
+        return employeeRepository.countByDepartmentId(departmentId);
+    }
+
+    @Override
+    public List<EmployeeDTO> findByDepartmentId(Long departmentId) {
+        List<Employee> employeeList = employeeRepository.findByDepartmentId(departmentId);
+        return employeeMapper.toDto(employeeList);
+    }
+
+
 }
