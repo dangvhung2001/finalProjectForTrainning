@@ -47,11 +47,11 @@
                         <tr th:each="department : ${departments}">
                             <td width="10"><input type="checkbox" name="check1" value="1"></td>
                             <th th:text="${department.getId()}"></th>
-                            <td th:text="${department.getName()}"></td>
+                            <td> <a th:href="@{/department/detail/{id}(id=${department.id})}" th:text="${department.getName()}"></a></td>
                             <td th:text="${department.getDepartmentCode()}"></td>
                             <td th:text="${department.getDescription()}"></td>
                             <td th:text="${department.getIssueDate()}"></td>
-                            <!--                            <td th:text="${department.getId()}">23</td>-->
+<!--                                                        <td th:text="${department.get}">23</td>-->
                             <!--                            <td th:text="${department.getParentDepartment()}"></td>-->
                             <td th:text="${department.parentId == null ? '' : department.parentName}"></td>
                             <td><a th:href="@{/department/delete/{id}(id=${department.id})}"><button class="btn btn-primary btn-sm trash" type="button" title="Xóa" ><i class="fas fa-trash-alt"></i></button></a>

@@ -1,6 +1,7 @@
 package com.example.finalproject.service;
 
 
+import com.example.finalproject.domain.Employee;
 import com.example.finalproject.service.dto.DepartmentDTO;
 import com.example.finalproject.service.dto.EmployeeDTO;
 import org.springframework.data.domain.Page;
@@ -24,5 +25,7 @@ public interface DepartmentService {
 
     List<DepartmentDTO> getAll();
 
+    Long countByDepartmentId(Long departmentId);
 
+    List<EmployeeDTO> findByDepartmentId(Long departmentId);
 }

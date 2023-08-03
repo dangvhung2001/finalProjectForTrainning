@@ -1,8 +1,11 @@
 package com.example.finalproject.controller;
 
 import com.example.finalproject.domain.Department;
+import com.example.finalproject.domain.Employee;
 import com.example.finalproject.repository.DepartmentRepository;
 import com.example.finalproject.service.dto.DepartmentDTO;
+import com.example.finalproject.service.dto.EmployeeDTO;
+import com.example.finalproject.service.dto.ProjectDTO;
 import com.example.finalproject.service.impl.DepartmentServiceImpl;
 import com.example.finalproject.service.mapper.impl.DepartmentMapperImpl;
 import org.springframework.data.domain.Page;
@@ -39,6 +42,22 @@ public class DepartmentController {
         model.addAttribute("departments", departments);
         model.addAttribute("username", username);
         return "department/index";
+    }
+
+    @GetMapping("/detail/{id}")
+    public String detailProject(@PathVariable Long id, Model model) {
+        Optional<DepartmentDTO> departmentDTO = departmentServiceImpl.findOne(id);
+        if (departmentDTO.isPresent()) {
+            Long count = departmentServiceImpl.countByDepartmentId(id);
+            List<EmployeeDTO> employeeList = departmentServiceImpl.findByDepartmentId(id);
+            DepartmentDTO department = departmentDTO.get();
+            model.addAttribute("count", count);
+            model.addAttribute("employeeList", employeeList);
+            model.addAttribute("departments", department);
+            return "department/detail";
+        } else {
+            return "redirect:/department/detail";
+        }
     }
 
     @GetMapping("/create")
