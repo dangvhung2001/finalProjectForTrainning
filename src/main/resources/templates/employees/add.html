@@ -27,7 +27,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label class="control-label">Họ nhân viên</label>
-                            <input class="form-control" type="text" th:field="*{firstname}">
+                            <input class="form-control" type="text" required th:field="*{firstname}">
                         </div>
                         <div class="form-group col-md-4">
                             <label class="control-label">Tên nhân viên</label>
@@ -43,10 +43,13 @@
                         <div class="form-group col-md-4">
                             <label class="control-label">Password</label>
                             <input class="form-control" type="password" required th:field="*{password}">
+                            <div th:if="${#fields.hasErrors('password')}" class="alert alert-danger">
+                                <p th:each="error : ${#fields.errors('password')}" th:text="${error}"></p>
+                            </div>
                         </div>
                         <div class="form-group col-md-4">
                             <label class="control-label">Địa chỉ thường trú</label>
-                            <input class="form-control" type="text" th:field="*{address}">
+                            <input class="form-control" type="text" required th:field="*{address}">
                         </div>
                         <div class="form-group col-md-4">
                             <label class="control-label">Ngày bắt đầu làm việc</label>
@@ -66,10 +69,16 @@
                         <div class="form-group  col-md-3">
                             <label class="control-label">Hệ số lương</label>
                             <input class="form-control" type="text" th:field="*{salaryCoefficient}">
+                            <div th:if="${#fields.hasErrors('salaryCoefficient')}" class="alert alert-danger">
+                                <p th:each="error : ${#fields.errors('salaryCoefficient')}" th:text="${error}"></p>
+                            </div>
                         </div>
                         <div class="form-group  col-md-3">
                             <label class="control-label">Lương cơ bản</label>
                             <input class="form-control" type="text" th:field="*{salary}">
+                            <div th:if="${#fields.hasErrors('salary')}" class="alert alert-danger">
+                                <p th:each="error : ${#fields.errors('salary')}" th:text="${error}"></p>
+                            </div>
                         </div>
                         <div class="form-group col-md-3">
                             <label class="control-label">Số CMND</label>

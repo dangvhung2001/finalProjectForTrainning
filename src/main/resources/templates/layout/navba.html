@@ -12,12 +12,20 @@
     <ul class="app-nav">
         <!-- User Menu-->
         <li>
+            <a th:href="@{/changePassword}">
+                <button class="app-nav__item">
+                    <i class="bx bx-key"></i> Đổi mật khẩu
+                </button>
+            </a>
+        </li>
+        <li>
             <form th:action="@{/logout}" method="post">
                 <button type="submit" class="app-nav__item">
                     <i class='bx bx-log-out bx-rotate-180'></i>
                 </button>
             </form>
         </li>
+
     </ul>
 </header>
 </body>

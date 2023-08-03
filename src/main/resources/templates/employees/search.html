@@ -85,11 +85,11 @@
         </div>
     </form>
     <div id="employeeList" class="row">
-        <div th:each="employee : ${employees}" class="employee col-lg-3 col-md-4 col-sm-6" >
-            <img th:src="@{${employee.imgUrl}}" alt="Avatar" th:href="@{/employees/{id}(id = ${employee.id})}">
-            <a th:href="@{/employees/{id}(id = ${employee.id})}"><p th:text="${employee.firstname + ' ' + employee.lastname}" ></p></a>
-            <p th:text="'Vị trí: ' + ${employee.position}"></p>
-            <p th:text="'Số điện thoại: ' + ${employee.phone}"></p>
+        <div th:each="employees : ${employee}" class="employee col-lg-3 col-md-4 col-sm-6" >
+            <img th:src="@{'~/image/' + ${employees.imgUrl}}" alt="Avatar" th:href="@{/employees/{id}(id = ${employees.id})}">
+            <a th:href="@{/employees/{id}(id = ${employees.id})}"><p th:text="${employees.firstname + ' ' + employees.lastname}" ></p></a>
+            <p th:text="'Vị trí: ' + ${employees.position}"></p>
+            <p th:text="'Số điện thoại: ' + ${employees.phone}"></p>
         </div>
     </div>
 </main>

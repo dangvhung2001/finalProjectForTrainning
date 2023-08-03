@@ -1,10 +1,8 @@
 package com.example.finalproject.controller;
 
 import com.example.finalproject.domain.Role;
-import com.example.finalproject.domain.Skill;
 import com.example.finalproject.repository.EmployeeRepository;
 import com.example.finalproject.repository.RoleRepository;
-import com.example.finalproject.repository.SkillRepository;
 import com.example.finalproject.service.CertificateService;
 import com.example.finalproject.service.DepartmentService;
 import com.example.finalproject.service.EmployeeService;
@@ -13,7 +11,6 @@ import com.example.finalproject.service.dto.CertificateDTO;
 import com.example.finalproject.service.dto.DepartmentDTO;
 import com.example.finalproject.service.dto.EmployeeDTO;
 import com.example.finalproject.service.dto.SkillDTO;
-import com.example.finalproject.service.impl.MailSenderService;
 import com.lowagie.text.pdf.BaseFont;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,13 +32,7 @@ import org.xhtmlrenderer.pdf.ITextFontResolver;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import javax.validation.Valid;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.io.*;
 import java.util.*;
 
 @Controller
@@ -55,13 +45,8 @@ public class EmployeeController {
     private final SkillService skillService;
     private final CertificateService certificateService;
     private final TemplateEngine templateEngine;
-    public EmployeeController(EmployeeService employeeService,
-                              DepartmentService departmentService,
-                              RoleRepository roleRepository,
-                              EmployeeRepository employeeRepository,
-                              SkillService skillService,
-                              CertificateService certificateService,
-                              TemplateEngine templateEngine) {
+
+    public EmployeeController(EmployeeService employeeService, DepartmentService departmentService, RoleRepository roleRepository, EmployeeRepository employeeRepository, SkillService skillService, CertificateService certificateService, TemplateEngine templateEngine) {
         this.employeeService = employeeService;
         this.departmentService = departmentService;
         this.roleRepository = roleRepository;
@@ -83,7 +68,7 @@ public class EmployeeController {
     @GetMapping("/search")
     public String listSearch(@RequestParam(required = false, defaultValue = "") String textSearch, @PageableDefault(size = 5) Pageable pageable, Model model) {
         Page<EmployeeDTO> employees = employeeService.findAll(textSearch, pageable);
-        model.addAttribute("employees", employees);
+        model.addAttribute("employee", employees);
         return "employees/search";
     }
 
@@ -93,6 +78,7 @@ public class EmployeeController {
         model.addAttribute("employees", employees.orElse(null));
         return "employees/detail";
     }
+
     @GetMapping("/detail")
     public String detailEmployee(Model model, Authentication authentication) {
         String loggedInUsername = authentication.getName();
@@ -106,7 +92,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/add")
-    public String showAdd(Model model,@ModelAttribute("email") String email) {
+    public String showAdd(Model model, @ModelAttribute("email") String email) {
         model.addAttribute("employee", new EmployeeDTO());
         List<Role> roles = roleRepository.findAll();
         List<DepartmentDTO> departments = departmentService.getAll();
@@ -114,22 +100,18 @@ public class EmployeeController {
         model.addAttribute("roles", roles);
         model.addAttribute("departments", departments);
         model.addAttribute("listOfEmployees", listOfEmployees);
-//        model.addAttribute("email", email);
         return "employees/add";
     }
 
     @PostMapping("/add")
-    public String doAdd(@ModelAttribute("employee") @Valid EmployeeDTO employeeDTO,
-                        BindingResult bindingResult, RedirectAttributes redirectAttributes
-                        )  {
+    public String doAdd(@ModelAttribute("employee") @Valid EmployeeDTO employeeDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "employees/add";
         }
         Optional<EmployeeDTO> existingEmployee = employeeService.findByEmail(employeeDTO.getEmail());
         if (existingEmployee.isPresent()) {
             bindingResult.rejectValue("email", "error.employee", "Email đã tồn tại");
-//            redirectAttributes.addFlashAttribute("email", "Email đã tồn tại");
-            return "redirect:employees/add";
+            return "employees/add";
         }
         Optional<EmployeeDTO> existingEmployeeCode = employeeService.findByEmployeeCode(employeeDTO.getEmployeeCode());
         if (existingEmployeeCode.isPresent()) {
@@ -164,10 +146,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/edit/{id}")
-    public String doEdit(@PathVariable Long id, @ModelAttribute("employee") @Valid EmployeeDTO employeeDTO,
-                         @RequestParam("imageFile") MultipartFile imageFile,
-                         Model model,
-                         BindingResult bindingResult) throws IOException {
+    public String doEdit(@PathVariable Long id, @ModelAttribute("employee") @Valid EmployeeDTO employeeDTO, @RequestParam("imageFile") MultipartFile imageFile, Model model, BindingResult bindingResult) throws IOException {
         if (bindingResult.hasErrors()) {
             return "employees/edit";
         }
@@ -196,6 +175,7 @@ public class EmployeeController {
         employeeService.delete(id);
         return "redirect:/employees/index";
     }
+
     @GetMapping("/profile/export-pdf/{id}")
     @ResponseBody
     public ResponseEntity<byte[]> exportProfileToPdf(@PathVariable Long id) {
@@ -218,7 +198,7 @@ public class EmployeeController {
         context.setVariable("certificates", certificates);
 
         // Render template Thymeleaf thành HTML
-        String htmlContent = templateEngine.process("employees/detail", context);
+        String htmlContent = templateEngine.process("employees/pdf_export_template", context);
 
         // Chuyển đổi HTML thành file PDF sử dụng thư viện ITextRenderer
         try {
@@ -228,8 +208,7 @@ public class EmployeeController {
 
             // Thêm cài đặt để hỗ trợ các link trong HTML
             ITextFontResolver fontResolver = renderer.getFontResolver();
-            fontResolver.addFont("static/fonts/font-awesome-4.7.0/fonts/arialuni.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-
+            fontResolver.addFont("static/fonts/font-awesome-4.7.0/fonts/DejaVuSans.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             renderer.layout();
             renderer.createPDF(pdfOutputStream);
 
@@ -242,8 +221,6 @@ public class EmployeeController {
             return new ResponseEntity<>(pdfOutputStream.toByteArray(), headers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            // Xử lý nếu có lỗi khi tạo PDF
-            // Ví dụ: throw new RuntimeException("Failed to export profile to PDF");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

@@ -1,6 +1,8 @@
 package com.example.finalproject.service.dto;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 import java.sql.Date;
 import java.util.Set;
 
@@ -22,9 +24,12 @@ public class EmployeeDTO {
     @Email
     private String email;
     private String address;
+    @Pattern(regexp = "^(\\+\\d{1,3})?\\s*(\\d{10,})$", message = "Số điện thoại không hợp lệ")
     private int phone;
     private Date startDate;
+    @Min(value = 0, message = "Giá trị không thể nhỏ hơn 0")
     private float salaryCoefficient;
+    @Min(value = 0, message = "Giá trị không thể nhỏ hơn 0")
     private float salary;
     private String position;
     private String educationLevel;
