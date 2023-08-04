@@ -2,129 +2,161 @@
 <html layout:decorate="~{layout/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
 <head>
-  <title>Tạo mới dự án</title>
+    <title>Tạo mới dự án</title>
 </head>
 
 <body onload="time()" class="app sidebar-mini rtl">
 <main class="app-content" layout:fragment="content">
-  <div class="app-title">
-    <ul class="app-breadcrumb breadcrumb">
-      <li class="breadcrumb-item">Danh sách dự án</li>
-      <li class="breadcrumb-item"><a href="#">Thêm mới dự án</a></li>
-    </ul>
-  </div>
-  <div class="row" >
-    <div class="col-md-12">
-      <div class="tile">
-        <h3 class="tile-title">Tạo mới dự án</h3>
-        <div class="tile-body">
-          <form class="row" method="post" th:object="${project}" th:action="@{/project/add}">
-            <div class="form-group  col-md-4">
-              <label class="control-label" >Tên dự án</label>
-              <input class="form-control" type="text" th:field="*{nameProject}">
-            </div>
-            <div class="form-group  col-md-4">
-              <label class="control-label" >Link dự án</label>
-              <input class="form-control" type="text" th:field="*{link}">
-            </div>
-            <div class="form-group  col-md-4">
-              <label class="control-label">Nơi làm việc</label>
-              <input class="form-control" type="text" th:field="*{workplace}">
-            </div>
-            <div class="form-group  col-md-4">
-              <label class="control-label">Ngôn ngữ sử dụng</label>
-              <input class="form-control" type="text" th:field="*{language}">
-            </div>
-            <div class="form-group  col-md-4">
-              <label class="control-label">Hệ Điều Hành</label>
-              <input class="form-control" type="text" th:field="*{os}">
-            </div>
-            <div class="form-group  col-md-4">
-              <label class="control-label">FrameWork Sử Dụng</label>
-              <input class="form-control" type="text" th:field="*{framework}">
-            </div>
-            <div class="form-group  col-md-4">
-              <label class="control-label">Teamsize của dự án</label>
-              <input class="form-control" type="text" th:field="*{teamSize}">
-            </div>
-            <div class="form-group  col-md-4">
-              <label class="control-label">Chi phí của dự án</label>
-              <input class="form-control" type="text" th:field="*{projectCost}">
-            </div>
-            <div class="form-group  col-md-4">
-              <label class="control-label">Tài liệu sử dụng trong dự án</label>
-              <input class="form-control" type="text" th:field="*{projectResources}">
-            </div>
-            <div class="form-group  col-md-4">
-              <label class="control-label">Ngày bắt đầu dự án</label>
-              <input class="form-control" type="date" rows="4" th:field="*{startDate}">
-            </div>
-            <div class="form-group  col-md-4">
-              <label class="control-label">Ngày kết thúc dự án</label>
-              <input class="form-control" type="date" rows="4" th:field="*{endDate}">
-            </div>
-            <div class="form-group  col-md-4">
-              <label class="control-label">Mô tả về dự án</label>
-              <input class="form-control" type="text" th:field="*{description}">
-            </div>
-            <div class="form-group col-md-4">
-              <label class="control-label" >PM của dự án</label>
-              <select class="form-control" th:field="*{pmId}">
-                <option th:value="null">-- Chọn Quản Lý Dự Án --</option>
-                <th:block th:each="listOfEmploy : ${listOfEmploy}" >
-                  <option th:value="${listOfEmploy.id}" th:text="${listOfEmploy.firstname}"></option>
-                </th:block>
-              </select>
-            </div>
-                       <table>
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item">Danh sách dự án</li>
+            <li class="breadcrumb-item"><a href="#">Thêm mới dự án</a></li>
+        </ul>
+    </div>
+    <div class="row" >
+        <div class="col-md-12">
+            <div class="tile">
+                <h3 class="tile-title">Tạo mới dự án</h3>
+                <div class="tile-body">
+                    <form class="row" method="post" th:object="${project}" th:action="@{/project/add}">
+                        <div class="form-group  col-md-4">
+                            <label class="control-label" >Tên dự án</label>
+                            <input class="form-control" type="text" th:field="*{nameProject}">
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label" >Link dự án</label>
+                            <input class="form-control" type="text" th:field="*{link}">
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label">Nơi làm việc</label>
+                            <input class="form-control" type="text" th:field="*{workplace}">
+                        </div>
+<!--                        <div class="form-group  col-md-4">-->
+<!--                            <label class="control-label">Ngôn ngữ sử dụng</label>-->
+<!--                            <input class="form-control" type="text" th:field="*{language}">-->
+<!--                        </div>-->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Ngôn ngữ sử dụng</label>
+                            <select class="form-control framework-select" name="language" th:field="*{language}" multiple>
+                                <option value="option1">Option 1</option>
+                                <option value="option2">Option 2</option>
+                                <option value="option3">Option 3</option>
+                            </select>
+                        </div>
+<!--                        <div class="form-group  col-md-4">-->
+<!--                            <label class="control-label">Hệ Điều Hành</label>-->
+<!--                            <input class="form-control" type="text" th:field="*{os}">-->
+<!--                        </div>-->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Hệ Điều Hành</label>
+                            <select class="form-control framework-select" name="os" th:field="*{os}" multiple>
+                                <option value="option1">Option 1</option>
+                                <option value="option2">Option 2</option>
+                                <option value="option3">Option 3</option>
+                            </select>
+                        </div>
+<!--                        <div class="form-group  col-md-4">-->
+<!--                            <label class="control-label">FrameWork Sử Dụng</label>-->
+<!--                            <input class="form-control" type="text" th:field="*{framework}">-->
+<!--                        </div>-->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">FrameWork Sử Dụng</label>
+                            <select class="form-control framework-select" name="framework" th:field="*{framework}" multiple>
+                                <option value="option1">Option 1</option>
+                                <option value="option2">Option 2</option>
+                                <option value="option3">Option 3</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group  col-md-4">
+                            <label class="control-label">Teamsize của dự án</label>
+                            <input class="form-control" type="text" th:field="*{teamSize}">
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label">Chi phí của dự án</label>
+                            <input class="form-control" type="text" th:field="*{projectCost}">
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label">Tài liệu sử dụng trong dự án</label>
+                            <input class="form-control" type="text" th:field="*{projectResources}">
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label">Ngày bắt đầu dự án</label>
+                            <input class="form-control" type="date" rows="4" th:field="*{startDate}">
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label">Ngày kết thúc dự án</label>
+                            <input class="form-control" type="date" rows="4" th:field="*{endDate}">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="control-label" >PM của dự án</label>
+                            <select class="form-control" th:field="*{pmId}">
+                                <option th:value="null">-- Chọn Quản Lý Dự Án --</option>
+                                <th:block th:each="list : ${listOfEmploy}" >
+                                    <option th:value="${list.id}" th:text="${list.firstname  + ' ' + list.lastname}"></option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-left: 1vw; width: 30.33%;">
+                            <label for="description">Mô tả:</label>
+                            <textarea th:field="*{description}" class="form-control" id="description" name="description" rows="5"></textarea>
+                        </div>
+
+                        <table id="list-employeeccc">
+                            <h2 style="margin-top: 2%; width: 100%; text-align: center" id ='title-employee '>Danh sách nhân viên thêm vào dự án</h2>
                             <thead>
-                            <tr>
-<!--                              <th style="width: 10px"><input type="checkbox" id="all"></th>-->
-                              <th>ID nhân viên</th>
-                              <th style="width: 150px">Họ và tên</th>
-                              <th>Ảnh thẻ</th>
-                              <th style="width: 300px">Địa chỉ</th>
-                              <th>Ngày sinh</th>
-                              <th>Giới tính</th>
-                              <th>SĐT</th>
-                              <th>Chức vụ</th>
-                              <th style="width: 100px">Tính năng</th>
+                            <tr id="list-title">
+                                <!--                              <th style="width: 10px"><input type="checkbox" id="all"></th>-->
+                                <th >ID nhân viên</th>
+                                <th style="width: 150px">Họ và tên</th>
+                                <th>Ảnh thẻ</th>
+                                <th style="width: 300px">Địa chỉ</th>
+                                <th>Ngày sinh</th>
+                                <th>Giới tính</th>
+                                <th>SĐT</th>
+                                <th>Chức vụ</th>
+                                <th style="width: 100px">Tính năng</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="employee : ${selectedEmployees}">
-<!--                              <td><input type="checkbox" name="selected" th:value="${employee}" /></td>-->
-                              <td th:text="${employee.employeeCode}"></td>
-                              <td th:text="${employee.firstname + ' ' + employee.lastname}"></td>
-                              <td><img class="img-card-person" th:src="@{'../image' + ${employee.imgUrl}}" alt=""></td>
-                              <td th:text="${employee.address}"></td>
-                              <td th:text="${#dates.format(employee.dateOfBirth, 'dd/MM/yyyy')}"></td>
-                              <td>
-                                <span th:if="${employee.sex == 0}">Nam</span>
-                                <span th:if="${employee.sex == 1}">Nữ</span>
-                              </td>
-                              <td th:text="${employee.phone}"></td>
-                              <td th:text="${employee.position}"></td>
-                              <td class="table-td-center">
-                                <a class="btn btn-primary btn-sm trash" type="button" title="Xóa" th:href="@{/project/employee/delete/{id}(id=${employee.id})}">
-                                  <i class="fas fa-trash-alt"></i>
-                                </a>
-                              </td>
+                                <!--                              <td><input type="checkbox" name="selected" th:value="${employee}" /></td>-->
+                                <td th:text="${employee.employeeCode}"></td>
+                                <td th:text="${employee.firstname + ' ' + employee.lastname}"></td>
+                                <td><img class="img-card-person" th:src="@{'../image' + ${employee.imgUrl}}" alt=""></td>
+                                <td th:text="${employee.address}"></td>
+                                <td th:text="${#dates.format(employee.dateOfBirth, 'dd/MM/yyyy')}"></td>
+                                <td>
+                                    <span th:if="${employee.sex == 0}">Nam</span>
+                                    <span th:if="${employee.sex == 1}">Nữ</span>
+                                </td>
+                                <td th:text="${employee.phone}"></td>
+                                <td th:text="${employee.position}"></td>
+                                <td class="table-td-center">
+                                    <a class="btn btn-primary btn-sm trash" type="button" title="Xóa" th:href="@{/project/employee/delete/{id}(id=${employee.id})}">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>
                             </tr>
                             </tbody>
-                          </table>
-            <button id="btn-save" type="submit" >Lưu lại</button>
-            <a id="btn-cancel" th:href="@{/project/detail}">Hủy bỏ</a>
-          </form>
+                        </table>
+                        <button id="btn-save" type="submit" >Lưu lại</button>
+                        <a id="btn-cancel" th:href="@{/project/detail}">Hủy bỏ</a>
+                    </form>
 
-<br>
-          <a th:href="@{/project/show/employee}"><button class="btn btn-delete btn-sm print-file js-textareacopybtn" type="button" title="Sao chép"><i class="fas fa-plus"></i>
-              Xem Danh Sách Nhân Viên
-          </button></a>
+                    <br>
+<!--                    <a th:href="@{/project/show/employee}">-->
+<!--                        <button style="margin-top: -250px" class="btn btn-delete btn-sm print-file js-textareacopybtn" type="button" title="Sao chép">-->
+<!--                             Xem Danh Sách Nhân Viên-->
+<!--                        </button>-->
+<!--                    </a>-->
+                    <a href="@{/project/show/employee}" class="btn btn-delete btn-sm print-file js-textareacopybtn" title="Xem Danh Sách Nhân Viên" style="margin-top: -20%">
+                        Xem Danh Sách Nhân Viên
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </main>
 <script src="js/plugins/pace.min.js"></script>
 </body>
