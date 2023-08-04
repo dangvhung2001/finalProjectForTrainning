@@ -7,6 +7,11 @@ import com.example.finalproject.repository.RoleRepository;
 import com.example.finalproject.service.EmployeeService;
 import com.example.finalproject.service.dto.EmployeeDTO;
 import com.example.finalproject.service.mapper.EmployeeMapper;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -14,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -151,5 +157,51 @@ public class EmployeeServiceImpl implements EmployeeService {
         } else {
             throw new RuntimeException("Employee not found");
         }
+    }
+    @Override
+    public void exportExcel(HttpServletResponse response) throws IOException {
+        // Đối tượng Workbook
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Danh sách nhân viên");
+
+        // Dữ liệu từ server
+        List<Employee> listOfEmployees = employeeRepository.findAll();
+
+        String[] columns = {"ID nhân viên", "Họ và tên", "Địa chỉ", "Ngày sinh", "Giới tính", "SĐT", "Chức vụ", "Email", "Hệ số lương", "Lương cơ bản", "Ảnh"};
+
+        // Tạo header row
+        Row headerRow = sheet.createRow(0);
+        for (int col = 0; col < columns.length; col++) {
+            Cell cell = headerRow.createCell(col);
+            cell.setCellValue(columns[col]);
+        }
+
+        // Tạo dòng dữ liệu cho từng nhân viên
+        for (int rowIdx = 0; rowIdx < listOfEmployees.size(); rowIdx++) {
+            Row row = sheet.createRow(rowIdx + 1);
+            Employee employee = listOfEmployees.get(rowIdx);
+
+            row.createCell(0).setCellValue(employee.getEmployeeCode());
+            row.createCell(1).setCellValue(employee.getFirstname() + " " + employee.getLastname());
+            row.createCell(2).setCellValue(employee.getAddress());
+            row.createCell(3).setCellValue(employee.getDateOfBirth().toString());
+            row.createCell(4).setCellValue(employee.getSex() == 0 ? "Nam" : "Nữ");
+            row.createCell(5).setCellValue(employee.getPhone());
+            row.createCell(6).setCellValue(employee.getPosition());
+            row.createCell(7).setCellValue(employee.getEmail());
+            row.createCell(8).setCellValue(employee.getSalaryCoefficient());
+            row.createCell(9).setCellValue(employee.getSalary());
+            row.createCell(9).setCellValue(employee.getImgUrl());
+            employeeMapper.toDto(employee);
+        }
+
+        // Cài đặt header và response
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=employees.xlsx");
+
+        // Ghi dữ liệu vào response
+        workbook.write(response.getOutputStream());
+        workbook.close();
+        employeeMapper.toDto(listOfEmployees);
     }
 }

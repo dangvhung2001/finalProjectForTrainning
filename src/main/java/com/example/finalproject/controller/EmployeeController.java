@@ -12,6 +12,11 @@ import com.example.finalproject.service.dto.DepartmentDTO;
 import com.example.finalproject.service.dto.EmployeeDTO;
 import com.example.finalproject.service.dto.SkillDTO;
 import com.lowagie.text.pdf.BaseFont;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -31,6 +36,7 @@ import org.thymeleaf.context.Context;
 import org.xhtmlrenderer.pdf.ITextFontResolver;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
 import java.util.*;
@@ -199,7 +205,7 @@ public class EmployeeController {
         context.setVariable("certificates", certificates);
 
         // Render template Thymeleaf thành HTML
-        String htmlContent = templateEngine.process("employees/pdf_export_template", context);
+        String htmlContent = templateEngine.process("employees/pdf-export-template", context);
 
         // Chuyển đổi HTML thành file PDF sử dụng thư viện ITextRenderer
         try {
@@ -226,5 +232,10 @@ public class EmployeeController {
             // Ví dụ: throw new RuntimeException("Failed to export profile to PDF");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @GetMapping("/exportExcel")
+    public void exportExcel(HttpServletResponse response) throws IOException {
+        employeeService.exportExcel(response);
     }
 }
