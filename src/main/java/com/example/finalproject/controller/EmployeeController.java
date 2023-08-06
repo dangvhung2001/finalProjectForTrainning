@@ -3,6 +3,7 @@ package com.example.finalproject.controller;
 import com.example.finalproject.domain.Role;
 import com.example.finalproject.repository.EmployeeRepository;
 import com.example.finalproject.repository.RoleRepository;
+import com.example.finalproject.security.AuthorizationService;
 import com.example.finalproject.service.CertificateService;
 import com.example.finalproject.service.DepartmentService;
 import com.example.finalproject.service.EmployeeService;
@@ -54,8 +55,16 @@ public class EmployeeController {
     private final SkillService skillService;
     private final CertificateService certificateService;
     private final TemplateEngine templateEngine;
+    private final AuthorizationService authorizationService;
 
-    public EmployeeController(EmployeeService employeeService, DepartmentService departmentService, RoleRepository roleRepository, EmployeeRepository employeeRepository, SkillService skillService, CertificateService certificateService, TemplateEngine templateEngine) {
+    public EmployeeController(EmployeeService employeeService,
+                              DepartmentService departmentService,
+                              RoleRepository roleRepository,
+                              EmployeeRepository employeeRepository,
+                              SkillService skillService,
+                              CertificateService certificateService,
+                              TemplateEngine templateEngine,
+                              AuthorizationService authorizationService) {
         this.employeeService = employeeService;
         this.departmentService = departmentService;
         this.roleRepository = roleRepository;
@@ -63,32 +72,34 @@ public class EmployeeController {
         this.skillService = skillService;
         this.certificateService = certificateService;
         this.templateEngine = templateEngine;
+        this.authorizationService = authorizationService;
     }
 
     @GetMapping("/index")
     public String index(@RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable, Model model, Authentication authentication) {
-        String username = authentication.getName();
+        boolean isAdmin = authorizationService.isAdmin(authentication);
         Page<EmployeeDTO> listOfEmployees = employeeService.findAll(textSearch, pageable);
         model.addAttribute("listOfEmployees", listOfEmployees);
-        model.addAttribute("username", username);
+        authorizationService.addUsernameToModel(model, authentication);
+        model.addAttribute("isAdmin", isAdmin);
         return "employees/index";
     }
 
     @GetMapping("/search")
     public String listSearch(@RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable, Model model, Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String username = userDetails.getUsername();
-        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-        boolean isAdmin = authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ADMIN"));
+        boolean isAdmin = authorizationService.isAdmin(authentication);
+        authorizationService.addUsernameToModel(model, authentication);
         Page<EmployeeDTO> employees = employeeService.findAll(textSearch, pageable);
         model.addAttribute("employee", employees);
-        model.addAttribute("username", username);
         model.addAttribute("isAdmin", isAdmin);
         return "employees/search";
     }
 
     @GetMapping("/{id}")
-    public String detailEmployee(@PathVariable Long id, Model model) {
+    public String detailEmployee(@PathVariable Long id, Model model, Authentication authentication) {
+        boolean isAdmin = authorizationService.isAdmin(authentication);
+        authorizationService.addUsernameToModel(model, authentication);
+        model.addAttribute("isAdmin", isAdmin);
         Optional<EmployeeDTO> employees = employeeService.findOne(id);
         model.addAttribute("employees", employees.orElse(null));
         return "employees/detail";
@@ -96,6 +107,8 @@ public class EmployeeController {
 
     @GetMapping("/detail")
     public String detailEmployee(Model model, Authentication authentication) {
+        boolean isAdmin = authorizationService.isAdmin(authentication);
+
         String loggedInUsername = authentication.getName();
         EmployeeDTO loggedInEmployee = employeeService.findByEmail(loggedInUsername).orElseThrow(() -> new RuntimeException("Employee not found"));
         List<SkillDTO> skills = skillService.findByEmployeeId(loggedInEmployee.getId());
@@ -103,11 +116,15 @@ public class EmployeeController {
         model.addAttribute("employees", loggedInEmployee);
         model.addAttribute("skills", skills);
         model.addAttribute("certificates", certificates);
+        model.addAttribute("isAdmin", isAdmin);
         return "employees/detail";
     }
 
     @GetMapping("/add")
-    public String showAdd(Model model, @ModelAttribute("email") String email) {
+    public String showAdd(Model model, @ModelAttribute("email") String email, Authentication authentication) {
+        boolean isAdmin = authorizationService.isAdmin(authentication);
+        authorizationService.addUsernameToModel(model, authentication);
+        model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("employee", new EmployeeDTO());
         List<Role> roles = roleRepository.findAll();
         List<DepartmentDTO> departments = departmentService.getAll();
@@ -140,11 +157,13 @@ public class EmployeeController {
 
     @GetMapping("/edit")
     public String showEdit(Model model, Authentication authentication) {
+        boolean isAdmin = authorizationService.isAdmin(authentication);
         String loggedInUsername = authentication.getName();
         EmployeeDTO loggedInEmployee = employeeService.findByEmail(loggedInUsername).orElseThrow(() -> new RuntimeException("Employee not found"));
         Optional<EmployeeDTO> employee = employeeService.findOne(loggedInEmployee.getId());
         if (employee.isPresent()) {
             EmployeeDTO employeeDTO = employee.get();
+            authorizationService.addUsernameToModel(model, authentication);
             List<DepartmentDTO> departments = departmentService.getAll();
             List<Role> roles = roleRepository.findAll();
             List<EmployeeDTO> listOfEmployees = employeeService.getAll();
@@ -152,6 +171,7 @@ public class EmployeeController {
             model.addAttribute("employee", employeeDTO);
             model.addAttribute("departments", departments);
             model.addAttribute("listOfEmployees", listOfEmployees);
+            model.addAttribute("isAdmin", isAdmin);
             return "employees/edit";
         } else {
             return "redirect:/employees/index";
