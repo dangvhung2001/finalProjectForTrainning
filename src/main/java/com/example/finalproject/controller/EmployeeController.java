@@ -25,6 +25,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,6 +41,7 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
+import java.security.Principal;
 import java.util.*;
 
 @Controller
@@ -72,9 +75,17 @@ public class EmployeeController {
     }
 
     @GetMapping("/search")
-    public String listSearch(@RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable, Model model) {
+    public String listSearch(@RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable, Model model, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+        boolean isAdmin = authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ADMIN"));
+
         Page<EmployeeDTO> employees = employeeService.findAll(textSearch, pageable);
         model.addAttribute("employee", employees);
+        model.addAttribute("username", username);
+        model.addAttribute("isAdmin", isAdmin);
         return "employees/search";
     }
 
@@ -174,7 +185,7 @@ public class EmployeeController {
             employeeDTO.setImgUrl(fileName);
         }
         employeeService.updateEmployee(employeeDTO, imageFile);
-        return "redirect:/employees/index";
+        return "redirect:/employees/edit";
     }
 
     @GetMapping("/delete/{id}")

@@ -26,6 +26,10 @@ public class AuthController {
     public String loginPage() {
         return "login/index";
     }
+    @RequestMapping("/403")
+    public String accessDeniedPage() {
+        return  "login/403";
+    }
 
     @GetMapping("/changePassword")
     public String changePasswordForm() {
