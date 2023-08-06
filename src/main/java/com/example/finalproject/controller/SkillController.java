@@ -76,7 +76,7 @@ public class SkillController {
     @GetMapping("/edit/{id}")
     public String showEdit(@PathVariable Long id, Model model) {
         Optional<SkillDTO> skills = skillService.findOne(id);
-        model.addAttribute("certificateDTO", skills.orElse(null));
+        model.addAttribute("skill", skills.orElse(null));
         return "skill/edit";
     }
 

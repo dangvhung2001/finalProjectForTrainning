@@ -78,10 +78,8 @@ public class EmployeeController {
     public String listSearch(@RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable, Model model, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
-
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
         boolean isAdmin = authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ADMIN"));
-
         Page<EmployeeDTO> employees = employeeService.findAll(textSearch, pageable);
         model.addAttribute("employee", employees);
         model.addAttribute("username", username);
