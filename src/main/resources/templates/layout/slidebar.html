@@ -23,30 +23,32 @@
                    th:classappend="${#httpServletRequest.getRequestURI() == '/employees/search' ? 'active' : ''}"><i
                     class='app-menu__icon bx bx-task'></i><span
                     class="app-menu__label">Tìm kiếm nhân viên</span></a></li>
-            <li><a class="app-menu__item haha" th:href="@{/home}"><i
-                    class='app-menu__icon bx bx-cart-alt'></i>
-                <span class="app-menu__label">DashBoard</span></a></li>
-            <li>
+            <li th:if="${isAdmin}">
+                <a class="app-menu__item haha" th:href="@{/home}"><i
+                        class='app-menu__icon bx bx-cart-alt'></i>
+                    <span class="app-menu__label">DashBoard</span></a></li>
+            <li th:if="${isAdmin}">
                 <a class="app-menu__item" th:href="@{/department/detail}"
                    th:classappend="${#httpServletRequest.getRequestURI() == '/department/detail' ? 'active' : ''}">
                     <i class='app-menu__icon bx bx-tachometer'></i>
                     <span class="app-menu__label">Quản Lý Phòng Ban</span>
                 </a>
             </li>
-            <li>
+            <li th:if="${isAdmin}">
                 <a class="app-menu__item " th:href="@{/employees/index}"
                    th:classappend="${#httpServletRequest.getRequestURI() == '/employees/index' ? 'active' : ''}">
                     <i class='app-menu__icon bx bx-id-card'></i>
                     <span class="app-menu__label">Quản Lý Nhân Viên</span>
                 </a>
             </li>
-            <li>
+            <li th:if="${isAdmin}">
                 <a class="app-menu__item" th:href="@{/project/detail}"
                    th:classappend="${#httpServletRequest.getRequestURI() == '/project/detail' ? 'active' : ''}"><i
                         class='app-menu__icon bx bx-user-voice'></i><span
                         class="app-menu__label">Quản Lý Dự Án</span></a></li>
-            <li class="dropdown">
-                <a href="#" class="app-menu__item dropdown-toggle" data-toggle="dropdown" onclick="toggleDropdown(this)">
+            <li class="dropdown" th:unless="${isAdmin}">
+                <a href="#" class="app-menu__item dropdown-toggle" data-toggle="dropdown"
+                   onclick="toggleDropdown(this)">
                     <i class="app-menu__icon bx bx-id-card"></i>
                     <span class="app-menu__label">Thông tin nhân viên</span>
                 </a>

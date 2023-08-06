@@ -4,6 +4,7 @@ import com.example.finalproject.security.UserDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailService userDetailsService;
 
@@ -33,23 +35,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/home").authenticated()
-                .antMatchers("/departments/**").permitAll()
-                .antMatchers("/employees/index").permitAll()
-//                .antMatchers("/employees/edit").hasAuthority("USER")
-//                .antMatchers("/employees/search").permitAll()
-//                .antMatchers("/employees/detail").permitAll()
-//                .antMatchers("/employees/add").hasAuthority("ADMIN")
-//                .antMatchers("/certificates/**").hasAuthority("USER")
-//                .antMatchers("/skills/**").hasAuthority("USER")
-//                .antMatchers("/project/**").hasAuthority("ADMIN")
-//                .antMatchers("/experience/**").hasAuthority("ADMIN")
+                .antMatchers("/home").hasAnyAuthority("ADMIN")
+                .antMatchers("/department/**").hasAuthority("ADMIN")
+                .antMatchers("/employees/index").hasAuthority("ADMIN")
+                .antMatchers("/employees/edit").hasAuthority("USER")
+                .antMatchers("/employees/search").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/employees/detail").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/employees/add").hasAuthority("ADMIN")
+                .antMatchers("/certificates/**").hasAuthority("USER")
+                .antMatchers("/skills/**").hasAuthority("USER")
+                .antMatchers("/project/**").hasAuthority("ADMIN")
+                .antMatchers("/experience/**").hasAuthority("USER")
                 .and()
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .usernameParameter("email")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/home")
+                        .defaultSuccessUrl("/employees/search")
                         .permitAll()
                 )
                 .logout((logout) -> logout.permitAll())
