@@ -59,6 +59,6 @@ public class AuthController {
         employeeService.save(employee);
 
         model.addAttribute("successMessage", "Đổi mật khẩu thành công");
-        return "employees/index";
+        return "login/change-password";
     }
 }
