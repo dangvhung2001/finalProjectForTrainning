@@ -94,8 +94,8 @@ public class DepartmentController {
         Optional<DepartmentDTO> existingDepartment = departmentServiceImpl.findByName(departmentDTO.getName());
         if (existingDepartment.isPresent()) {
             bindingResult.rejectValue("name", "error.department", "Tên bộ phận đã tồn tại");
-            ModelAndView modelAndView = new ModelAndView("department/create");
             List<Department> departments = departmentRepository.findAll();
+            ModelAndView modelAndView = new ModelAndView("department/create");
             modelAndView.addObject("department_parent", departments);
             return modelAndView;
         }

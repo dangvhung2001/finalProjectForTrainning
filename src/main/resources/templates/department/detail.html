@@ -62,7 +62,7 @@
                                         <td>
                                             <ul>
                                                 <li th:each="employee : ${employeeList}">
-                                                    <span th:text="${employee.getFirstname()}"></span>
+                                                    <span th:text="${employee.getFirstname() + ' ' + employee.getLastname()}"></span>
                                                 </li>
                                             </ul>
                                         </td>
