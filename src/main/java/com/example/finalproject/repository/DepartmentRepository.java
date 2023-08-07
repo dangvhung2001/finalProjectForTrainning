@@ -15,9 +15,9 @@ import java.util.Optional;
 public interface DepartmentRepository extends JpaRepository<Department, Long>, JpaSpecificationExecutor<Department> {
     Page<Department> findAllByNameContainingIgnoreCase(String textSearchName, Pageable pageable);
 
-    Optional<Department> findByDepartmentCodeContainingIgnoreCase(String departmentCode);
+    Optional<Department> findFirstByDepartmentCodeContainingIgnoreCase(String departmentCode);
 
-    Optional<Department> findByNameContainingIgnoreCase(String name);
+    Optional<Department> findFirstByNameContainingIgnoreCase(String name);
 
 
 }

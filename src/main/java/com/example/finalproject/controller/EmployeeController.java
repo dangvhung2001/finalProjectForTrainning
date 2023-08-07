@@ -215,7 +215,7 @@ public class EmployeeController {
             employeeDTO.setImgUrl(fileName);
         }
         employeeService.updateEmployee(employeeDTO, imageFile);
-        return "redirect:/employees/edit";
+        return "redirect:/employees/detail";
     }
 
     @GetMapping("/delete/{id}")

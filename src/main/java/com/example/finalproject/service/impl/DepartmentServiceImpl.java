@@ -47,12 +47,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Optional<DepartmentDTO> findByName(String name) {
-        return departmentRepository.findByNameContainingIgnoreCase(name).map(departmentMapper::toDto);
+        return departmentRepository.findFirstByNameContainingIgnoreCase(name).map(departmentMapper::toDto);
     }
 
     @Override
     public Optional<DepartmentDTO> findByDepartmentCode(String departmentCode) {
-        return departmentRepository.findByDepartmentCodeContainingIgnoreCase(departmentCode).map(departmentMapper::toDto);
+        return departmentRepository.findFirstByDepartmentCodeContainingIgnoreCase(departmentCode).map(departmentMapper::toDto);
     }
 
     @Override
