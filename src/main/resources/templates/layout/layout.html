@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
     <link rel="stylesheet" th:href="@{/css/CVcss.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.min.css">
 </head>
 <body onload="time()" class="app sidebar-mini rtl">
 <header th:insert="~{layout/navba.html}"></header>
@@ -153,6 +154,22 @@
         $("#ModalUP").modal({ backdrop: false, keyboard: false })
     });
 </script>
+<script>
+    $(document).ready(function() {
+        // Khởi tạo Selectize cho trường kết hợp có class 'framework-select'
+        $('.framework-select').selectize({
+            plugins: ['remove_button'],
+            create: function(input) {
+                return {
+                    value: input,
+                    text: input
+                };
+            }
+        });
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.min.js"></script>
+
 </script>
 </body>
 </html>

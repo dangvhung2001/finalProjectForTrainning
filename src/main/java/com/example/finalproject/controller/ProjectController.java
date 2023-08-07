@@ -147,7 +147,7 @@ public class ProjectController {
         model.addAttribute("isAdmin", isAdmin);
         Page<EmployeeDTO> listOfEmployees = employeeService.findAll(textSearch, pageable);
         model.addAttribute("listOfEmployees", listOfEmployees);
-        return "project/employee_create";
+        return "project/create-employee";
     }
 
 
@@ -156,7 +156,7 @@ public class ProjectController {
     public ModelAndView doAdd(@RequestParam(value = "selectedEmployeeCodes", required = false) List<String> selectedEmployees,
                               HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
         if (selectedEmployees == null || selectedEmployees.isEmpty()) {
-            ModelAndView modelAndView = new ModelAndView("project/employee_create");
+            ModelAndView modelAndView = new ModelAndView("project/create-employee");
             return modelAndView;
         }
 

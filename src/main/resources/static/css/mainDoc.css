@@ -14174,7 +14174,7 @@ be a descendant of the grid when it is being dragged.
 #btn-cancel {
   cursor: pointer;
   position: absolute;
-  right: 0;
+  left: 105px;
   bottom: -47px;
   display: inline-block;
   font-weight: 500;
@@ -14198,7 +14198,7 @@ be a descendant of the grid when it is being dragged.
 #btn-save{
   position: absolute;
   bottom: -52px;
-  right: 86px;
+  left: 23px;
   display: inline-block;
   font-weight: 500;
   text-align: center;
@@ -15808,4 +15808,25 @@ td, th {
 
 #ccccc input{
   width: 300px;
+}
+
+#list-employee{
+  margin-top: 70px;
+}
+
+#title-employee {
+  position: relative;
+  top: 120px;
+  left: 100px;
+}
+
+#list-title{
+  position:relative ;
+  margin-left: 20px !important;
+}
+#list-employeeccc {
+  font-family: 'Roboto', sans-serif;
+  border-collapse: collapse;
+  width: 97%;
+  margin-left: 15px;
 }
