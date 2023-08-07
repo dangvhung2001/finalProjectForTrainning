@@ -136,19 +136,31 @@ public class EmployeeController {
     }
 
     @PostMapping("/add")
-    public String doAdd(@ModelAttribute("employee") @Valid EmployeeDTO employeeDTO, BindingResult bindingResult) {
+    public String doAdd(@ModelAttribute("employee") @Valid EmployeeDTO employeeDTO, BindingResult bindingResult,Model model) {
         if (bindingResult.hasErrors()) {
+            List<DepartmentDTO> departments = departmentService.getAll();
+            List<EmployeeDTO> listOfEmployees = employeeService.getAll();
+            model.addAttribute("departments", departments);
+            model.addAttribute("listOfEmployees", listOfEmployees);
             return "employees/add";
         }
 
         Optional<EmployeeDTO> existingEmployee = employeeService.findByEmail(employeeDTO.getEmail());
         if (existingEmployee.isPresent()) {
             bindingResult.rejectValue("email", "error.employee", "Email đã tồn tại");
+            List<DepartmentDTO> departments = departmentService.getAll();
+            List<EmployeeDTO> listOfEmployees = employeeService.getAll();
+            model.addAttribute("departments", departments);
+            model.addAttribute("listOfEmployees", listOfEmployees);
             return "employees/add";
         }
         Optional<EmployeeDTO> existingEmployeeCode = employeeService.findByEmployeeCode(employeeDTO.getEmployeeCode());
         if (existingEmployeeCode.isPresent()) {
             bindingResult.rejectValue("employeeCode", "error.employee", "Code đã tồn tại");
+            List<DepartmentDTO> departments = departmentService.getAll();
+            List<EmployeeDTO> listOfEmployees = employeeService.getAll();
+            model.addAttribute("departments", departments);
+            model.addAttribute("listOfEmployees", listOfEmployees);
             return "employees/add";
         }
         employeeService.save(employeeDTO);
@@ -195,7 +207,7 @@ public class EmployeeController {
                     oldImage.delete();
                 }
             }
-            String uploadDir = "D:\\ThucTap\\FinalProject\\src\\main\\resources\\static\\image\\";
+            String uploadDir = "D:\\FULLSTACK\\Du an intern\\finalProjectForTrainning\\src\\main\\resources\\static\\image\\";
             String fileName = imageFile.getOriginalFilename();
             File uploadPath = new File(uploadDir);
             File targetFile = new File(uploadPath, fileName);

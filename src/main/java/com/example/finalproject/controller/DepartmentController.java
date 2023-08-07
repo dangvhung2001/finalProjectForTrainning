@@ -85,24 +85,33 @@ public class DepartmentController {
     public ModelAndView doAdd(@ModelAttribute("department") @Valid DepartmentDTO departmentDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("department/create");
+            List<Department> departments = departmentRepository.findAll();
+            modelAndView.addObject("department_parent", departments);
             return modelAndView;
         }
+
+        // Kiểm tra tên bộ phận đã tồn tại
         Optional<DepartmentDTO> existingDepartment = departmentServiceImpl.findByName(departmentDTO.getName());
         if (existingDepartment.isPresent()) {
             bindingResult.rejectValue("name", "error.department", "Tên bộ phận đã tồn tại");
             ModelAndView modelAndView = new ModelAndView("department/create");
+            List<Department> departments = departmentRepository.findAll();
+            modelAndView.addObject("department_parent", departments);
             return modelAndView;
         }
+
+        // Kiểm tra mã bộ phận đã tồn tại
         Optional<DepartmentDTO> existingDepartmentCode = departmentServiceImpl.findByDepartmentCode(departmentDTO.getDepartmentCode());
         if (existingDepartmentCode.isPresent()) {
-            bindingResult.rejectValue("departmentCode", "error.department", "Tên code đã tồn tại");
+            bindingResult.rejectValue("departmentCode", "error.department", "Mã bộ phận đã tồn tại");
             ModelAndView modelAndView = new ModelAndView("department/create");
+            List<Department> departments = departmentRepository.findAll();
+            modelAndView.addObject("department_parent", departments);
             return modelAndView;
         }
+
         departmentServiceImpl.save(departmentDTO);
-        ModelAndView modelAndView = new ModelAndView("redirect:/department/detail");
-        modelAndView.addObject("department", departmentDTO);
-        return modelAndView;
+        return new ModelAndView("redirect:/department/detail");
     }
 
     @GetMapping("/edit/{id}")

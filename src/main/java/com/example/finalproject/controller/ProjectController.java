@@ -93,18 +93,19 @@ public class ProjectController {
     @PostMapping("/add")
     public ModelAndView doAdd(@ModelAttribute("project") @Valid ProjectDTO projectDTO, BindingResult bindingResult, HttpSession session) {
         if (bindingResult.hasErrors()) {
+            List<EmployeeDTO> listOfEmployees = employeeService.getAll();
             ModelAndView modelAndView = new ModelAndView("project/create");
+            modelAndView.addObject("listOfEmployees", listOfEmployees);
             return modelAndView;
         }
         List<EmployeeDTO> selectedEmployees = (List<EmployeeDTO>) session.getAttribute("selectedEmployees");
         if (selectedEmployees != null) {
             Set<EmployeeDTO> employeeSet = new HashSet<>(selectedEmployees);
             projectDTO.setEmployees(employeeSet);
-            projectServiceImpl.save(projectDTO);
         }
-
-        ModelAndView modelAndView = new ModelAndView("redirect:/project/detail");
-        modelAndView.addObject("projectDTO", projectDTO);
+            projectServiceImpl.save(projectDTO);
+            ModelAndView modelAndView = new ModelAndView("redirect:/project/detail");
+            modelAndView.addObject("projectDTO", projectDTO);
         return modelAndView;
     }
 
@@ -193,4 +194,3 @@ public class ProjectController {
         return "redirect:/project/create"; // Chuyển hướng về trang create để hiển thị danh sách nhân viên đã chọn
     }
 }
-
