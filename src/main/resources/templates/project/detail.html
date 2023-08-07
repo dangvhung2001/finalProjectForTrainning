@@ -90,7 +90,7 @@
                                         <td>
                                             <ul>
                                                 <li th:each="employee : ${projects.getEmployees()}">
-                                                    <span th:text="${employee.getFirstname()}"></span>
+                                                    <span th:text="${employee.getFirstname() + ' ' + employee.getLastname()}"></span>
                                                 </li>
                                             </ul>
                                         </td>

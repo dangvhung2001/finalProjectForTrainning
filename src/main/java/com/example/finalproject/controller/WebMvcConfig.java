@@ -9,6 +9,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/image/**")
-                .addResourceLocations("file:D:\\ThucTap\\FinalProject\\src\\main\\resources\\static\\image\\");
+                .addResourceLocations("file:D:\\FULLSTACK\\Du an intern\\finalProjectForTrainning\\src\\main\\resources\\static\\image\\");
     }
 }

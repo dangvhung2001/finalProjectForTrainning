@@ -35,18 +35,28 @@
               <input class="form-control" type="date" th:field="*{timeEnd}" >
             </div>
             <div class="form-group  col-md-4">
-              <label class="control-label" >Ngôn ngữ sử dụng</label>
-              <input class="form-control" type="text" th:field="*{language}">
+              <label class="control-label">Ngôn ngữ sử dụng</label>
+              <select class="framework-select" name="language" th:field="*{language}" multiple>
+                <option value="option1">Java</option>
+                <option value="option2">JavaScript</option>
+                <option value="option3">Python</option>
+              </select>
             </div>
-
             <div class="form-group  col-md-4">
-              <label class="control-label" >Hệ điều hành</label>
-              <input class="form-control" type="text" th:field="*{os}">
+              <label class="control-label">Hệ Điều Hành</label>
+              <select class="framework-select" name="os" th:field="*{os}" multiple>
+                <option value="option1">Window</option>
+                <option value="option2">Linux</option>
+                <option value="option3">Mac</option>
+              </select>
             </div>
-
             <div class="form-group  col-md-4">
-              <label class="control-label" >FrameWork</label>
-              <input class="form-control" type="text" th:field="*{framework}">
+              <label class="control-label">FrameWork Sử Dụng</label>
+              <select class="framework-select" name="framework" th:field="*{framework}" multiple>
+                <option value="option1">Spring Boot</option>
+                <option value="option2">React Js</option>
+                <option value="option3">Spring MVC</option>
+              </select>
             </div>
             <div class="form-group  col-md-4">
               <label class="control-label" >Link</label>
@@ -64,9 +74,9 @@
               <label class="control-label" >Teamsize</label>
               <input class="form-control" type="text" th:field="*{teamSize}">
             </div>
-            <div class="form-group  col-md-4">
-              <label class="control-label" >Description</label>
-              <input class="form-control" type="text" th:field="*{description}">
+            <div class="form-group" style="margin-left: 1vw; width: 31.33%;">
+              <label for="description">Mô tả:</label>
+              <textarea th:field="*{description}" class="form-control" id="description" name="description" rows="5"></textarea>
             </div>
             <button id="btn-save" type="submit" >Lưu lại</button>
             <a id="btn-cancel" th:href="@{/experience/detail}">Hủy bỏ</a>

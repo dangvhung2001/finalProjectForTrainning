@@ -31,54 +31,41 @@
                             <label class="control-label">Nơi làm việc</label>
                             <input class="form-control" type="text" th:field="*{workplace}">
                         </div>
-<!--                        <div class="form-group  col-md-4">-->
-<!--                            <label class="control-label">Ngôn ngữ sử dụng</label>-->
-<!--                            <input class="form-control" type="text" th:field="*{language}">-->
-<!--                        </div>-->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Ngôn ngữ sử dụng</label>
-                            <select class="form-control framework-select" name="language" th:field="*{language}" multiple>
-                                <option value="option1">Option 1</option>
-                                <option value="option2">Option 2</option>
-                                <option value="option3">Option 3</option>
-                            </select>
-                        </div>
-<!--                        <div class="form-group  col-md-4">-->
-<!--                            <label class="control-label">Hệ Điều Hành</label>-->
-<!--                            <input class="form-control" type="text" th:field="*{os}">-->
-<!--                        </div>-->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Hệ Điều Hành</label>
-                            <select class="form-control framework-select" name="os" th:field="*{os}" multiple>
-                                <option value="option1">Option 1</option>
-                                <option value="option2">Option 2</option>
-                                <option value="option3">Option 3</option>
-                            </select>
-                        </div>
-<!--                        <div class="form-group  col-md-4">-->
-<!--                            <label class="control-label">FrameWork Sử Dụng</label>-->
-<!--                            <input class="form-control" type="text" th:field="*{framework}">-->
-<!--                        </div>-->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">FrameWork Sử Dụng</label>
-                            <select class="form-control framework-select" name="framework" th:field="*{framework}" multiple>
-                                <option value="option1">Option 1</option>
-                                <option value="option2">Option 2</option>
-                                <option value="option3">Option 3</option>
-                            </select>
-                        </div>
-
                         <div class="form-group  col-md-4">
                             <label class="control-label">Teamsize của dự án</label>
                             <input class="form-control" type="text" th:field="*{teamSize}">
                         </div>
                         <div class="form-group  col-md-4">
-                            <label class="control-label">Chi phí của dự án</label>
+                            <label class="control-label">Chi phí của dự án (USD)</label>
                             <input class="form-control" type="text" th:field="*{projectCost}">
                         </div>
                         <div class="form-group  col-md-4">
                             <label class="control-label">Tài liệu sử dụng trong dự án</label>
                             <input class="form-control" type="text" th:field="*{projectResources}">
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label">FrameWork Sử Dụng</label>
+                            <select class="framework-select" name="framework" th:field="*{framework}" multiple>
+                                <option value="option1">Spring Boot</option>
+                                <option value="option2">React Js</option>
+                                <option value="option3">Spring MVC</option>
+                            </select>
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label">Ngôn ngữ sử dụng</label>
+                            <select class="framework-select" name="language" th:field="*{language}" multiple>
+                                <option value="option1">Java</option>
+                                <option value="option2">JavaScript</option>
+                                <option value="option3">Python</option>
+                            </select>
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label">Hệ Điều Hành</label>
+                            <select class="framework-select" name="os" th:field="*{os}" multiple>
+                                <option value="option1">Window</option>
+                                <option value="option2">Linux</option>
+                                <option value="option3">Mac</option>
+                            </select>
                         </div>
                         <div class="form-group  col-md-4">
                             <label class="control-label">Ngày bắt đầu dự án</label>
@@ -101,12 +88,15 @@
                             <label for="description">Mô tả:</label>
                             <textarea th:field="*{description}" class="form-control" id="description" name="description" rows="5"></textarea>
                         </div>
-
                         <table id="list-employeeccc">
+                            <div style="width: 100%">
+                                <a href="/project/show/employee" class="btn btn-delete btn-sm print-file js-textareacopybtn" title="Xem Danh Sách Nhân Viên" style="width: 200px;margin-left: 17px">
+                                    Xem Danh Sách Nhân Viên
+                                </a>
+                            </div>
                             <h2 style="margin-top: 2%; width: 100%; text-align: center" id ='title-employee '>Danh sách nhân viên thêm vào dự án</h2>
                             <thead>
                             <tr id="list-title">
-                                <!--                              <th style="width: 10px"><input type="checkbox" id="all"></th>-->
                                 <th >ID nhân viên</th>
                                 <th style="width: 150px">Họ và tên</th>
                                 <th>Ảnh thẻ</th>
@@ -120,7 +110,6 @@
                             </thead>
                             <tbody>
                             <tr th:each="employee : ${selectedEmployees}">
-                                <!--                              <td><input type="checkbox" name="selected" th:value="${employee}" /></td>-->
                                 <td th:text="${employee.employeeCode}"></td>
                                 <td th:text="${employee.firstname + ' ' + employee.lastname}"></td>
                                 <td><img class="img-card-person" th:src="@{'../image' + ${employee.imgUrl}}" alt=""></td>
@@ -144,15 +133,7 @@
                         <a id="btn-cancel" th:href="@{/project/detail}">Hủy bỏ</a>
                     </form>
 
-                    <br>
-<!--                    <a th:href="@{/project/show/employee}">-->
-<!--                        <button style="margin-top: -250px" class="btn btn-delete btn-sm print-file js-textareacopybtn" type="button" title="Sao chép">-->
-<!--                             Xem Danh Sách Nhân Viên-->
-<!--                        </button>-->
-<!--                    </a>-->
-                    <a href="@{/project/show/employee}" class="btn btn-delete btn-sm print-file js-textareacopybtn" title="Xem Danh Sách Nhân Viên" style="margin-top: -20%">
-                        Xem Danh Sách Nhân Viên
-                    </a>
+
                 </div>
             </div>
         </div>
