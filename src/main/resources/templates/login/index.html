@@ -34,13 +34,13 @@
                   role="form"
                   th:action="@{/login}">
                     <span class="login100-form-title">
-                        <b>ĐĂNG NHẬP HỆ THỐNG POS</b>
+                        <b>ĐĂNG NHẬP HỆ THỐNG</b>
                     </span>
                 <div th:if="${param.error}">
-                    <div class="alert alert-danger">Invalid Email or Password !!!</div>
+                    <div class="alert alert-danger">Email hoặc mật khẩu không đúng !!!</div>
                 </div>
                 <div th:if="${param.logout}">
-                    <div class="alert alert-success">You have been logged out !!!</div>
+                    <div class="alert alert-success">Bạn đã đăng xuất khỏi tài khoản !!!</div>
                 </div>
                 <!--=====FORM INPUT TÀI KHOẢN VÀ PASSWORD======-->
                 <form >
