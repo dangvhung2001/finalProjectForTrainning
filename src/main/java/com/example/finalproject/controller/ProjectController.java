@@ -1,5 +1,6 @@
 package com.example.finalproject.controller;
 import com.example.finalproject.repository.RoleRepository;
+import com.example.finalproject.security.AuthorizationService;
 import com.example.finalproject.service.DepartmentService;
 import com.example.finalproject.service.EmployeeService;
 import com.example.finalproject.service.dto.EmployeeDTO;
@@ -8,6 +9,7 @@ import com.example.finalproject.service.impl.ProjectServiceImpl;
 import com.example.finalproject.service.mapper.impl.ProjectMapperImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,28 +33,37 @@ public class ProjectController {
     private final EmployeeService employeeService;
 
     private final ProjectMapperImpl projectMapper;
+    private final AuthorizationService authorizationService;
 
-    public ProjectController(ProjectServiceImpl projectServiceImpl, ProjectMapperImpl projectMapper,EmployeeService employeeService,RoleRepository roleRepository,DepartmentService departmentService){
+    public ProjectController(ProjectServiceImpl projectServiceImpl, ProjectMapperImpl projectMapper,EmployeeService employeeService,RoleRepository roleRepository,DepartmentService departmentService,
+                             AuthorizationService authorizationService){
         this.projectMapper = projectMapper;
         this.projectServiceImpl = projectServiceImpl;
         this.employeeService = employeeService;
         this.roleRepository = roleRepository;
         this.departmentService = departmentService;
+        this.authorizationService = authorizationService;
     }
 
     List<EmployeeDTO> selectedEmployee = new ArrayList<>();
 
     @GetMapping("/detail")
-    public String showDetail(Model model, @RequestParam(required = false) String textSearch, Pageable pageable) {
+    public String showDetail(Model model, @RequestParam(required = false) String textSearch, Pageable pageable, Authentication authentication) {
+        boolean isAdmin = authorizationService.isAdmin(authentication);
+        authorizationService.addUsernameToModel(model, authentication);
+        model.addAttribute("isAdmin", isAdmin);
         Page<ProjectDTO> projectDTOS = projectServiceImpl.findAll(pageable);
         model.addAttribute("projects",projectDTOS);
         return "project/index";
     }
 
     @GetMapping("/detail/{id}")
-    public String detailProject(@PathVariable Long id, Model model,Pageable pageable) {
+    public String detailProject(@PathVariable Long id, Model model,Pageable pageable, Authentication authentication) {
         Optional<ProjectDTO> projects = projectServiceImpl.findOne(id);
         if (projects.isPresent()) {
+            boolean isAdmin = authorizationService.isAdmin(authentication);
+            authorizationService.addUsernameToModel(model, authentication);
+            model.addAttribute("isAdmin", isAdmin);
             ProjectDTO projectDTO = projects.get();
             model.addAttribute("projects", projectDTO);
             return "project/detail";
@@ -62,7 +73,10 @@ public class ProjectController {
     }
 
     @GetMapping("/create")
-    public String showAdd(Model model, Pageable pageable, HttpSession session) {
+    public String showAdd(Model model, Pageable pageable, HttpSession session, Authentication authentication) {
+        boolean isAdmin = authorizationService.isAdmin(authentication);
+        authorizationService.addUsernameToModel(model, authentication);
+        model.addAttribute("isAdmin", isAdmin);
         List<EmployeeDTO> listOfEmployees = employeeService.getAll();
         model.addAttribute("listOfEmploy", listOfEmployees);
         model.addAttribute("project", new ProjectDTO());
@@ -101,9 +115,12 @@ public class ProjectController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEdit(@PathVariable Long id, Model model, Pageable pageable) {
+    public String showEdit(@PathVariable Long id, Model model, Pageable pageable, Authentication authentication) {
         Optional<ProjectDTO> projects = projectServiceImpl.findOne(id);
         if (projects.isPresent()) {
+            boolean isAdmin = authorizationService.isAdmin(authentication);
+            authorizationService.addUsernameToModel(model, authentication);
+            model.addAttribute("isAdmin", isAdmin);
             ProjectDTO projectDTO = projects.get();
             model.addAttribute("projects", projectDTO);
             return "project/edit";
@@ -124,7 +141,10 @@ public class ProjectController {
     }
 
     @GetMapping("/show/employee")
-    public String index(@RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable, Model model) {
+    public String index(@RequestParam(required = false, defaultValue = "") String textSearch, Pageable pageable, Model model, Authentication authentication) {
+        boolean isAdmin = authorizationService.isAdmin(authentication);
+        authorizationService.addUsernameToModel(model, authentication);
+        model.addAttribute("isAdmin", isAdmin);
         Page<EmployeeDTO> listOfEmployees = employeeService.findAll(textSearch, pageable);
         model.addAttribute("listOfEmployees", listOfEmployees);
         return "project/create-employee";

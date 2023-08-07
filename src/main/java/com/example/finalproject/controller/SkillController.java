@@ -1,6 +1,7 @@
 package com.example.finalproject.controller;
 
 import com.example.finalproject.repository.SkillRepository;
+import com.example.finalproject.security.AuthorizationService;
 import com.example.finalproject.service.EmployeeService;
 import com.example.finalproject.service.SkillService;
 import com.example.finalproject.service.dto.EmployeeDTO;
@@ -23,28 +24,36 @@ public class SkillController {
 
     private final SkillRepository skillRepository;
     private final EmployeeService employeeService;
+    private final AuthorizationService authorizationService;
 
-    public SkillController(SkillService skillService, SkillRepository skillRepository, EmployeeService employeeService) {
+    public SkillController(SkillService skillService, SkillRepository skillRepository, EmployeeService employeeService, AuthorizationService authorizationService) {
         this.skillRepository = skillRepository;
         this.skillService = skillService;
         this.employeeService = employeeService;
+        this.authorizationService = authorizationService;
     }
 
     @GetMapping("/index")
     public String index(Model model, @RequestParam(required = false, defaultValue = "") String textSearch,
                         Pageable pageable,
                         Authentication authentication) {
+        boolean isAdmin = authorizationService.isAdmin(authentication);
+
         String username = authentication.getName();
         EmployeeDTO loggedInEmployee = employeeService.findByEmail(username).orElseThrow(() -> new RuntimeException("Employee not found"));
         List<SkillDTO> skills = skillService.findByEmployeeId(loggedInEmployee.getId());
         model.addAttribute("username", username);
         model.addAttribute("skills", skills);
         model.addAttribute("employee", loggedInEmployee);
+        model.addAttribute("isAdmin", isAdmin);
         return "skill/index";
     }
 
     @GetMapping("/{id}")
-    public String showDetail(Model model, @PathVariable Long id) {
+    public String showDetail(Model model, @PathVariable Long id, Authentication authentication) {
+        boolean isAdmin = authorizationService.isAdmin(authentication);
+        authorizationService.addUsernameToModel(model, authentication);
+        model.addAttribute("isAdmin", isAdmin);
         Optional<SkillDTO> skills = skillService.findOne(id);
         model.addAttribute("skills", skills.orElse(null));
         return "skill/detail";
@@ -52,6 +61,8 @@ public class SkillController {
 
     @GetMapping("/add")
     public String showAdd(Model model, Authentication authentication) {
+        boolean isAdmin = authorizationService.isAdmin(authentication);
+        model.addAttribute("isAdmin", isAdmin);
         String loggedInUsername = authentication.getName();
         EmployeeDTO loggedInEmployee = employeeService.findByEmail(loggedInUsername).orElseThrow(() -> new RuntimeException("Employee not found"));
         model.addAttribute("employee", loggedInEmployee);
@@ -74,7 +85,10 @@ public class SkillController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEdit(@PathVariable Long id, Model model) {
+    public String showEdit(@PathVariable Long id, Model model, Authentication authentication) {
+        boolean isAdmin = authorizationService.isAdmin(authentication);
+        authorizationService.addUsernameToModel(model, authentication);
+        model.addAttribute("isAdmin", isAdmin);
         Optional<SkillDTO> skills = skillService.findOne(id);
         model.addAttribute("skill", skills.orElse(null));
         return "skill/edit";

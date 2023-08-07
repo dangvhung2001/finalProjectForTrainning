@@ -1,5 +1,6 @@
 package com.example.finalproject.controller;
 
+import com.example.finalproject.security.AuthorizationService;
 import com.example.finalproject.service.CertificateService;
 import com.example.finalproject.service.EmployeeService;
 import com.example.finalproject.service.dto.CertificateDTO;
@@ -20,25 +21,32 @@ import java.util.*;
 public class CertificateController {
     private final CertificateService certificateService;
     private final EmployeeService employeeService;
+    private final AuthorizationService authorizationService;
 
-    public CertificateController(CertificateService certificateService, EmployeeService employeeService) {
+    public CertificateController(CertificateService certificateService, EmployeeService employeeService, AuthorizationService authorizationService) {
         this.employeeService = employeeService;
         this.certificateService = certificateService;
+        this.authorizationService = authorizationService;
     }
 
     @GetMapping("/index")
     public String index(Model model, Pageable pageable, Authentication authentication) {
+        boolean isAdmin = authorizationService.isAdmin(authentication);
         String username = authentication.getName();
         EmployeeDTO loggedInEmployee = employeeService.findByEmail(username).orElseThrow(() -> new RuntimeException("Employee not found"));
         List<CertificateDTO> certificates = certificateService.findByEmployeeId(loggedInEmployee.getId());
         model.addAttribute("certificates", certificates);
         model.addAttribute("username", username);
         model.addAttribute("employee", loggedInEmployee);
+        model.addAttribute("isAdmin", isAdmin);
         return "certificate/index";
     }
 
     @GetMapping("/{id}")
-    public String showDetail(@PathVariable Long id, Model model) {
+    public String showDetail(@PathVariable Long id, Model model, Authentication authentication) {
+        boolean isAdmin = authorizationService.isAdmin(authentication);
+        authorizationService.addUsernameToModel(model, authentication);
+        model.addAttribute("isAdmin", isAdmin);
         Optional<CertificateDTO> certificate = certificateService.findOne(id);
         model.addAttribute("certificate", certificate.orElse(null));
         return "certificate/detail";
@@ -46,10 +54,13 @@ public class CertificateController {
 
     @GetMapping("/add")
     public String showAdd(Model model, Authentication authentication) {
+        boolean isAdmin = authorizationService.isAdmin(authentication);
+
         String loggedInUsername = authentication.getName();
         EmployeeDTO loggedInEmployee = employeeService.findByEmail(loggedInUsername).orElseThrow(() -> new RuntimeException("Employee not found"));
         model.addAttribute("employee", loggedInEmployee);
         model.addAttribute("certificateDTO", new CertificateDTO());
+        model.addAttribute("isAdmin", isAdmin);
         return "certificate/add";
     }
 
@@ -75,7 +86,10 @@ public class CertificateController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEdit(@PathVariable Long id, Model model) {
+    public String showEdit(@PathVariable Long id, Model model, Authentication authentication) {
+        boolean isAdmin = authorizationService.isAdmin(authentication);
+        authorizationService.addUsernameToModel(model, authentication);
+        model.addAttribute("isAdmin", isAdmin);
         Optional<CertificateDTO> certificate = certificateService.findOne(id);
         model.addAttribute("certificateDTO", certificate.orElse(null));
         return "certificate/edit";
