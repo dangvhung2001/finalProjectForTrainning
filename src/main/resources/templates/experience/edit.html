@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Chỉnh sửa kinh nghiệm</title>
+</head>
+<main class="app-content" layout:fragment="content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item">Danh sách kinh nghiệm</li>
+            <li class="breadcrumb-item"><a href="#">Chỉnh sửa kinh nghiệm</a></li>
+        </ul>
+    </div>
+    <div class="row" >
+        <div class="col-md-12">
+            <div class="tile">
+                <h3 class="tile-title">Sửa kinh nghiệm</h3>
+                <div class="tile-body">
+                    <form class="row" method="post" th:object="${experiences}" th:action="@{/experience/edit/{id}(id=${experiences.id})}">
+                        <div class="form-group  col-md-4">
+                            <label class="control-label" >Tên kinh nghiệm</label>
+                            <input class="form-control" type="text" th:field="*{name_experience}">
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label" >Thời gian bắt đầu</label>
+                            <input class="form-control" type="date" th:field="*{timeStart}">
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label" >Thời gian kết thúc</label>
+                            <input class="form-control" type="date" th:field="*{timeEnd}" >
+                        </div>
+
+                        <div class="form-group  col-md-4">
+                            <label class="control-label">Ngôn ngữ sử dụng</label>
+                            <select class="framework-select" name="language" th:field="*{language}" multiple>
+                                <option value="Java">Java</option>
+                                <option value="JavaScript">JavaScript</option>
+                                <option value="Python">Python</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group  col-md-4">
+                            <label class="control-label">Hệ Điều Hành</label>
+                            <select class="framework-select" name="os" th:field="*{os}" multiple>
+                                <option value="Window">Window</option>
+                                <option value="Linux">Linux</option>
+                                <option value="Mac">Mac</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group  col-md-4">
+                            <label class="control-label">FrameWork Sử Dụng</label>
+                            <select class="framework-select" name="framework" th:field="*{framework}" multiple>
+                                <option value="Spring Boot">Spring Boot</option>
+                                <option value="React Js">React Js</option>
+                                <option value="Spring MVC">Spring MVC</option>
+                            </select>
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label" >Link</label>
+                            <input class="form-control" type="text" th:field="*{link}">
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label" >Nơi làm việc</label>
+                            <input class="form-control" type="text" th:field="*{workplace}">
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label" >Vị trí</label>
+                            <input class="form-control" type="text" th:field="*{position}">
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label" >Teamsize</label>
+                            <input class="form-control" type="text" th:field="*{teamSize}">
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label" >Description</label>
+                            <input class="form-control" type="text" th:field="*{description}">
+                        </div>
+                        <button id="btn-save" type="submit" >Lưu lại</button>
+                        <a id="btn-cancel" th:href="@{/experience/detail}">Hủy bỏ</a>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+</html>

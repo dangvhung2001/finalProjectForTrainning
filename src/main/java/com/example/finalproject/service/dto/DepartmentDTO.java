@@ -1,17 +1,20 @@
 package com.example.finalproject.service.dto;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 
 public class DepartmentDTO {
     private Long id;
-
     @NotEmpty(message = "Tên bộ phận không được để trống")
     private String name;
+
+    @Size(min = 3,max = 20,message = "mã bộ phận từ 3 đến 20 ký tự")
     private String departmentCode;
     private String description;
     private Date issueDate;
-    private DepartmentDTO parentDepartment;
+    private Long parentId;
+    private String parentName;
 
     public Long getId() {
         return id;
@@ -53,11 +56,19 @@ public class DepartmentDTO {
         this.issueDate = issueDate;
     }
 
-    public DepartmentDTO getParentDepartment() {
-        return parentDepartment;
+    public Long getParentId() {
+        return parentId;
     }
 
-    public void setParentDepartment(DepartmentDTO parentDepartment) {
-        this.parentDepartment = parentDepartment;
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
 }

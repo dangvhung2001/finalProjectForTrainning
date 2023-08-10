@@ -1,5 +1,8 @@
 package com.example.finalproject.service.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 import java.sql.Date;
 import java.util.Set;
 
@@ -15,13 +18,18 @@ public class EmployeeDTO {
     private Date dateOfBirth;
     private String citizenCode;
     private Date issueDate;
+    private Long departmentId;
     private String placeOfIssue;
     private String employeeCode;
+    @Email
     private String email;
     private String address;
+    @Min(value = 0, message = "Số điện thoại phải là số không âm")
     private int phone;
     private Date startDate;
+    @Min(value = 0, message = "Giá trị không thể nhỏ hơn 0")
     private float salaryCoefficient;
+    @Min(value = 0, message = "Giá trị không thể nhỏ hơn 0")
     private float salary;
     private String position;
     private String educationLevel;
@@ -30,6 +38,14 @@ public class EmployeeDTO {
     private String departmentName;
     private Set<String> roles;
     private Set<String> projects;
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
 
     public Set<String> getRoles() {
         return roles;

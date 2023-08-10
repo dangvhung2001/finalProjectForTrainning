@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Tạo mới dự án</title>
+</head>
+
+<body onload="time()" class="app sidebar-mini rtl">
+<main class="app-content" layout:fragment="content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item">Phòng Ban</li>
+            <li class="breadcrumb-item"><a href="#">Chi Tiết Phòng Ban</a></li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <h3 class="tile-title">Bảng Chi Tiết Phòng Ban</h3>
+                <div class="tile-body">
+
+                    <div class="col-md-12">
+                        <div class="tile">
+                            <div>
+                                <h3 class="tile-title">Thông tin chi tiết phòng ban</h3>
+                            </div>
+                            <div class="tile-body">
+                                <table class="table table-hover table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Hạng Mục</th>
+                                        <th>Nội dung</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td th:text="${departments.getId()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>TÊN PHÒNG BAN</td>
+                                        <td th:text="${departments.getName()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>MÃ SỐ PHÒNG BAN</td>
+                                        <td th:text="${departments.getDepartmentCode()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>NGÀY THÀNH LẬP PHÒNG BAN</td>
+                                        <td th:text="${departments.getIssueDate()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>THUỘC PHÒNG BAN</td>
+                                        <td th:text="${departments.getParentName()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>TỔNG SỐ NHÂN VIÊN PHÒNG BAN</td>
+                                        <td th:text="${count}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>PHÒNG BAN GỒM CÓ NHỮNG NHÂN VIÊN</td>
+                                        <td>
+                                            <ul>
+                                                <li th:each="employee : ${employeeList}">
+                                                    <span th:text="${employee.getFirstname() + ' ' + employee.getLastname()}"></span>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>GIỚI THIỆU VỀ PHÒNG BAN</td>
+                                        <td th:text="${departments.getDescription()}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</main>
+<script src="js/plugins/pace.min.js"></script>
+</body>
+</html>

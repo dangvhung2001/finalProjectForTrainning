@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Tạo mới dự án</title>
+</head>
+
+<body onload="time()" class="app sidebar-mini rtl">
+<main class="app-content" layout:fragment="content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item">Chi tiết dự án</li>
+            <li class="breadcrumb-item"><a href="#">Chi tiết dự án</a></li>
+        </ul>
+    </div>
+    <div class="row" >
+        <div class="col-md-12">
+            <div class="tile">
+                <h3 class="tile-title">Chi tiet dự án</h3>
+                <div class="tile-body">
+
+                    <div class="col-md-12">
+                        <div class="tile">
+                            <div>
+                                <h3 class="tile-title">CHI TIẾT DỰ ÁN</h3>
+                            </div>
+                            <div class="tile-body">
+                                <table class="table table-hover table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Hạng mục</th>
+                                        <th>Nội dung</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td th:text="${projects.getId()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>TÊN DỰ ÁN</td>
+                                        <td th:text="${projects.getNameProject()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>LINK DỰ ÁN</td>
+                                        <td th:text="${projects.getLink()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>NGÔN NGỮ SỬ DỤNG</td>
+                                        <td th:text="${projects.getFramework()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>NƠI LÀM VIỆC DỰ ÁN</td>
+                                        <td th:text="${projects.getWorkplace()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>TEAM SIZE CỦA DỰ ÁN</td>
+                                        <td th:text="${projects.getTeamSize()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>CHI PHÍ CỦA DỰ ÁN</td>
+                                        <td th:text="${projects.getProjectCost()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>TÀI LIỆU SỬ DỤNG TRONG DỰ ÁN</td>
+                                        <td th:text="${projects.getProjectResources()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>HỆ ĐIỀU HÀNH</td>
+                                        <td th:text="${projects.getOs()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>FRAMEWORK</td>
+                                        <td th:text="${projects.getFramework()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>NGÀY BẮT ĐẦU DỰ ÁN</td>
+                                        <td th:text="${projects.getStartDate()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>NGÀY KẾT THÚC DỰ ÁN</td>
+                                        <td th:text="${projects.getEndDate()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>PM CỦA DỰ ÁN</td>
+                                        <td th:text="${projects.getNamePm()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>NHỮNG THÀNH VIÊN THAM GIA DỰ ÁN</td>
+                                        <td>
+                                            <ul>
+                                                <li th:each="employee : ${projects.getEmployees()}">
+                                                    <span th:text="${employee.getFirstname() + ' ' + employee.getLastname()}"></span>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>MÔ TẢ VỀ DỰ ÁN</td>
+                                        <td th:text="${projects.getDescription()}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="js/plugins/pace.min.js"></script>
+</body>
+</html>

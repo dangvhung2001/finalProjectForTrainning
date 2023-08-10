@@ -8,7 +8,8 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
-public interface ExperienceService {    ExperienceDTO save(ExperienceDTO experienceDTO);
+public interface ExperienceService {
+    ExperienceDTO save(ExperienceDTO experienceDTO);
 
     Page<ExperienceDTO> findAll(Pageable pageable);
 
@@ -17,4 +18,6 @@ public interface ExperienceService {    ExperienceDTO save(ExperienceDTO experie
     void delete(Long id);
 
     List<ExperienceDTO> getAll();
+
+    Optional<ExperienceDTO> findByName(String name);
 }

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Trang tìm kiếm nhân viên</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            display: flex;
+        }
+
+        header {
+            flex: 0 0 250px; /* Đưa header về bên trái và chiếm 250px */
+        }
+
+        .app-sidebar {
+            flex: 0 0 250px; /* Đưa slidebar về bên trái và chiếm 250px */
+        }
+
+        main {
+            flex: 1 1 80%; /* Đưa main về bên phải và chiếm 80% */
+            padding: 20px;
+        }
+
+        #searchForm {
+            text-align: center;
+            padding: 5px;
+        }
+
+        #searchInput {
+            padding: 8px 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        #employeeList {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            justify-content: space-between; /* Hiển thị các ô item cách đều nhau trên mỗi dòng */
+        }
+
+        .employee {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 20px; /* Tăng margin dưới cho các ô item */
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
+            overflow: hidden; /* Thêm thuộc tính overflow để ẩn nội dung bị tràn ra ngoài */
+            flex-basis: calc(25% - 30px); /* Chiều rộng cơ bản của mỗi ô, giảm width để hiển thị 4 ô trên 1 dòng */
+        }
+
+        .employee img {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .employee p {
+            margin: 0;
+            white-space: nowrap; /* Ngăn chặn các dòng văn bản xuống dòng */
+            overflow: hidden;
+            text-overflow: ellipsis; /* Thêm dấu ba chấm (...) khi văn bản bị cắt */
+        }
+    </style>
+</head>
+<main class="app-content-1" layout:fragment="content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb side">
+            <li class="breadcrumb-item "><a><b>Trang tìm kiếm nhân viên</b></a></li>
+        </ul>
+        <div id="clock"></div>
+    </div>
+    <form th:action="@{/employees/search}" method="get">
+        <div id="searchForm">
+            <input type="text" id="searchInput" placeholder="Nhập từ khóa tìm kiếm..." name="textSearch">
+        </div>
+    </form>
+    <div id="employeeList" class="row">
+        <div th:each="employees : ${employee}" class="employee col-lg-3 col-md-4 col-sm-6" >
+            <img th:src="@{'~/image/' + ${employees.imgUrl}}" alt="Avatar" th:href="@{/employees/{id}(id = ${employees.id})}">
+            <a th:href="@{/employees/{id}(id = ${employees.id})}"><p th:text="${employees.firstname + ' ' + employees.lastname}" ></p></a>
+            <p th:text="'Vị trí: ' + ${employees.position}"></p>
+            <p th:text="'Số điện thoại: ' + ${employees.phone}"></p>
+        </div>
+    </div>
+</main>
+
+</html>

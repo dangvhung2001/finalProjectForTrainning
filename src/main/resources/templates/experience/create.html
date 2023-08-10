@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Tạo mới kinh nghiệm</title>
+</head>
+
+
+<main class="app-content" layout:fragment="content">
+  <div class="app-title">
+    <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item">Danh sách kinh nghiệm</li>
+      <li class="breadcrumb-item"><a href="#">Thêm mới kinh nghiệm</a></li>
+    </ul>
+  </div>
+  <div class="row" >
+    <div class="col-md-12">
+      <div class="tile">
+        <h3 class="tile-title">Tạo mới kinh nghiệm</h3>
+        <div class="tile-body">
+          <form class="row" method="post" th:object="${experience}" th:action="@{/experience/add}">
+            <div class="form-group  col-md-4">
+              <label class="control-label" >Tên kinh nghiệm</label>
+              <input class="form-control" type="text" th:field="*{name_experience}">
+              <div th:if="${#fields.hasErrors('name_experience')}" class="alert alert-danger">
+                <p th:each="error : ${#fields.errors('name_experience')}" th:text="${error}"></p>
+              </div>
+            </div>
+            <div class="form-group  col-md-4">
+              <label class="control-label" >Thời gian bắt đầu</label>
+              <input class="form-control" type="date" th:field="*{timeStart}">
+            </div>
+            <div class="form-group  col-md-4">
+              <label class="control-label" >Thời gian kết thúc</label>
+              <input class="form-control" type="date" th:field="*{timeEnd}" >
+            </div>
+            <div class="form-group  col-md-4">
+              <label class="control-label">Ngôn ngữ sử dụng</label>
+              <select class="framework-select" name="language" th:field="*{language}" multiple>
+                <option value="option1">Java</option>
+                <option value="option2">JavaScript</option>
+                <option value="option3">Python</option>
+              </select>
+            </div>
+            <div class="form-group  col-md-4">
+              <label class="control-label">Hệ Điều Hành</label>
+              <select class="framework-select" name="os" th:field="*{os}" multiple>
+                <option value="option1">Window</option>
+                <option value="option2">Linux</option>
+                <option value="option3">Mac</option>
+              </select>
+            </div>
+            <div class="form-group  col-md-4">
+              <label class="control-label">FrameWork Sử Dụng</label>
+              <select class="framework-select" name="framework" th:field="*{framework}" multiple>
+                <option value="option1">Spring Boot</option>
+                <option value="option2">React Js</option>
+                <option value="option3">Spring MVC</option>
+              </select>
+            </div>
+            <div class="form-group  col-md-4">
+              <label class="control-label" >Link</label>
+              <input class="form-control" type="text" th:field="*{link}">
+            </div>
+            <div class="form-group  col-md-4">
+              <label class="control-label" >Nơi làm việc</label>
+              <input class="form-control" type="text" th:field="*{workplace}">
+            </div>
+            <div class="form-group  col-md-4">
+              <label class="control-label" >Vị trí</label>
+              <input class="form-control" type="text" th:field="*{position}">
+            </div>
+            <div class="form-group  col-md-4">
+              <label class="control-label" >Teamsize</label>
+              <input class="form-control" type="text" th:field="*{teamSize}">
+            </div>
+            <div class="form-group" style="margin-left: 1vw; width: 31.33%;">
+              <label for="description">Mô tả:</label>
+              <textarea th:field="*{description}" class="form-control" id="description" name="description" rows="5"></textarea>
+            </div>
+            <button id="btn-save" type="submit" >Lưu lại</button>
+            <a id="btn-cancel" th:href="@{/experience/detail}">Hủy bỏ</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+</html>

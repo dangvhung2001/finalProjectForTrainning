@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Quản trị phòng ban</title>
+</head>
+<main class="app-content" layout:fragment="content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb side">
+            <li class="breadcrumb-item active"><a href="#"><b>Bảng Quản Lý Phòng Ban</b></a></li>
+        </ul>
+        <div id="clock"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <div class="tile-body">
+                    <div class="row element-button">
+                        <div class="table-nav">
+                            <a class="btn btn-add btn-sm" th:href="@{/department/create}" title="Thêm"><i class="fas fa-plus"></i>
+                                Tạo mới</a>
+                        </div>
+                        <!-- Add row with dropdown and search bar -->
+
+                    </div>
+
+                    <table class="table table-hover table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0"
+                           id="sampleTable">
+                        <thead>
+                        <tr>
+                            <th width="10"><input type="checkbox" id="all"></th>
+                            <th>id</th>
+                            <th>Tên phòng ban</th>
+                            <th>Mã số phòng ban</th>
+                            <th>Giới thiệu về phòng ban</th>
+                            <th>Ngày thành lập phòng ban</th>
+                            <th>Thuộc phòng ban</th>
+                            <th>Chức năng</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="department : ${departments}">
+                            <td width="10"><input type="checkbox" name="check1" value="1"></td>
+                            <th th:text="${department.getId()}"></th>
+                            <td> <a th:href="@{/department/detail/{id}(id=${department.id})}" th:text="${department.getName()}"></a></td>
+                            <td th:text="${department.getDepartmentCode()}"></td>
+                            <td th:text="${department.getDescription()}"></td>
+                            <td th:text="${department.getIssueDate()}"></td>
+                            <td th:text="${department.parentId == null ? '' : department.parentName}"></td>
+                            <td><a th:href="@{/department/delete/{id}(id=${department.id})}"><button class="btn btn-primary btn-sm trash" type="button" title="Xóa" ><i class="fas fa-trash-alt"></i></button></a>
+                                <a th:href="@{/department/edit/{id}(id=${department.id})}"><button class="btn btn-primary btn-sm edit" type="button" title="Sửa" ><i class="fa fa-edit"></i></button></a></td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</html>

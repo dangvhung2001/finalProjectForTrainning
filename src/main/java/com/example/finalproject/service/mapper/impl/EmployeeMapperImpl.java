@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -40,6 +41,7 @@ public class EmployeeMapperImpl implements EmployeeMapper {
         employee.setSalaryCoefficient(dto.getSalaryCoefficient());
         employee.setSalary(dto.getSalary());
         employee.setPosition(dto.getPosition());
+        employee.setDepartmentId(dto.getDepartmentId());
         employee.setEducationLevel(dto.getEducationLevel());
         return employee;
     }
@@ -71,6 +73,7 @@ public class EmployeeMapperImpl implements EmployeeMapper {
         employeeDTO.setSalary(entity.getSalary());
         employeeDTO.setPosition(entity.getPosition());
         employeeDTO.setEducationLevel(entity.getEducationLevel());
+        employeeDTO.setDepartmentId(entity.getDepartmentId());
         Department department = entity.getDepartment();
         if (department != null) {
             employeeDTO.setDepartmentName(department.getName());
@@ -105,5 +108,29 @@ public class EmployeeMapperImpl implements EmployeeMapper {
             list.add(toDto(employee));
         }
         return list;
+    }
+
+    @Override
+    public Set<Employee> toEntitySet(Set<EmployeeDTO> dtoSet) {
+        if (dtoSet == null) {
+            return null;
+        }
+        Set<Employee> set = new HashSet<>(dtoSet.size());
+        for (EmployeeDTO employeeDTO : dtoSet) {
+            set.add(toEntity(employeeDTO));
+        }
+        return set;
+    }
+
+    @Override
+    public Set<EmployeeDTO> toDtoSet(Set<Employee> entitySet) {
+        if (entitySet == null) {
+            return null;
+        }
+        Set<EmployeeDTO> set = new HashSet<>(entitySet.size());
+        for (Employee employee : entitySet) {
+            set.add(toDto(employee));
+        }
+        return set;
     }
 }

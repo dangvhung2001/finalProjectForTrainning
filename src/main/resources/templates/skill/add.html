@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/layout}">
+<head>
+    <title>Thêm mới kĩ năng</title>
+</head>
+<main class="app-content" layout:fragment="content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item">Danh sách kĩ năng</li>
+            <li class="breadcrumb-item">Tạo mới</li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <h3 class="tile-title">Tạo mới kĩ năng</h3>
+                <div class="tile-body">
+                    <form th:action="@{/skills/add}" th:object="${skillDTO}" method="post">
+                        <input type="hidden" th:field="*{id}"/>
+                        <input type="hidden" th:field="*{employee.id}"/>
+                        <div class="form-group">
+                            <label for="name">Tên chứng chỉ:</label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                   required th:field="*{name}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="lever">Cấp độ:</label>
+                            <input type="number" class="form-control" id="lever" name="lever" required th:field="*{level}"
+                                   min="1" max="5" oninput="this.value = Math.max(1, Math.min(5, this.value))" />
+                        </div>
+                        <div class="form-group">
+                            <label for="yearExperience">Năm kinh nghiệm:</label>
+                            <input th:field="*{yearExperience}" type="number" class="form-control" id="yearExperience"
+                                   name="yearExperience" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="monthExperience">Tháng kinh nghiệm:</label>
+                            <input th:field="*{monthExperience}" type="number" class="form-control" id="monthExperience"
+                                   name="monthExperience" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Mô tả:</label>
+                            <textarea th:field="*{description}" class="form-control" id="description" name="description"
+                                      rows="5"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <a class="btn btn-secondary" th:href="@{/skills/index}">Hủy bỏ</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</html>

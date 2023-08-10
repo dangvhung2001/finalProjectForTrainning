@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/layout}">
+<head>
+    <title>Chi tiêt</title>
+</head>
+
+<main class="app-content" layout:fragment="content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item">Danh sách chứng chỉ</li>
+            <li class="breadcrumb-item">Xem chi tiết</li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <h3 class="tile-title">Thông tin chứng chỉ</h3>
+                <div class="tile-body">
+                    <div>
+                        <h4>ID: <span th:text="${certificate.id}"></span></h4>
+                        <h4>Tên chứng chỉ: <span th:text="${certificate.nameCertificate}"></span></h4>
+                        <h4>Ngày cấp: <span th:text="${certificate.issueDate}"></span></h4>
+                        <h4>Ngày hết hạn: <span th:text="${certificate.expirationDate}"></span></h4>
+                        <h4>Mô tả: <span th:text="${certificate.description}"></span></h4>
+                        <!-- Thêm các thông tin khác tùy theo yêu cầu -->
+                    </div>
+                    <!-- Các nút để chuyển hướng đến chỉnh sửa hoặc xóa chứng chỉ -->
+                    <a class="btn btn-primary" th:href="@{/certificates/edit/{id}(id=${certificate.id})}">Chỉnh sửa</a>
+                    <form th:action="@{/certificates/delete/{id}(id=${certificate.id})}" method="post" style="display:inline">
+                        <input type="hidden" name="_method" value="POST" />
+                        <input type="submit" class="btn btn-danger" value="Xóa" onclick="return confirm('Bạn có chắc chắn muốn xóa chứng chỉ này không?')" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</html>

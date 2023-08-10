@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout/layout}" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thêm mới chứng chỉ</title>
+</head>
+
+<main class="app-content" layout:fragment="content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item">Danh sách chứng chỉ</li>
+            <li class="breadcrumb-item">Tạo mới</li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <h3 class="tile-title">Tạo mới chứng chỉ</h3>
+                <div class="tile-body">
+                    <form th:action="@{/certificates/add}" th:object="${certificateDTO}" method="post">
+                        <input type="hidden" th:field="*{id}" />
+                        <input type="hidden" th:field="*{employee.id}" />
+                        <div class="form-group">
+                            <label for="nameCertificate">Tên chứng chỉ:</label>
+                            <input type="text" class="form-control" id="nameCertificate" name="nameCertificate"
+                                   required th:field="*{nameCertificate}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="issueDate">Ngày cấp:</label>
+                            <input th:field="*{issueDate}" type="date" class="form-control" id="issueDate" name="issueDate" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="expirationDate">Ngày hết hạn:</label>
+                            <input th:field="*{expirationDate}" type="date" class="form-control" id="expirationDate" name="expirationDate" required/>
+                            <div th:if="${#fields.hasErrors('expirationDate')}" class="alert alert-danger">
+                                <p th:each="error : ${#fields.errors('expirationDate')}" th:text="${error}"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="expirationDate">Nơi cấp:</label>
+                            <input th:field="*{certificationOfficer}" type="text" class="form-control" id="certificationOfficer" name="certificationOfficer" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Mô tả:</label>
+                            <textarea th:field="*{description}" class="form-control" id="description" name="description" rows="5"></textarea>
+                        </div>
+                        <!-- Thêm các trường khác tùy theo yêu cầu -->
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <a class="btn btn-secondary" th:href="@{/certificates/index}">Hủy bỏ</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+</html>

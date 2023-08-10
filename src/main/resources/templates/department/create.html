@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Tạo mới phòng ban</title>
+</head>
+<main class="app-content" layout:fragment="content">
+  <div class="app-title">
+    <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item">Danh sách phòng ban</li>
+      <li class="breadcrumb-item"><a href="#">Thêm mới phòng ban</a></li>
+    </ul>
+  </div>
+  <div class="row" >
+    <div class="col-md-12">
+      <div class="tile">
+        <h3 class="tile-title">Tạo mới phòng ban</h3>
+        <div class="tile-body">
+          <form class="row" method="post" th:object="${department}" th:action="@{/department/add}">
+            <div class="form-group  col-md-4">
+              <label class="control-label" >Tên phòng ban</label>
+              <input class="form-control" type="text" th:field="*{name}">
+              <div th:if="${#fields.hasErrors('name')}" class="alert alert-danger">
+                <p th:each="error : ${#fields.errors('name')}" th:text="${error}"></p>
+              </div>
+            </div>
+            <div class="form-group  col-md-4">
+              <label class="control-label" >Mã số phòng ban</label>
+              <input class="form-control" type="text" th:field="*{departmentCode}">
+              <div th:if="${#fields.hasErrors('departmentCode')}" class="alert alert-danger">
+                <p th:each="error : ${#fields.errors('departmentCode')}" th:text="${error}"></p>
+              </div>
+            </div>
+            <div class="form-group  col-md-4">
+              <label class="control-label" >Ngày thành lập phòng ban</label>
+              <input class="form-control" type="date" th:field="*{issueDate}" >
+            </div>
+
+            <div class="form-group col-md-4">
+              <label class="control-label" >Thuộc phòng ban</label>"
+              <select class="form-control" th:field="*{parentId}">
+                <option th:value="null">-- Chọn phòng ban --</option>
+                <th:block th:each="department_parent : ${department_parent}" >
+                  <option th:value="${department_parent.id}" th:text="${department_parent.name}"></option>
+                </th:block>
+              </select>
+            </div>
+            <div class="form-group  col-md-4">
+              <label class="control-label">Giơi thiệu thông tin phòng ban</label>
+              <textarea class="form-control" rows="4" th:field="*{description}"></textarea>
+            </div>
+            <button id="btn-save" type="submit" >Lưu lại</button>
+            <a id="btn-cancel" th:href="@{/department/detail}">Hủy bỏ</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+</html>

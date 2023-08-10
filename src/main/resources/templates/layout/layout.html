@@ -2,179 +2,74 @@
 <html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Quản trị Admin</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Quản trị </title>
+    <link rel="shortcut icon" type="image/*" th:href="@{images}"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Main CSS-->
-    <link rel="stylesheet" th:href="@{/css/mainDoc.css}">
-    <!-- Main CSS-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/mainDoc.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     <!-- or -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <!-- Font-icon css-->
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script src="http://code.jquery.com/jquery.min.js" type="text/javascript"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <link rel="stylesheet" th:href="@{/css/CVcss.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.min.css">
 </head>
-<body>
-<nav th:insert="~{layout/navba.html}"></nav>
+<body onload="time()" class="app sidebar-mini rtl">
+<header th:insert="~{layout/navba.html}"></header>
 <div th:insert="~{layout/slidebar.html}"></div>
-    <div layout:fragment="content"></div>
+<main layout:fragment="content"></main>
+
 <footer th:insert="~{layout/footer.html}"></footer>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Essential javascripts for application to work-->
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script th:src="@{src/jquery.table2excel.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+<!-- The javascript plugin to display page loading on top-->
+<script th:src="@{/js/plugins/pace.min.js}"></script>
+<!-- Page specific javascripts-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<!-- Data table plugin-->
+<script type="text/javascript" th:src="@{/js/plugins/jquery.dataTables.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/dataTables.bootstrap.min.js}"></script>
+
+<script type="text/javascript">$('#sampleTable').DataTable();</script>
+<!-- Add Bootstrap JS scripts here -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5jPOeS+Jzwwu5wAVwJVA8Fqz7Ml0r4lDZw7B3m1c2FqSf3B4"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"
+        integrity="sha384-NyikJ3usyKZ20BZvqIyrqKOV7r+vW1q7QWAez1VBlKw6NozJEDGiZQzrQFdNz17z"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+        integrity="sha384-7K44x5L5o1m+T5O0BzS3g8MzX4e2iqhqE0VizmTB2K13KoYil0H/erpt3F2aQaRQ"
+        crossorigin="anonymous"></script>
+
 
 <!-- Essential javascripts for application to work-->
-<script src="js/jquery-3.2.1.min.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/main.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="src/jquery.table2excel.js"></script>
-<script src="js/main.js"></script>
+<script th:src="@{/src/jquery.table2excel.js}"></script>
+<script src="../../static/js/main.js"></script>
 <!-- The javascript plugin to display page loading on top-->
-<script src="js/plugins/pace.min.js"></script>
+<script src="../../static/js/plugins/pace.min.js"></script>
 <!-- Page specific javascripts-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 <!-- Data table plugin-->
-<script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
-
-<!--script phần biểu đồ của dashboard-->
-<script src="js/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-<script src="js/popper.min.js"></script>
-<script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
-<!--===============================================================================================-->
-<script src="js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-<script src="js/main.js"></script>
-<!--===============================================================================================-->
-<script src="js/plugins/pace.min.js"></script>
-<!--===============================================================================================-->
-<script type="text/javascript" src="js/plugins/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-doughnutlabel"></script>
-<!--===============================================================================================-->
-<script type="text/javascript">
-    const data = {
-        labels: ['HTML', 'CSS', 'JavaScript', 'Python', 'Java', 'C#', 'TypeScript', 'PHP', 'Ruby', 'Swift'],
-        datasets: [{
-            data: [20, 15, 25, 10, 8, 7, 5, 5, 4, 1], // Tỷ lệ phần trăm tương ứng của mỗi ngôn ngữ
-            backgroundColor: [
-                '#FF6384',
-                '#36A2EB',
-                '#FFCE56',
-                '#E9573F',
-                '#00A388',
-                '#8DB646',
-                '#9F4D95',
-                '#40A9D4',
-                '#A46582',
-                '#ECA527'
-            ],
-        }]
-    };
-
-    // Tùy chọn cấu hình cho biểu đồ tròn - giống như ở ví dụ trước
-    const options = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            tooltip: {
-                callbacks: {
-                    label: function (context) {
-                        const dataValue = context.raw;
-                        const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                        const percentage = ((dataValue / total) * 100).toFixed(1);
-                        return `${context.label}: ${percentage}%`;
-                    }
-                }
-            }
-        },
-    };
-
-    // Tạo biểu đồ tròn - giống như ở ví dụ trước
-    const ctx = document.getElementById('languageChart').getContext('2d');
-    const languageChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: data,
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                doughnutlabel: {
-                    labels: [{
-                        text: '20%',
-                        font: {
-                            size: '14'
-                        }
-                    }, {
-                        text: '15%',
-                        font: {
-                            size: '14'
-                        }
-                    }, {
-                        text: '25%',
-                        font: {
-                            size: '14'
-                        }
-                    }, {
-                        text: '10%',
-                        font: {
-                            size: '14'
-                        }
-                    }, {
-                        text: '8%',
-                        font: {
-                            size: '14'
-                        }
-                    }, {
-                        text: '7%',
-                        font: {
-                            size: '14'
-                        }
-                    }, {
-                        text: '5%',
-                        font: {
-                            size: '14'
-                        }
-                    }, {
-                        text: '5%',
-                        font: {
-                            size: '14'
-                        }
-                    }, {
-                        text: '4%',
-                        font: {
-                            size: '14'
-                        }
-                    }, {
-                        text: '1%',
-                        font: {
-                            size: '14'
-                        }
-                    }]
-                }
-            }
-        },
-    });
-
-    // script thoi gian
-    <!-- Essential javascripts for application to work-->
-    <script src="js/jquery-3.2.1.min.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="src/jquery.table2excel.js"></script>
-<script src="js/main.js"></script>
-<!-- The javascript plugin to display page loading on top-->
-<script src="js/plugins/pace.min.js"></script>
-<!-- Page specific javascripts-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-<!-- Data table plugin-->
-<script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="../../static/js/plugins/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../static/js/plugins/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript">$('#sampleTable').DataTable();</script>
 <script>
     function deleteRow(r) {
@@ -259,6 +154,22 @@
         $("#ModalUP").modal({ backdrop: false, keyboard: false })
     });
 </script>
+<script>
+    $(document).ready(function() {
+        // Khởi tạo Selectize cho trường kết hợp có class 'framework-select'
+        $('.framework-select').selectize({
+            plugins: ['remove_button'],
+            create: function(input) {
+                return {
+                    value: input,
+                    text: input
+                };
+            }
+        });
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.min.js"></script>
+
 </script>
 </body>
 </html>

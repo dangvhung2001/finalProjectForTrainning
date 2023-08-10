@@ -10,52 +10,101 @@
     <!-- Sidebar menu-->
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
     <aside class="app-sidebar">
-        <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" th:src="@{../image/1.png}" width="50px"
+        <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="/image/rikkei.jpg" width="50px"
                                             alt="User Image">
             <div>
-                <p class="app-sidebar__user-name"><b>Võ Trường</b></p>
+                <p class="app-sidebar__user-name"><b th:text="${username}"></b></p>
                 <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
             </div>
         </div>
         <hr>
         <ul class="app-menu">
-            <li><a class="app-menu__item haha" th:href="@{/employees/employee_search.html}"><i
-                    class='app-menu__icon bx bx-cart-alt'></i>
-                <span class="app-menu__label">Tìm kiếm nhân viên</span></a></li>
-            <li><a class="app-menu__item " th:href="@{//index}"><i class='app-menu__icon bx bx-tachometer'></i><span
-                    class="app-menu__label">Bảng điều khiển</span></a></li>
-            <li><a class="app-menu__item " th:href="@{/employees/index}"><i class='app-menu__icon bx bx-id-card'></i>
-                <span class="app-menu__label">Quản lý nhân viên</span></a></li>
-            <li><a class="app-menu__item" ><i class='app-menu__icon bx bx-user-voice'></i><span
-                    class="app-menu__label">Quản lý phòng ban</span></a></li>
-            <li><a class="app-menu__item" th:href="@{/certificates/index}"><i
-                    class='app-menu__icon bx bx-purchase-tag-alt'></i><span
-                    class="app-menu__label">Quản lý chứng chỉ</span></a>
-            <li><a class="app-menu__item" th:href="@{/project/detail}"><i class='app-menu__icon bx bx-user-voice'></i><span
-                    class="app-menu__label">Quản lý dự án</span></a></li>
-            <li><a class="app-menu__item"  ><i
-                    class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
+            <li><a class="app-menu__item " th:href="@{/employees/search}"
+                   th:classappend="${#httpServletRequest.getRequestURI() == '/employees/search' ? 'active' : ''}"><i
+                    class='app-menu__icon bx bx-task'></i><span
+                    class="app-menu__label">Tìm kiếm nhân viên</span></a></li>
+            <li th:if="${isAdmin}">
+                <a class="app-menu__item haha" th:href="@{/home}"><i
+                        class='app-menu__icon bx bx-cart-alt'></i>
+                    <span class="app-menu__label">DashBoard</span></a></li>
+            <li th:if="${isAdmin}">
+                <a class="app-menu__item" th:href="@{/department/detail}"
+                   th:classappend="${#httpServletRequest.getRequestURI() == '/department/detail' ? 'active' : ''}">
+                    <i class='app-menu__icon bx bx-tachometer'></i>
+                    <span class="app-menu__label">Quản Lý Phòng Ban</span>
+                </a>
             </li>
-            <li><a class="app-menu__item " href="table-data-oder.html"><i class='app-menu__icon bx bx-task'></i><span
-                    class="app-menu__label">Quản lý kĩ năng</span></a></li>
-            <li><a class="app-menu__item active" href="table-data-banned.html"><i
-                    class='app-menu__icon bx bx-run'></i><span
-                    class="app-menu__label">Quản lý nội bộ
-          </span></a></li>
-            <li><a class="app-menu__item" href="table-data-money.html"><i class='app-menu__icon bx bx-dollar'></i><span
-                    class="app-menu__label">Bảng kê lương</span></a></li>
-            <li><a class="app-menu__item" href="quan-ly-bao-cao.html"><i
-                    class='app-menu__icon bx bx-pie-chart-alt-2'></i><span
-                    class="app-menu__label">Báo cáo doanh thu</span></a>
+            <li th:if="${isAdmin}">
+                <a class="app-menu__item " th:href="@{/employees/index}"
+                   th:classappend="${#httpServletRequest.getRequestURI() == '/employees/index' ? 'active' : ''}">
+                    <i class='app-menu__icon bx bx-id-card'></i>
+                    <span class="app-menu__label">Quản Lý Nhân Viên</span>
+                </a>
             </li>
-            <li><a class="app-menu__item" href="page-calendar.html"><i
-                    class='app-menu__icon bx bx-calendar-check'></i><span
-                    class="app-menu__label">Lịch công tác </span></a></li>
-            <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-cog'></i><span
-                    class="app-menu__label">Cài
-            đặt hệ thống</span></a></li>
+            <li th:if="${isAdmin}">
+                <a class="app-menu__item" th:href="@{/project/detail}"
+                   th:classappend="${#httpServletRequest.getRequestURI() == '/project/detail' ? 'active' : ''}"><i
+                        class='app-menu__icon bx bx-user-voice'></i><span
+                        class="app-menu__label">Quản Lý Dự Án</span></a></li>
+            <li class="dropdown" th:unless="${isAdmin}">
+                <a href="#" class="app-menu__item dropdown-toggle" data-toggle="dropdown"
+                   onclick="toggleDropdown(this)">
+                    <i class="app-menu__icon bx bx-id-card"></i>
+                    <span class="app-menu__label">Thông tin nhân viên</span>
+                </a>
+                <ul class="dropdown-menu" id="dropdownMenu">
+                    <li>
+                        <a class="dropdown-item app-menu__item" th:href="@{/employees/edit}"
+                           th:classappend="${#httpServletRequest.getRequestURI() == '/employees/edit' ? 'active' : ''}">
+                            <i class='app-menu__icon bx bx-id-card'></i>
+                            <span class="app-menu__label">Quản lý thông tin</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item app-menu__item" th:href="@{/experience/detail}"
+                           th:classappend="${#httpServletRequest.getRequestURI() == '/experience/detail' ? 'active' : ''}"><i
+                                class='app-menu__icon bx bx-purchase-tag-alt'></i><span
+                                class="app-menu__label">Quản Lý Kinh Nghiệm</span></a></li>
+                    <li>
+                        <a class="dropdown-item app-menu__item" th:href="@{/skills/index}"
+                           th:classappend="${#httpServletRequest.getRequestURI() == '/skills/index' ? 'active' : ''}"><i
+                                class='app-menu__icon bx bx-user-voice'></i><span
+                                class="app-menu__label">Quản Lý Kỹ Năng</span></a></li>
+                    <li>
+                        <a class="dropdown-item app-menu__item" th:href="@{/certificates/index}"
+                           th:classappend="${#httpServletRequest.getRequestURI() == '/certificates/index' ? 'active' : ''}"><i
+                                class='app-menu__icon bx bx-purchase-tag-alt'></i><span
+                                class="app-menu__label">Quản Lý Chứng Chỉ</span></a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item app-menu__item" th:href="@{/employees/detail}"
+                           th:classappend="${#httpServletRequest.getRequestURI() == '/employees/detail' ? 'active' : ''}"><i
+                                class='app-menu__icon bx bx-run'></i><span
+                                class="app-menu__label">Profile</span></a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </aside>
 </div>
+<script>
+    var isDropdownOpen = false;
+
+    function toggleDropdown(link) {
+        // Ngăn chặn hành vi mặc định của liên kết (chuyển trang)
+        event.preventDefault();
+
+        // Lấy thẻ ul chứa dropdown menu
+        var dropdownMenu = document.getElementById("dropdownMenu");
+
+        // Thay đổi trạng thái mở/đóng dropdown
+        if (isDropdownOpen) {
+            dropdownMenu.style.display = "none";
+        } else {
+            dropdownMenu.style.display = "block";
+        }
+        isDropdownOpen = !isDropdownOpen;
+    }
+</script>
 </body>
 </html>

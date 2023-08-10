@@ -1,6 +1,10 @@
 package com.example.finalproject.service.dto;
 
+import com.example.finalproject.domain.Employee;
+
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProjectDTO {
     private Long id;
@@ -16,7 +20,10 @@ public class ProjectDTO {
     private Date startDate;
     private Date endDate;
     private String description;
-    private EmployeeDTO pm;
+    private Long pmId;
+
+    private String namePm;
+    private Set<EmployeeDTO> employees = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -122,11 +129,27 @@ public class ProjectDTO {
         this.description = description;
     }
 
-    public EmployeeDTO getPm() {
-        return pm;
+    public Long getPmId() {
+        return pmId;
     }
 
-    public void setPm(EmployeeDTO pm) {
-        this.pm = pm;
+    public void setPmId(Long pmId) {
+        this.pmId = pmId;
+    }
+
+    public Set<EmployeeDTO> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<EmployeeDTO> employees) {
+        this.employees = employees;
+    }
+
+    public String getNamePm() {
+        return namePm;
+    }
+
+    public void setNamePm(String namePm) {
+        this.namePm = namePm;
     }
 }

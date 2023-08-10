@@ -1,8 +1,13 @@
 package com.example.finalproject.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.*;
 import java.sql.Date;
+
 @Entity
 @Table(name = "employee")
 public class Employee {
@@ -20,6 +25,7 @@ public class Employee {
     private String lastname;
 
     @Column(nullable = false, length = 255)
+    @Size(min = 6, message = "Mật khẩu phải có ít nhất 6 ký tự")
     private String password;
 
     @Column(name = "create_at")
@@ -34,32 +40,30 @@ public class Employee {
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
 
-
+    @Column(name = "department_id")
+    private Long departmentId;
     private String citizenCode;
 
     private Date issueDate;
 
-
     private String placeOfIssue;
 
-
     private String employeeCode;
-
-
+    @Email
     private String email;
 
-
     private String address;
-
+    @Min(value = 0, message = "Số điện thoại phải là số không âm")
     private Integer phone;
-
 
     private Date startDate;
 
     @Column(name = "salary_coefficient")
+    @Min(value = 0, message = "Giá trị không thể nhỏ hơn 0")
     private Float salaryCoefficient;
 
     @Column
+    @Min(value = 0, message = "Giá trị không thể nhỏ hơn 0")
     private Float salary;
 
     @Column(length = 255)
@@ -73,7 +77,7 @@ public class Employee {
     private Employee manager;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id")
+    @JoinColumn(name = "department_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Department department;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -91,6 +95,21 @@ public class Employee {
     public Employee() {
     }
 
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
+    }
 
     public Long getId() {
         return id;
